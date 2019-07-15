@@ -1,0 +1,19 @@
+<?
+  include_once ("../../../lib/inc.php");
+
+  $api = CURL_Internals ("https://accounts.spotify.com/api/token", false, Array (SPOTIFYID, SPOTIFYSECRET), "code={$_REQUEST['code']}&grant_type=authorization_code&redirect_uri=https://{$_SERVER['SERVER_NAME']}/sp/", false);
+  $tok = json_decode ($api, true);
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Concertmaster</title>
+    <script type="text/javascript">
+        localStorage.access_token = '<?=$tok["access_token"]?>';
+        localStorage.refresh_token = '<?=$tok["refresh_token"]?>';
+
+        window.location.assign('/');
+    </script>
+</head>
+<body>
+</body>
