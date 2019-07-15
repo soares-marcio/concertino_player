@@ -6,8 +6,8 @@ if (window.location.hostname.split('.')[1] == 'local') {
 else {
     tld = 'app';
 }
-options.backend = 'https://api.concertmaster.' + tld;
-options.frontend = 'https://concertmaster.' + tld;
+options.backend = 'https://api.concertino.' + tld;
+options.frontend = 'https://concertino.' + tld;
 
 init = function () {
     vars = window.location.pathname.split("/");
@@ -46,18 +46,18 @@ recording = function (response) {
     albor = '';
     classmain = '';
 
-    concertmaster_uri = options.frontend + '/u/' + response.work.id + '/' + response.recording.spotify_albumid + '/' + response.recording.set + '?play';
+    concertino_uri = options.frontend + '/u/' + response.work.id + '/' + response.recording.spotify_albumid + '/' + response.recording.set + '?play';
 
     for (link in $('.playaction')) {
-        $('.playaction')[link].href = concertmaster_uri;
+        $('.playaction')[link].href = concertino_uri;
     }
 
-    alb = alb + '<li class="cover"><a href="' + concertmaster_uri + '" target="_top"><img src="' + response.recording.cover + '" /></a></li>';
+    alb = alb + '<li class="cover"><a href="' + concertino_uri + '" target="_top"><img src="' + response.recording.cover + '" /></a></li>';
     alb = alb + '<li class="composer">' + response.work.composer.name + '</li>';
     alb = alb + '<li class="work">' + response.work.title + '</li>';
     alb = alb + '<li class="subtitle">' + response.work.subtitle + '</li>';
 
-    document.title = `${response.work.composer.name}: ${response.work.title} - Concertmaster`;
+    document.title = `${response.work.composer.name}: ${response.work.title} - Concertino`;
 
     if (response.recording.performers.length <= 4) {
         classmain = 'mainperformer';

@@ -1,5 +1,5 @@
 <?
-  define ("SOFTWARENAME", "Concertmaster");
+  define ("SOFTWARENAME", "Concertino");
   define ("SOFTWAREVERSION", "1.19.05");
   define ("USERAGENT", SOFTWARENAME. "/" . SOFTWAREVERSION. " ( ". SOFTWAREMAIL. " )");
 

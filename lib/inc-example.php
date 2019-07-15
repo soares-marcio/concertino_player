@@ -2,7 +2,7 @@
     // web server directories
 
     define ("INFRADIR", "/var/www"); // base OS directory 
-    define ("BASEDIR", INFRADIR. "/concertmaster_player"); // directory for all project, including public and non-public files
+    define ("BASEDIR", INFRADIR. "/concertino_player"); // directory for all project, including public and non-public files
     define ("WEBDIR", BASEDIR. "/html"); // directory for publicly accessible files
     define ("LIB", BASEDIR. "/lib"); // directory for non-publicly accessible files, like libraries
     define ("LOG", BASEDIR. "/log"); // log dir
