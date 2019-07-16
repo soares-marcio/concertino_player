@@ -81,7 +81,7 @@ conc_toggleplay = function ()
   else
   {
     if (!$('#tuning-modal').is(':visible')) { $('#tuning-modal').leanModal(); }
-    conc_spotifyplay(conc_playbuffer.tracksuris, 0);
+    conc_appleplay(conc_playbuffer.tracksuris, 0);
   }
 }
 
@@ -106,7 +106,7 @@ conc_pressplaypause = function ()
 
 conc_track = function (offset)
 {
-  conc_spotifyplay(conc_playbuffer.tracksuris, offset);
+  conc_appleplay(conc_playbuffer.tracksuris, offset);
 }
 
 // player state and timers
@@ -639,8 +639,8 @@ conc_recordingsbywork = function (work, offset)
             extratitle = "Verified recording";
           }
 
-          if (!notshow && !$("ul#albums." + list.work.id + " li[pid=" + list.work.id + '-' + docsr[performance].spotify_albumid + '-' + docsr[performance].set + "]").length) {
-            $(listul).append('<li pid="' + list.work.id + '-' + docsr[performance].spotify_albumid + '-' + docsr[performance].set + '" ' + pidsort + ' class="performance ' + draggable + ' ' + extraclass + '" title="'+ extratitle + '"><ul>' + conc_recordingitem(docsr[performance], list.work) + '</ul></li>');
+          if (!notshow && !$("ul#albums." + list.work.id + " li[pid=" + list.work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + "]").length) {
+            $(listul).append('<li pid="' + list.work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" ' + pidsort + ' class="performance ' + draggable + ' ' + extraclass + '" title="'+ extratitle + '"><ul>' + conc_recordingitem(docsr[performance], list.work) + '</ul></li>');
           }
         }
 
@@ -681,7 +681,7 @@ conc_randomrecording = function (wid) {
 
         var rnd = Math.floor((Math.random() * (comprec.length - 1)));
         var rcd = comprec[rnd];
-        conc_recording(wid, rcd["spotify_albumid"], rcd["set"]);
+        conc_recording(wid, rcd["apple_albumid"], rcd["set"]);
       }
       else {
         conc_radioskip();
@@ -736,10 +736,10 @@ conc_recordingaction = function (list, auto)
     if (list.recording.length == 0) {
       conc_notavailable();
     }
-    else if (list.recording.markets.indexOf(localStorage.user_country) != -1) {
+    else {
 
-      if (window.location.pathname != '/u/' + list.work.id + '/' + list.recording.spotify_albumid + '/' + list.recording.set) {
-        window.history.pushState({}, 'Concertino', '/u/' + list.work.id + '/' + list.recording.spotify_albumid + '/' + list.recording.set);
+      if (window.location.pathname != '/u/' + list.work.id + '/' + list.recording.apple_albumid + '/' + list.recording.set) {
+        window.history.pushState({}, 'Concertino', '/u/' + list.work.id + '/' + list.recording.apple_albumid + '/' + list.recording.set);
       }
 
       document.title = `${list.work.composer.name}: ${list.work.title} - Concertino`;
@@ -755,17 +755,17 @@ conc_recordingaction = function (list, auto)
         pform.push (list.recording.performers[i].name + (list.recording.performers[i].role != '' && list.recording.performers[i].role != 'Orchestra' && list.recording.performers[i].role != 'Ensemble' && list.recording.performers[i].role != 'Choir' ? ', ' + list.recording.performers[i].role : ''));
       }
       
-      verify += '<li class="perform"><a href="javascript:conc_editperformers();conc_qualify();">Thanks for your collaboration! Edit the performers in the field below. One per line. Specify their roles (instrument, voice etc) after commas.</a><textarea>'+pform.join('\n')+'</textarea><a class="submit" href="javascript:conc_submitperf(' + list.work.id + ',\'' + list.recording.spotify_albumid + '\',' + list.recording.set + ')">Done</a></li>';
-      verify += '<li class="versionform"><a href="javascript:conc_editobs();conc_qualify();">Thanks for your help! Specify below which version of the work this recording uses, including instrumentation and author, if not the composer</a><textarea>'+list.work.subtitle+'</textarea><a class="submit" href="javascript:conc_submitobs(' + list.work.id + ',\'' + list.recording.spotify_albumid + '\',' + list.recording.set + ')">Done</a></li>';
+      verify += '<li class="perform"><a href="javascript:conc_editperformers();conc_qualify();">Thanks for your collaboration! Edit the performers in the field below. One per line. Specify their roles (instrument, voice etc) after commas.</a><textarea>'+pform.join('\n')+'</textarea><a class="submit" href="javascript:conc_submitperf(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ')">Done</a></li>';
+      verify += '<li class="versionform"><a href="javascript:conc_editobs();conc_qualify();">Thanks for your help! Specify below which version of the work this recording uses, including instrumentation and author, if not the composer</a><textarea>'+list.work.subtitle+'</textarea><a class="submit" href="javascript:conc_submitobs(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ')">Done</a></li>';
 
       verify += '<li class="tagloading">loading</li>';
-      verify += '<li class="button verify"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.spotify_albumid + '\',' + list.recording.set + ',\'verified\',1)"><strong>Everything OK!</strong>Metadata is correct and the recording is complete</a></li>';
+      verify += '<li class="button verify"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'verified\',1)"><strong>Everything OK!</strong>Metadata is correct and the recording is complete</a></li>';
       verify += '<li class="button edit"><a href="javascript:conc_editperformers()"><strong>Complete but missing information</strong>Recording is complete but data on performers is lacking</a></li>';
-      verify += '<li class="button partial"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.spotify_albumid + '\',' + list.recording.set + ',\'compilation\',1)"><strong>Correct but incomplete</strong>Metadata is right but the recording is partial/missing movements</a></li>';
+      verify += '<li class="button partial"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'compilation\',1)"><strong>Correct but incomplete</strong>Metadata is right but the recording is partial/missing movements</a></li>';
       verify += '<li class="button version"><a href="javascript:conc_editobs()"><strong>Correct but a different version</strong>Not the original work - it\'s an arrangement or adaptation</a></li>';
       
-      verify += '<li class="button wrongdata"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.spotify_albumid + '\',' + list.recording.set + ',\'wrongdata\',1)"><strong>Wrong work</strong>The description doesn\'t match the recording</a></li>';
-      verify += '<li class="button badquality"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.spotify_albumid + '\',' + list.recording.set + ',\'badquality\',1)"><strong>Bad quality recording</strong>This isn\'t a real recording - it\'s played by a computer</a></li>';
+      verify += '<li class="button wrongdata"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'wrongdata\',1)"><strong>Wrong work</strong>The description doesn\'t match the recording</a></li>';
+      verify += '<li class="button badquality"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'badquality\',1)"><strong>Bad quality recording</strong>This isn\'t a real recording - it\'s played by a computer</a></li>';
 
       $('#playerverify').html(verify);
       $('#playerverify').removeClass('reported').toggleClass('verified', (list.recording.verified == 'true'));
@@ -792,10 +792,10 @@ conc_recordingaction = function (list, auto)
       var currtrack = 0;
       conc_playbuffer.accdurations = [0];
       conc_playbuffer.tracks = [];
-      conc_playbuffer.tracksuris = list.recording.spotify_tracks;
+      conc_playbuffer.tracksuris = list.recording.apple_tracks;
 
       for (track in list.recording.tracks) {
-        conc_playbuffer.tracks[track] = list.recording.tracks[track].spotify_trackid;
+        conc_playbuffer.tracks[track] = list.recording.tracks[track].apple_trackid;
         conc_playbuffer.accdurations[parseInt(track) + 1] = parseInt(list.recording.tracks[track].length) + parseInt(conc_playbuffer.accdurations[parseInt(track)]);
 
         var pctsize = ((list.recording.tracks[track].length) / list.recording.length) * 100;
@@ -808,16 +808,16 @@ conc_recordingaction = function (list, auto)
 
       if (!auto) {
         conc_notification(list.work.title, list.recording.cover, list.work.composer.name);
-        conc_spotifyplay(list.recording.spotify_tracks, 0);
+        conc_appleplay(list.recording.apple_tracks, 0);
 
         // registering play
         localStorage.lastwid = list.work.id;
-        localStorage.lastaid = list.recording.spotify_albumid;
+        localStorage.lastaid = list.recording.apple_albumid;
         localStorage.lastset = list.recording.set;
         $.ajax({
           url: conc_options.backend + '/dyn/user/recording/played/',
           method: "POST",
-          data: { id: localStorage.spotify_userid, wid: list.work.id, aid: list.recording.spotify_albumid, set: list.recording.set, cover: list.recording.cover, performers: JSON.stringify(list.recording.performers), auth: conc_authgen() },
+          data: { id: localStorage.apple_userid, wid: list.work.id, aid: list.recording.apple_albumid, set: list.recording.set, cover: list.recording.cover, performers: JSON.stringify(list.recording.performers), auth: conc_authgen() },
           success: function (response) {
             if ($('#favtitle select option:checked').val() == 'rec') {
               conc_recentrecordings();
@@ -825,14 +825,7 @@ conc_recordingaction = function (list, auto)
           }
         });
       }
-
     }
-    else {
-      conc_notavailable();
-    }
-  }
-  else {
-    conc_notavailable();
   }
 }
 
@@ -848,6 +841,23 @@ conc_playingdetails = function ()
     }
 }
 
+conc_appleplay = function (tracks, offset)
+{
+  applemusic.setQueue({
+    songs: tracks
+  }).then(function () {
+    applemusic.changeToMediaAtIndex(offset)
+  });
+
+  if (conc_timer) {
+    clearInterval(cmas_timer);
+  }
+
+  conc_state = {};
+  $('#tuning-modal').closeModal();
+  conc_pressplaypause();
+}
+
 // recording item
 
 conc_recordingitem = function (item, work, playlist)
@@ -857,37 +867,37 @@ conc_recordingitem = function (item, work, playlist)
   if (typeof item.observation === 'undefined') item.observation = '';
 
   alb = '';
-  alb = alb + '<li class="permalink"><a href="javascript:conc_permalink(' + work.id + ',\'' + item.spotify_albumid + '\',' + item.set + ')">permalink</a></li>';
+  alb = alb + '<li class="permalink"><a href="javascript:conc_permalink(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')">permalink</a></li>';
   
-  rid = work.id + '-' + item.spotify_albumid + '-' + item.set;
+  rid = work.id + '-' + item.apple_albumid + '-' + item.set;
 
   if ($.inArray(rid, conc_favorites) != -1)
   {
-    alb = alb + '<li class="favorite"><a href="javascript:conc_recfavorite(' + work.id + ',\'' + item.spotify_albumid + '\',' + item.set + ')" class="is fav_' + rid + '">unfavorite</a></li>';
+    alb = alb + '<li class="favorite"><a href="javascript:conc_recfavorite(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')" class="is fav_' + rid + '">unfavorite</a></li>';
   }
   else
   {
-    alb = alb + '<li class="favorite"><a href="javascript:conc_recfavorite(' + work.id + ',\'' + item.spotify_albumid + '\',' + item.set + ')" class="go fav_' + rid + '">favorite</a></li>';
+    alb = alb + '<li class="favorite"><a href="javascript:conc_recfavorite(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')" class="go fav_' + rid + '">favorite</a></li>';
   }
 
   if (playlist) {
     if (playlist.owner.id == localStorage.spotify_userid) {
       plaction = 'unplaylist';
-      plfunction = 'conc_unplaylistperformance(' + work.id + ',\'' + item.spotify_albumid + '\',' + item.set + ',' + playlist.id + ')';
+      plfunction = 'conc_unplaylistperformance(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ',' + playlist.id + ')';
     }
     else {
       plaction = 'doplaylist';
-      plfunction = 'conc_playlistmodal(' + work.id + ',\'' + item.spotify_albumid + '\',' + item.set + ')';
+      plfunction = 'conc_playlistmodal(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')';
     }
   }
   else {
     plaction = 'doplaylist';
-    plfunction = 'conc_playlistmodal(' + work.id + ',\'' + item.spotify_albumid + '\',' + item.set + ')';
+    plfunction = 'conc_playlistmodal(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')';
   }
 
   alb = alb + '<li class="playlist '+ plaction +'"><a href="javascript:'+ plfunction +'">playlist</a></li>';
 
-  alb = alb + '<li class="cover"><a href="javascript:conc_thisrecording(\'' + item.spotify_albumid +'\','+work.id+','+item.set+')">';
+  alb = alb + '<li class="cover"><a href="javascript:conc_thisrecording(\'' + item.apple_albumid +'\','+work.id+','+item.set+')">';
   alb = alb + '<img src="' + item.cover + '" onerror="this.src=\'/img/nocover.png\'" />';
   alb = alb + '<div class="overlay"></div></a></li>';
 
@@ -895,7 +905,7 @@ conc_recordingitem = function (item, work, playlist)
   alb = alb + '<li class="work"><a href="javascript:conc_recordingsbywork(' + work.id + ',0)">' + work.title +'<span>' + work.subtitle + '</span></a></li>';
   if (item.observation) alb = alb + '<li class="version">' + item.observation + '</li>';
 
-  var spotify_link = 'http://open.spotify.com/album/' + item.spotify_albumid;
+  var spotify_link = 'http://open.spotify.com/album/' + item.apple_albumid;
 
   if (typeof item.spotify_tracks !== 'undefined') {
     if (item.spotify_tracks.length == 1) {
@@ -1271,7 +1281,7 @@ conc_favoriterecordings = function ()
         draggable = "";
         pidsort = "";
 
-        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].spotify_albumid + '-' + docsr[performance].set + '" ' + pidsort + ' class="performance ' + draggable + '"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work) + '</ul></li>');
+        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" ' + pidsort + ' class="performance ' + draggable + '"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work) + '</ul></li>');
       }
     }
   });
@@ -1290,7 +1300,7 @@ conc_recentrecordings = function () {
       for (performance in docsr) {
         listul = '#favalbums';
 
-        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].spotify_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work) + '</ul></li>');
+        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work) + '</ul></li>');
       }
     }
   });
@@ -1311,7 +1321,7 @@ conc_playlistrecordings = function (pid) {
         draggable = "draggable";
         pidsort = "";
 
-        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].spotify_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work, response.playlist) + '</ul></li>');
+        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work, response.playlist) + '</ul></li>');
       }
     }
   });
@@ -1654,7 +1664,7 @@ conc_playlistdetail = function (pid) {
         draggable = "";
         pidsort = "";
 
-        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].spotify_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work, response.playlist) + '</ul></li>');
+        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work, response.playlist) + '</ul></li>');
       }
     }
   });
