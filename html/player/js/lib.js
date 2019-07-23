@@ -65,10 +65,18 @@ conc_appleauth = function () {
   applemusic = MusicKit.getInstance();
 
   applemusic.authorize().then(function() {
-    $('#loader').fadeOut();
+    
     conc_composersbytag('pop');
     conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre);
     conc_playlist("fav");
+    conc_showplayerbar();
+
+    if (localStorage.lastwid) {
+      conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, !parseInt(localStorage.fromurl));
+      if (parseInt(localStorage.fromurl)) localStorage.fromurl = 0;
+    }
+
+    $('#loader').fadeOut();
   });
 }
 
@@ -659,6 +667,7 @@ conc_recordingsbywork = function (work, offset)
 // random recording
 
 conc_randomrecording = function (wid) {
+  
   $.ajax({
     url: conc_options.backend + '/recording/list/work/' + wid + '/0.json',
     method: "GET",
@@ -994,11 +1003,11 @@ conc_notavailable = function () {
 
 conc_showplayerbar = function ()
 {
-  $('#playerbar').css('display',"block");
   $('#main').css('bottom',"68px");
   $('#nowplaying').css('bottom',"68px");
   $('#sidebar').css('bottom',"68px");
   $('#favorites').css('bottom', "68px");
+  $('#playerbar').show();
 }
 
 // notification
