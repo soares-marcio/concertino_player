@@ -64,19 +64,46 @@ conc_appleauth = function () {
 
   applemusic = MusicKit.getInstance();
 
+  AppleID.auth.init({
+    clientId : '[CLIENT_ID]',
+    scope : '[SCOPES]',
+    redirectURI: '[REDIRECT_URI]',
+    state : '[STATE]'
+  });
+
   applemusic.authorize().then(function() {
+
+    $.ajax ({
+      url: conc_options.backend + '/dyn/user/login/',
+      method: "POST",
+      data: { id: localStorage.user_id, token: applemusic.musicUserToken },
+      success: function(response)
+      {
+        if (response.status.success == "true")
+        {
+          localStorage.user_id = response.user.id;
+          localStorage.user_auth = response.user.auth;
+
+          conc_composersbytag('pop');
+          conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre);
+          conc_playlist("fav");
+          conc_showplayerbar();
+
+          if (localStorage.lastwid) {
+            conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, !parseInt(localStorage.fromurl));
+            if (parseInt(localStorage.fromurl)) localStorage.fromurl = 0;
+          }
+
+          $('#loader').fadeOut();
+        }
+        else
+        {
+           
+        }
+      }
+    });
     
-    conc_composersbytag('pop');
-    conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre);
-    conc_playlist("fav");
-    conc_showplayerbar();
-
-    if (localStorage.lastwid) {
-      conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, !parseInt(localStorage.fromurl));
-      if (parseInt(localStorage.fromurl)) localStorage.fromurl = 0;
-    }
-
-    $('#loader').fadeOut();
+    
   });
 }
 
