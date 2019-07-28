@@ -64,13 +64,6 @@ conc_appleauth = function () {
 
   applemusic = MusicKit.getInstance();
 
-  AppleID.auth.init({
-    clientId : '[CLIENT_ID]',
-    scope : '[SCOPES]',
-    redirectURI: '[REDIRECT_URI]',
-    state : '[STATE]'
-  });
-
   applemusic.authorize().then(function() {
 
     $.ajax ({
@@ -94,6 +87,10 @@ conc_appleauth = function () {
             if (parseInt(localStorage.fromurl)) localStorage.fromurl = 0;
           }
 
+          applemusic.addEventListener('playbackTimeDidChange', function () { conc_slider ({id: (applemusic.player.nowPlayingItem ? applemusic.player.nowPlayingItem.id : 0), duration: applemusic.player.currentPlaybackDuration, position: applemusic.player.currentPlaybackTime }); });
+          applemusic.addEventListener('playbackStateDidChange', function () { conc_state (applemusic.player.playbackState); });
+
+
           $('#loader').fadeOut();
         }
         else
@@ -109,25 +106,37 @@ conc_appleauth = function () {
 
 conc_toggleplay = function ()
 {
-  if (Object.keys(conc_state).length > 0)
+  if (applemusic.player.queue.isEmpty || (applemusic.player.playbackState == 10 && applemusic.player.queue.nextPlayableItemIndex == undefined))
   {
-    spotplayer.togglePlay();
+    conc_appleplay (conc_playbuffer.tracks, 0)
   }
   else
   {
-    if (!$('#tuning-modal').is(':visible')) { $('#tuning-modal').leanModal(); }
-    conc_appleplay(conc_playbuffer.tracksuris, 0);
+    if (applemusic.player.isPlaying)
+    {
+      applemusic.player.pause ();
+      $('#playpause').removeClass("pause").addClass("play");
+    }
+    else
+    {
+      applemusic.player.play ();
+      $('#playpause').removeClass("play").addClass("pause");
+    }
   }
 }
 
 conc_nexttrack = function ()
 {
-  spotplayer.nextTrack();
+  $(".slider").find('.bar').css('width', '0%');
+  $(".timer").html('0:00');
+  applemusic.player.skipToNextItem();
 }
 
 conc_prevtrack = function ()
 {
-  spotplayer.previousTrack();
+  $(".slider").find('.bar').css('width', '0%');
+  $(".timer").html('0:00');
+  applemusic.player.skipToPreviousItem();
 }
 
 conc_pressplaypause = function ()
@@ -135,111 +144,36 @@ conc_pressplaypause = function ()
   $(".slider").find('.bar').css('width', '0%');
   $(".timer").html('0:00');
 
-  $('#playpause').removeClass("play");
-  $('#playpause').addClass("pause");
+  $('#playpause').removeClass("play").addClass("pause");
 }
 
 conc_track = function (offset)
 {
-  conc_appleplay(conc_playbuffer.tracksuris, offset);
+  applemusic.player.changeToMediaAtIndex (offset);
 }
 
-// player state and timers
+// player state
 
-conc_playstate = function (state)
+conc_state = function (state)
 {
-  var isover = false;
+  console.log(state);
 
-  // treating player shutdown
-
-  if (!state)
+  if (state == 10)
   {
-    clearInterval(conc_timer);
-    $("#timerglobal").html("0:00");
-    $("#timer-" + conc_state.id).html("0:00");
-    $("#slider-" + conc_state.id).find('.bar').css('width', '0%');
-    $("#globalslider-" + conc_state.id).find('.bar').css('width', '0%');
-    $('#playpause').removeClass("pause");
-    $('#playpause').addClass("play");
-    conc_state = {};
-
-    return;
-  }
-
-  // treating 'track redirects' -- thanks, spotify!
-
-  if (state.track_window.current_track.linked_from.id)
-  {
-    state.track_window.current_track.id = state.track_window.current_track.linked_from.id;
-  }
-
-  if (state.paused != conc_state.paused)
-  {
-    // play pause status has changed
-
-    clearInterval (conc_timer);
-
-    if (state.paused)
-    {
-      $('#playpause').removeClass("pause");
-      $('#playpause').addClass("play");
-
-      // is the single-track recording over?
-
-      if (conc_playbuffer.tracks.length == 1 && state.paused && state.track_window.current_track.id == conc_playbuffer.tracks[0] && (state.position == 0 || Math.floor(state.position / 1000) == Math.floor(state.duration / 1000)))
-      {
-        console.log ('Over, next');
-        state.position = 0;
-        isover = true;
-        conc_radioskip ();
-      }
-    }
-    else
-    {
-      conc_timer = setInterval (conc_autoslider, 1000);
-
-      $('#playpause').removeClass("play");
-      $('#playpause').addClass("pause");
-    }
-  }
-
-  // has the track changed?
-
-  if (state.track_window.current_track.id != conc_state.id && Object.keys(conc_state).length > 0)
-  {
-    state.position = 0;
-
-    for (trid in conc_playbuffer.tracks)
-    {
-      if (conc_playbuffer.tracks[trid] != state.track_window.current_track.id)
-      {
-        conc_slider ({ changed: true, paused: state.paused, id: conc_playbuffer.tracks[trid], position: 0, duration: 0 });
-      }
-    }
-
-    if (conc_playbuffer.tracks[0] == state.track_window.current_track.id && state.track_window.next_tracks.length == 0) {
-      console.log('Over, next');
-      conc_radioskip();
-    }
-  }
-  
-  // update current track position
-
-  conc_state = { paused: state.paused, id: state.track_window.current_track.id, position: Math.floor(state.position / 1000), duration: Math.floor(state.duration / 1000) };
-  if (conc_state.position > 0 || isover) {
-    conc_slider(conc_state);
+    $(".slider").find('.bar').css('width', '0%');
+    $(".timer").html('0:00');
+    $("#timerglobal").html('0:00');
+    $('#playpause').removeClass("pause").addClass("play");
+    console.log('Over, next');
+    conc_radioskip();
   }
 }
 
-conc_autoslider = function ()
-{
-  conc_state = { paused: conc_state.paused, id: conc_state.id, position: conc_state.position + 1, duration: conc_state.duration };
-  conc_slider (conc_state);
-}
+// player slider
 
 conc_slider = function (arg)
 {
-  if (arg.changed)
+  if (arg.position == arg.duration)
   {
     $("#timer-"+arg.id).html("0:00");
     $("#slider-"+arg.id).find('.bar').css('width', '0%');
@@ -836,8 +770,8 @@ conc_recordingaction = function (list, auto)
 
         var pctsize = ((list.recording.tracks[track].length) / list.recording.length) * 100;
         currtrack = currtrack + 1;
-        $('#playertracks').append('<li><a class="tracktitle" href="javascript:conc_track(' + track + ')">' + list.recording.tracks[track].title + '</a><div id="timer-' + list.recording.tracks[track].spotify_trackid + '" class="timer">0:00</div><div id="slider-' + list.recording.tracks[track].spotify_trackid + '" class="slider"><div class="buffer"></div><div class="bar"></div></div><div class="duration">' + conc_readabletime(list.recording.tracks[track].length) + '</div></li>');
-        $('#globaltracks').append('<li style="width: calc(' + Math.round(pctsize * 1000) / 1000 + '%' + trackadjust + ')"><a class="tracktitle" href="javascript:conc_track(' + track + ')">' + currtrack + '</a><div id="globalslider-' + list.recording.tracks[track].spotify_trackid + '" class="slider"><div class="buffer"></div><div class="bar"></div></div><div id="globaltimer-' + track + '" class="timer">0:00</div><div class="duration">' + conc_readabletime(list.recording.tracks[track].length) + '</div></li>');
+        $('#playertracks').append('<li><a class="tracktitle" href="javascript:conc_track(' + track + ')">' + list.recording.tracks[track].title + '</a><div id="timer-' + list.recording.tracks[track].apple_trackid + '" class="timer">0:00</div><div id="slider-' + list.recording.tracks[track].apple_trackid + '" class="slider"><div class="buffer"></div><div class="bar"></div></div><div class="duration">' + conc_readabletime(list.recording.tracks[track].length) + '</div></li>');
+        $('#globaltracks').append('<li style="width: calc(' + Math.round(pctsize * 1000) / 1000 + '%' + trackadjust + ')"><a class="tracktitle" href="javascript:conc_track(' + track + ')">' + currtrack + '</a><div id="globalslider-' + list.recording.tracks[track].apple_trackid + '" class="slider"><div class="buffer"></div><div class="bar"></div></div><div id="globaltimer-' + track + '" class="timer">0:00</div><div class="duration">' + conc_readabletime(list.recording.tracks[track].length) + '</div></li>');
       }
 
       $('#durationglobal').html(conc_readabletime(list.recording.length));
@@ -885,11 +819,6 @@ conc_appleplay = function (tracks, offset)
     applemusic.changeToMediaAtIndex(offset)
   });
 
-  if (conc_timer) {
-    clearInterval(cmas_timer);
-  }
-
-  conc_state = {};
   $('#tuning-modal').closeModal();
   conc_pressplaypause();
 }
