@@ -1,6 +1,0 @@
-<? print_r ($_REQUEST);
-
-    $claims = explode('.', $_REQUEST["id_token"])[1];
-    $claims = json_decode(base64_decode($claims));
-
-    print_r ($claims);
