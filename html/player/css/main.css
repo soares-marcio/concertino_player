@@ -799,6 +799,11 @@ h2
 	background-size: 36px 42px;
 }
 
+#playercontrols #playpause.loading
+{
+	background-image: url("../img/spinner-player.svg");
+}
+
 #playercontrols #playpause.play
 {
 	background-image: url("../img/play.png");

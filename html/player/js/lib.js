@@ -18,8 +18,6 @@ if (localStorage.lastcomposerid == undefined)
     localStorage.lastcomposerid = 145;
 }
 
-conc_timer = false;
-conc_state = {};
 conc_playbuffer = {};
 conc_favorites = [];
 conc_favoritecomposers = [];
@@ -29,7 +27,6 @@ conc_playlists = {};
 conc_onair = false;
 conc_radioqueue = [];
 conc_radiofilter = {};
-conc_recoverplayer = {};
 conc_disabled = false;
 
 conc_options = {
@@ -62,45 +59,59 @@ window.onpopstate = function (event) {
 
 conc_appleauth = function () {
 
-  applemusic = MusicKit.getInstance();
+  // treating urls
 
+  if (window.location.pathname != "/") {
+    vars = window.location.pathname.split("/");
+    if (vars[1] == "u") {
+      localStorage.lastwid = vars[2];
+      localStorage.lastaid = vars[3];
+      localStorage.lastset = vars[4];
+    }
+    else if (vars[1] == "p") {
+      conc_playlistdetail(parseInt(vars[2], 16));
+    }
+  }
+
+  // apple music login
+
+  applemusic = MusicKit.getInstance();
   applemusic.authorize().then(function() {
 
-    $.ajax ({
-      url: conc_options.backend + '/dyn/user/login/',
-      method: "POST",
-      data: { id: localStorage.user_id, token: applemusic.musicUserToken },
-      success: function(response)
-      {
-        if (response.status.success == "true")
+    // retrieves the first recommendation as user identifier (since Apple doesn't provide any id aside temp tokens)
+
+    applemusic.api.recommendations().then(function (response) { 
+      
+      $.ajax ({
+        url: conc_options.backend + '/dyn/user/login/',
+        method: "POST",
+        data: { id: localStorage.user_id, recid: response[0].id },
+        success: function(response)
         {
-          localStorage.user_id = response.user.id;
-          localStorage.user_auth = response.user.auth;
-
-          conc_composersbytag('pop');
-          conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre);
-          conc_playlist("fav");
-          conc_showplayerbar();
-
-          if (localStorage.lastwid) {
-            conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, !parseInt(localStorage.fromurl));
-            if (parseInt(localStorage.fromurl)) localStorage.fromurl = 0;
+          if (response.status.success == "true")
+          {
+            localStorage.user_id = response.user.id;
+            localStorage.user_auth = response.user.auth;
+  
+            conc_init();
+            conc_showplayerbar();
+  
+            if (localStorage.lastwid) {
+              conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, (window.location.search != "?play"));
+            }
+  
+            applemusic.addEventListener('playbackTimeDidChange', function () { conc_slider ({id: (applemusic.player.nowPlayingItem ? applemusic.player.nowPlayingItem.id : 0), duration: applemusic.player.currentPlaybackDuration, position: applemusic.player.currentPlaybackTime }); });
+            applemusic.addEventListener('playbackStateDidChange', function () { conc_state (applemusic.player.playbackState); });
+  
+            $('#loader').fadeOut();
           }
-
-          applemusic.addEventListener('playbackTimeDidChange', function () { conc_slider ({id: (applemusic.player.nowPlayingItem ? applemusic.player.nowPlayingItem.id : 0), duration: applemusic.player.currentPlaybackDuration, position: applemusic.player.currentPlaybackTime }); });
-          applemusic.addEventListener('playbackStateDidChange', function () { conc_state (applemusic.player.playbackState); });
-
-
-          $('#loader').fadeOut();
+          else
+          {
+             // do something if login fails
+          }
         }
-        else
-        {
-           
-        }
-      }
+      });      
     });
-    
-    
   });
 }
 
@@ -115,12 +126,10 @@ conc_toggleplay = function ()
     if (applemusic.player.isPlaying)
     {
       applemusic.player.pause ();
-      $('#playpause').removeClass("pause").addClass("play");
     }
     else
     {
       applemusic.player.play ();
-      $('#playpause').removeClass("play").addClass("pause");
     }
   }
 }
@@ -139,14 +148,6 @@ conc_prevtrack = function ()
   applemusic.player.skipToPreviousItem();
 }
 
-conc_pressplaypause = function ()
-{
-  $(".slider").find('.bar').css('width', '0%');
-  $(".timer").html('0:00');
-
-  $('#playpause').removeClass("play").addClass("pause");
-}
-
 conc_track = function (offset)
 {
   applemusic.player.changeToMediaAtIndex (offset);
@@ -156,16 +157,31 @@ conc_track = function (offset)
 
 conc_state = function (state)
 {
-  console.log(state);
+  console.log("state: " + state);
 
-  if (state == 10)
+  switch (state)
   {
-    $(".slider").find('.bar').css('width', '0%');
-    $(".timer").html('0:00');
-    $("#timerglobal").html('0:00');
-    $('#playpause').removeClass("pause").addClass("play");
-    console.log('Over, next');
-    conc_radioskip();
+    case 1:
+    case 6:
+    case 8:
+    case 9:
+        $('#playpause').attr("class", "loading");
+      break;
+    case 2:
+        $('#playpause').attr("class", "pause");
+      break;
+    case 3:
+        $('#playpause').attr("class", "play");
+      break;
+    case 4:
+    case 5:
+    case 10:
+        $(".slider").find('.bar').css('width', '0%');
+        $(".timer").html('0:00');
+        $("#timerglobal").html('0:00');
+        $('#playpause').attr("class", "play");
+        if (state == 10) conc_radioskip();
+      break;
   }
 }
 
@@ -269,7 +285,7 @@ conc_composersbyepoch = function (epoch)
 conc_composersbyfav = function ()
 {
   $.ajax({
-    url: conc_options.backend + '/user/' + localStorage.spotify_userid + '/composer/fav.json',
+    url: conc_options.backend + '/user/' + localStorage.user_id + '/composer/fav.json',
     method: "GET",
     success: function (response) {
       conc_composers(response);
@@ -460,7 +476,7 @@ conc_listfavoriteworks = function (composer)
   $('#worksearch').val('');
 
   $.ajax({
-    url: conc_options.backend + '/user/' + localStorage.spotify_userid + '/composer/' + composer + '/work/fav.json',
+    url: conc_options.backend + '/user/' + localStorage.user_id + '/composer/' + composer + '/work/fav.json',
     method: "GET",
     success: function (response) {
       conc_works(response);
@@ -473,7 +489,7 @@ conc_worksbysearch = function (composer, genre, search)
   if (genre == 'fav' && search.length > 3)
   {
     $.ajax({
-      url: conc_options.backend + '/user/' + localStorage.spotify_userid + '/composer/' + composer + '/work/fav/search/' + search + '.json',
+      url: conc_options.backend + '/user/' + localStorage.user_id + '/composer/' + composer + '/work/fav/search/' + search + '.json',
       method: "GET",
       success: function (response) {
         conc_works(response);
@@ -787,7 +803,7 @@ conc_recordingaction = function (list, auto)
         $.ajax({
           url: conc_options.backend + '/dyn/user/recording/played/',
           method: "POST",
-          data: { id: localStorage.apple_userid, wid: list.work.id, aid: list.recording.apple_albumid, set: list.recording.set, cover: list.recording.cover, performers: JSON.stringify(list.recording.performers), auth: conc_authgen() },
+          data: { id: localStorage.user_id, wid: list.work.id, aid: list.recording.apple_albumid, set: list.recording.set, cover: list.recording.cover, performers: JSON.stringify(list.recording.performers), auth: conc_authgen() },
           success: function (response) {
             if ($('#favtitle select option:checked').val() == 'rec') {
               conc_recentrecordings();
@@ -813,6 +829,7 @@ conc_playingdetails = function ()
 
 conc_appleplay = function (tracks, offset)
 {
+  applemusic.player.pause();
   applemusic.setQueue({
     songs: tracks
   }).then(function () {
@@ -820,7 +837,6 @@ conc_appleplay = function (tracks, offset)
   });
 
   $('#tuning-modal').closeModal();
-  conc_pressplaypause();
 }
 
 // recording item
@@ -846,7 +862,7 @@ conc_recordingitem = function (item, work, playlist)
   }
 
   if (playlist) {
-    if (playlist.owner.id == localStorage.spotify_userid) {
+    if (playlist.owner.id == localStorage.user_id) {
       plaction = 'unplaylist';
       plfunction = 'conc_unplaylistperformance(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ',' + playlist.id + ')';
     }
@@ -988,7 +1004,7 @@ conc_notification = function (text, icon, title)
 conc_authgen = function ()
 {
   let timestamp = (((new Date() / 1000 | 0) + (60 * 1)) / (60 * 5) | 0);
-  let auth = md5 (timestamp + "-" + localStorage.spotify_userid + "-" + localStorage.user_auth);
+  let auth = md5 (timestamp + "-" + localStorage.user_id + "-" + localStorage.user_auth);
 
   return auth;
 }
@@ -1014,7 +1030,7 @@ conc_rectag = function (wid, aid, set, tag, value) {
       $.ajax({
         url: conc_options.backend + '/dyn/recording/' + action + '/',
         method: "POST",
-        data: { id: localStorage.spotify_userid, wid: wid, aid: aid, set: set, cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), auth: conc_authgen(), tag: tag },
+        data: { id: localStorage.user_id, wid: wid, aid: aid, set: set, cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), auth: conc_authgen(), tag: tag },
         success: function (nresponse) {
           if (nresponse.status.success == "true") {
 
@@ -1064,7 +1080,7 @@ conc_submitperf = function (wid, aid, set) {
         $.ajax({
           url: conc_options.backend + '/dyn/recording/edit/',
           method: "POST",
-          data: { id: localStorage.spotify_userid, wid: wid, aid: aid, set: set, auth: conc_authgen(), cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), newperformers: $('#nowplaying li.perform textarea').val() },
+          data: { id: localStorage.user_id, wid: wid, aid: aid, set: set, auth: conc_authgen(), cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), newperformers: $('#nowplaying li.perform textarea').val() },
           success: function (response) {
             if (response.status.success == "true") {
 
@@ -1108,7 +1124,7 @@ conc_submitobs = function (wid, aid, set) {
       $.ajax({
         url: conc_options.backend + '/dyn/recording/edit/',
         method: "POST",
-        data: { id: localStorage.spotify_userid, wid: wid, aid: aid, set: set, auth: conc_authgen(), cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), observation: 1, observationvalue: $('#nowplaying li.versionform textarea').val() },
+        data: { id: localStorage.user_id, wid: wid, aid: aid, set: set, auth: conc_authgen(), cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), observation: 1, observationvalue: $('#nowplaying li.versionform textarea').val() },
         success: function (rresponse) {
           if (rresponse.status.success == "true") {
 
@@ -1156,7 +1172,7 @@ conc_recfavorite = function (wid, aid, set)
       $.ajax({
         url: conc_options.backend + '/dyn/user/recording/' + action + '/',
         method: "POST",
-        data: { id: localStorage.spotify_userid, wid: wid, aid: aid, set: set, cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), auth: conc_authgen() },
+        data: { id: localStorage.user_id, wid: wid, aid: aid, set: set, cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), auth: conc_authgen() },
         success: function (response) {
           if (response.status.success == "true") {
             
@@ -1193,7 +1209,7 @@ conc_favoritework = function (wid, cid) {
   $.ajax({
     url: conc_options.backend + '/dyn/user/work/' + action + '/',
     method: "POST",
-    data: { id: localStorage.spotify_userid, wid: wid, cid: cid, auth: conc_authgen() },
+    data: { id: localStorage.user_id, wid: wid, cid: cid, auth: conc_authgen() },
     success: function (response) {
       if (response.status.success == "true") {
         conc_favoriteworks = (response.list ? response.list : []);
@@ -1212,7 +1228,7 @@ conc_favoritework = function (wid, cid) {
 conc_init = function ()
 {
   $.ajax({
-    url: conc_options.backend + '/user/' + localStorage.spotify_userid + '/lists.json',
+    url: conc_options.backend + '/user/' + localStorage.user_id + '/lists.json',
     method: "GET",
     success: function (response) 
     {
@@ -1234,7 +1250,7 @@ conc_favoriterecordings = function ()
 {
   $('#favorites .performance').remove();
   $.ajax({
-    url: conc_options.backend + '/user/' + localStorage.spotify_userid + '/recording/fav.json',
+    url: conc_options.backend + '/user/' + localStorage.user_id + '/recording/fav.json',
     method: "GET",
     success: function (response) {
       conc_favorites = response.list;
@@ -1257,7 +1273,7 @@ conc_favoriterecordings = function ()
 conc_recentrecordings = function () {
   $('#favorites .performance').remove();
   $.ajax({
-    url: conc_options.backend + '/user/' + localStorage.spotify_userid + '/recording/recent.json',
+    url: conc_options.backend + '/user/' + localStorage.user_id + '/recording/recent.json',
     method: "GET",
     success: function (response) {
       docsr = response.recordings;
@@ -1307,7 +1323,7 @@ conc_compfavorite = function (cid) {
   $.ajax({
     url: conc_options.backend + '/dyn/user/composer/' + action + '/',
     method: "POST",
-    data: { id: localStorage.spotify_userid, cid: cid, auth: conc_authgen() },
+    data: { id: localStorage.user_id, cid: cid, auth: conc_authgen() },
     success: function (response) {
       if (response.status.success == "true") {
         
@@ -1336,7 +1352,7 @@ conc_compforbid = function (cid) {
   $.ajax({
     url: conc_options.backend + '/dyn/user/composer/' + action + '/',
     method: "POST",
-    data: { id: localStorage.spotify_userid, cid: cid, auth: conc_authgen() },
+    data: { id: localStorage.user_id, cid: cid, auth: conc_authgen() },
     success: function (response) {
       if (response.status.success == "true") {
 
@@ -1406,7 +1422,7 @@ conc_playlistmodal = function (wid, aid, set) {
   $('#playlistmodal #existingplaylist').append($(favoption));
 
   for (pllst in conc_playlists) {
-    if (conc_playlists[pllst].owner == localStorage.spotify_userid)
+    if (conc_playlists[pllst].owner == localStorage.user_id)
     {
       var favoption = new Option(conc_playlists[pllst].name, conc_playlists[pllst].id);
       $('#playlistmodal #existingplaylist').append($(favoption));
@@ -1442,7 +1458,7 @@ conc_playlistperformance = function (wid, aid, set, pid, name) {
       $.ajax({
         url: conc_options.backend + '/dyn/recording/addplaylist/',
         method: "POST",
-        data: { id: localStorage.spotify_userid, wid: wid, aid: aid, set: set, pid: pid, name: name, cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), auth: conc_authgen() },
+        data: { id: localStorage.user_id, wid: wid, aid: aid, set: set, pid: pid, name: name, cover: response.recording.cover, performers: JSON.stringify(response.recording.performers), auth: conc_authgen() },
         success: function (response) {
           if (response.status.success == "true") {
             conc_playlists = (response.list ? response.list : {});
@@ -1462,7 +1478,7 @@ conc_unplaylistperformance = function (wid, aid, set, pid) {
   $.ajax({
     url: conc_options.backend + '/dyn/recording/unplaylist/',
     method: "POST",
-    data: { id: localStorage.spotify_userid, wid: wid, aid: aid, set: set, pid: pid, auth: conc_authgen() },
+    data: { id: localStorage.user_id, wid: wid, aid: aid, set: set, pid: pid, auth: conc_authgen() },
     success: function (response) {
       if (response.status.success == "true") {
         conc_playlists = (response.list ? response.list : {});
@@ -1486,7 +1502,7 @@ conc_editplaylist = function () {
     }
   }
 
-  if (playlist_owner == localStorage.spotify_userid) {
+  if (playlist_owner == localStorage.user_id) {
     $('#playlist_newname').val($('#favtitle select option:checked').text());
     $('#toggle_delpl').toggles(false);
     $("#editplaylistmodal").leanModal();
@@ -1504,7 +1520,7 @@ conc_renameplaylist = function () {
     $.ajax({
       url: conc_options.backend + '/dyn/playlist/rename/',
       method: "POST",
-      data: { id: localStorage.spotify_userid, pid: window.editplaylist, name: $('#playlist_newname').val(), auth: conc_authgen() },
+      data: { id: localStorage.user_id, pid: window.editplaylist, name: $('#playlist_newname').val(), auth: conc_authgen() },
       success: function (response) {
         if (response.status.success == "true") {
           conc_playlists = (response.list ? response.list : {});
@@ -1520,7 +1536,7 @@ conc_deleteplaylist = function () {
   $.ajax({
     url: conc_options.backend + '/dyn/playlist/delete/',
     method: "POST",
-    data: { id: localStorage.spotify_userid, pid: window.editplaylist, auth: conc_authgen() },
+    data: { id: localStorage.user_id, pid: window.editplaylist, auth: conc_authgen() },
     success: function (response) {
       if (response.status.success == "true") {
         conc_playlists = (response.list ? response.list : {});
@@ -1538,7 +1554,7 @@ conc_importplaylist = function (name) {
   $.ajax({
     url: conc_options.backend + '/dyn/user/playlist/duplicate/',
     method: "POST",
-    data: { name: name, id: localStorage.spotify_userid, pid: window.editplaylist, auth: conc_authgen() },
+    data: { name: name, id: localStorage.user_id, pid: window.editplaylist, auth: conc_authgen() },
     success: function (response) {
       if (response.status.success == "true") {
         window.newplaylist = response.playlist.id;
@@ -1556,7 +1572,7 @@ conc_subplaylist = function (pid) {
   $.ajax({
     url: conc_options.backend + '/dyn/user/playlist/subscribe/',
     method: "POST",
-    data: { id: localStorage.spotify_userid, pid: pid, auth: conc_authgen() },
+    data: { id: localStorage.user_id, pid: pid, auth: conc_authgen() },
     success: function (response) {
       if (response.status.success == "true") {
         conc_playlists = (response.list ? response.list : {});
@@ -1581,7 +1597,7 @@ conc_gounsubplaylist = function (pid, action) {
   $.ajax({
     url: conc_options.backend + '/dyn/user/playlist/unsubscribe/',
     method: "POST",
-    data: { id: localStorage.spotify_userid, pid: pid, auth: conc_authgen() },
+    data: { id: localStorage.user_id, pid: pid, auth: conc_authgen() },
     success: action
   });
 }
@@ -1620,7 +1636,7 @@ conc_playlistdetail = function (pid) {
         }
       }
 
-      if (response.playlist.owner.id != localStorage.spotify_userid) {
+      if (response.playlist.owner.id != localStorage.user_id) {
         $('#playlistdetail').show();
       }
 
@@ -1647,7 +1663,7 @@ conc_newradio = function (filter) {
   $.ajax({
     url: conc_options.backend + '/dyn/user/work/random/',
     method: "POST",
-    data: { id: localStorage.spotify_userid, popularcomposer: filter.popularcomposer, recommendedcomposer: filter.recommendedcomposer, popularwork: filter.popularwork, recommendedwork: filter.recommendedwork, genre: filter.genre, epoch: filter.epoch, composer: filter.composer, work: filter.work },
+    data: { id: localStorage.user_id, popularcomposer: filter.popularcomposer, recommendedcomposer: filter.recommendedcomposer, popularwork: filter.popularwork, recommendedwork: filter.recommendedwork, genre: filter.genre, epoch: filter.epoch, composer: filter.composer, work: filter.work },
     success: function (response) {
       if (response.status.success == "true") {
 
@@ -1680,10 +1696,11 @@ conc_newradio = function (filter) {
 // radio skip
 
 conc_radioskip = function () {
+  console.log('Over, next'); 
   if (conc_onair) {
     if (conc_radioqueue.length) {
       if (Object.keys(conc_state).length > 0 && !conc_state.paused) {
-        spotplayer.pause();
+        applemusic.player.pause();
       }
       if (!$('#tuning-modal').is(':visible')) { $('#tuning-modal').leanModal(); }
       if (conc_radiofilter.type == 'playlist') {

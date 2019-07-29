@@ -26,7 +26,7 @@ init = function () {
         success: function (response) {
             
             $.ajax({
-                url: options.backend + '/recording/detail/work/' + response.recording.work_id + '/album/' + response.recording.spotify_albumid + '/' + response.recording.set + '.json',
+                url: options.backend + '/recording/detail/work/' + response.recording.work_id + '/album/' + response.recording.apple_albumid + '/' + response.recording.set + '.json',
                 method: "GET",
                 success: function (response) {
                     recording(response);
@@ -46,7 +46,7 @@ recording = function (response) {
     albor = '';
     classmain = '';
 
-    concertino_uri = options.frontend + '/u/' + response.work.id + '/' + response.recording.spotify_albumid + '/' + response.recording.set + '?play';
+    concertino_uri = options.frontend + '/u/' + response.work.id + '/' + response.recording.apple_albumid + '/' + response.recording.set + '?play';
 
     for (link in $('.playaction')) {
         $('.playaction')[link].href = concertino_uri;
@@ -97,7 +97,7 @@ recording = function (response) {
     albp = albp + albo + albor + albc;
     alb = alb + '<li class="performers"><ul>' + albp + '</ul></li>';
     alb = alb + '<li class="label">' + response.recording.label.replace(/\'/gi, '') + '</li>';
-    alb = alb + '<li class="spotify"><a href="http://open.spotify.com/album/' + response.recording.spotify_albumid + '" target="_blank">Listen on Spotify</a></li>';
+    alb = alb + '<li class="spotify"><a href="http://open.spotify.com/album/' + response.recording.apple_albumid + '" target="_blank">Listen on Spotify</a></li>';
 
     $('#playerinfo').html(alb);
     $('#durationglobal').html(readabletime (response.recording.length));
