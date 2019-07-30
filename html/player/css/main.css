@@ -1,7 +1,5 @@
 /* cssreset.com */* { margin: 0; padding: 0; outline: 0 !important; }
 
-@import url('https://fonts.googleapis.com/css?family=Barlow:400,600|Nunito:400,800&display=swap');
-
 html, body
 {
   height: 100%;

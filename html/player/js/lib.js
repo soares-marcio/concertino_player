@@ -86,13 +86,13 @@ conc_appleauth = function () {
       $.ajax ({
         url: conc_options.backend + '/dyn/user/login/',
         method: "POST",
-        data: { id: localStorage.user_id, recid: response[0].id },
+        data: { auth: conc_authgen(), id: localStorage.user_id, recid: response[0].id },
         success: function(response)
         {
           if (response.status.success == "true")
           {
             localStorage.user_id = response.user.id;
-            localStorage.user_auth = response.user.auth;
+            if (response.user.auth) localStorage.user_auth = response.user.auth;
   
             conc_init();
             conc_showplayerbar();
