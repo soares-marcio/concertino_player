@@ -1,9 +1,6 @@
 const cacheName = '1.19.07.13';
 const precacheResources = [
     '/css/main.css',
-    '/css/PetitaBold.ttf',
-    '/css/PetitaMedium.ttf',
-    '/css/Sanchezregular.otf',
     '/css/toggles-full.css',
     '/js/select2/css/select2.css',
     '/js/select2/js/select2.js',

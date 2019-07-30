@@ -1,5 +1,7 @@
 /* cssreset.com */* { margin: 0; padding: 0; outline: 0 !important; }
 
+@import url('https://fonts.googleapis.com/css?family=Barlow:400,600|Nunito:400,800&display=swap');
+
 html, body
 {
   height: 100%;
@@ -20,10 +22,15 @@ body
 {
 	border: 0px;
 	margin: 0px 0px;
-	font-family: PetitaMedium, Arial, sans-serif;
+	font-family: 'Barlow', sans-serif;
 	color: #FFF;
 	background-color: #121212;
-	font-size: 14px;
+	font-size: 13px;
+}
+
+strong 
+{
+	font-weight: 600;
 }
 
 ul, li
@@ -54,21 +61,6 @@ a
 #works::-webkit-scrollbar-track-piece
 {
 	background-color: #3A3A3A;
-}
-
-@font-face {
-	font-family: Sanchez;
-	src: url("Sanchezregular.otf") format("opentype");
-}
-
-@font-face {
-	font-family: PetitaMedium;
-	src: url("PetitaMedium.ttf") format("truetype");
-}
-
-@font-face {
-	font-family: PetitaBold;
-	src: url("PetitaBold.ttf") format("truetype");
 }
 
 #playerbar
@@ -139,7 +131,7 @@ a
 #loaderwindow h3
 {
 	color: #717171;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-weight: normal;
 	font-size: 12px;
 	text-transform: uppercase;
@@ -258,14 +250,15 @@ a
 
 #playerinfo li strong
 {
-	font-family: PetitaBold, Arial, sans-serif;
+	font-family: 'Barlow', sans-serif;
 }
 
 #playerinfo .composer a, #favorites .composer a, #albums.playlist .composer a
 {
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 17px;
 	text-transform: uppercase;
+	font-weight: 800;
 }
 
 #playerinfo .composer a
@@ -281,15 +274,15 @@ a
 
 #playerinfo .work a
 {
-	font-family: PetitaBold, Arial, sans-serif;
-	font-size: 16px;
+	font-family: 'Barlow', sans-serif;
+	font-size: 17px;
 	margin-top: 3px;
     display: block;
 }
 
 #playerinfo .label
 {
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 10px;
 	margin-top: 4px;
 }
@@ -513,7 +506,7 @@ a
 h2
 {
 	color: #717171;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-weight: normal;
 	font-size: 10px;
 	text-transform: uppercase;
@@ -593,7 +586,7 @@ h2
 
 #playertracks .timer, #playertracks .duration
 {
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-weight: normal;
 	font-size: 11px;
 	display: block;
@@ -633,7 +626,7 @@ h2
 
 #favorites .performers, #albums.playlist .performers
 {
-	font-size: 12px;
+	font-size: 11px;
 }
 
 #favorites .performers ul li, #albums.playlist .performers ul li
@@ -826,7 +819,7 @@ h2
 
 #playercontrols #timerglobal, #playercontrols #durationglobal
 {
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 14px;
 }
 
@@ -848,7 +841,7 @@ h2
 
 #playercontrols #globaltracks
 {
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 10px;
 	position: absolute;
 	bottom: 18px;
@@ -939,7 +932,7 @@ h2
 {
 	float: left;
 	text-transform: uppercase;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 11px;
 	padding: 0 4px;
 	border-right: 1px solid #717171;
@@ -989,14 +982,15 @@ h2
 
 #composers ul.composerdetails li
 {
-	font-family: Sanchez, TimesNewRoman, serif;
-	font-size: 12px;
+	font-family: 'Nunito', sans-serif;
+	font-size: 11px;
 }
 
 #composers ul.composerdetails li.name a
 {
-	font-family: Sanchez, TimesNewRoman, serif;
-	font-size: 16px;
+	font-weight: 800;
+	font-family: 'Nunito', sans-serif;
+	font-size: 15px;
 	color: #FCE546;
 	text-transform: uppercase;
 }
@@ -1110,7 +1104,7 @@ h2
 	-webkit-appearance: none;
 	color: #717171;
 	background-color: #121212;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-weight: normal;
 	margin-top: -7px;
 	padding-left: 19px;
@@ -1150,7 +1144,7 @@ h2
 	width: 46px;
 	height: 60px;
 	background-color: #FCE546;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 28px;
 	color: #000;
 	text-transform: uppercase;
@@ -1236,7 +1230,7 @@ h2
    	background: url(../img/comboarrow.png) no-repeat 112px #3A3A3A;
 		background-size: 12px 10px;
    	width: 132px;
-   	font-family: Sanchez, TimesNewRoman, serif;
+   	font-family: 'Nunito', sans-serif;
 	font-size: 12px;
 	color: #FFF;
    	line-height: 1;
@@ -1273,7 +1267,7 @@ h2
 {
    	background-color: #3A3A3A;
    	width: 112px;
-   	font-family: Sanchez, TimesNewRoman, serif;
+   	font-family: 'Nunito', sans-serif;
 	font-size: 12px;
 	color: #FFF;
    	line-height: 1;
@@ -1319,9 +1313,10 @@ h2
 #genresworks h2 a
 {
 	text-transform: uppercase;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 16px;
 	color: #FCE546;
+	font-weight: 800;
 }
 
 #genres
@@ -1399,7 +1394,7 @@ h2
 {
    	background-color: #121212;
    	width: calc(100% - 24px);
-   	font-family: Sanchez, TimesNewRoman, serif;
+   	font-family: 'Nunito', sans-serif;
 	font-size: 12px;
 	color: #FFF;
    	line-height: 1;
@@ -1435,7 +1430,7 @@ h2
 
 #works li
 {
-	font-size: 15px;
+	font-size: 14px;
 	height: 24px;
 }
 
@@ -1474,7 +1469,7 @@ h2
 #works li.separator 
 {
 	text-transform: uppercase;
-    font-family: "Sanchez";
+    font-family: 'Nunito', sans-serif;
     font-size: 10px;
 	color: #7C726E;
 	padding-top: 20px;
@@ -1495,8 +1490,9 @@ h2
 
 #genresworks h3
 {
-	font-size: 19px;
+	font-size: 18px;
 	margin-top: -12px;
+	font-weight: 600;
 }
 
 #albums
@@ -1551,6 +1547,11 @@ h2
 {
 	font-size: 14px;
 	margin-bottom: 6px;
+}
+
+#favalbums li.performance li.work
+{
+	margin-bottom: 5px;
 }
 
 #albums li.performance li.cover
@@ -1612,7 +1613,7 @@ h2
 
 #albums li.label
 {
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 11px;
 	margin-top: 6px;
 }
@@ -1923,14 +1924,14 @@ body.windows #windowcontrol
 #radiotop a
 {
 	width: 84px;
-	height: 16px;
+	height: 20px;
 	background: #460D06;
 	color: #4D4D4D;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 12px;
 	text-align: center;
 	display: block;
-	padding-top: 8px;
+	padding-top: 4px;
 	float: right;
 	margin-left: 5px;
 }
@@ -2045,7 +2046,7 @@ body.windows #radiotop a
 {
 	padding: 24px;
 	background-color: #3A3A3A;
-	font-size: 16px;
+	font-size: 14px;
 	display: none;
 	width: 600px;
 	margin-left: 25%;
@@ -2096,7 +2097,7 @@ body.windows #radiotop a
 	display: block;
 	float: right;
 	background-color: #121212;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 12px;
 	text-align: center;
 	text-transform: uppercase;
@@ -2113,7 +2114,7 @@ body.windows #radiotop a
 
 .modal h3
 {
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	font-size: 14px;
 	text-transform: uppercase;
 	color: #FCE546;
@@ -2131,7 +2132,7 @@ body.windows #radiotop a
 	top: -77px;
 	background-color: #555555;
 	color: #ffffff;
-	margin-top: 20px;
+	margin-top: 18px;
 }
 
 body.windows #editplaylistmodal a.actionbutton, body.windows #unsubscribemodal a.actionbutton
@@ -2163,7 +2164,13 @@ body.windows #editplaylistmodal a.actionbutton, body.windows #unsubscribemodal a
 
 .modal h4
 {
-	font-size: 14px;
+	font-size: 13px;
+	font-weight: 400;
+}
+
+#config.modal h4
+{
+	margin-bottom: 30px;
 }
 
 body.windows .modal h4
@@ -2366,7 +2373,7 @@ select:focus
 	position: absolute;
     left: 223px;
     top: 12px;
-    font-family: Sanchez;
+    font-family: 'Nunito', sans-serif;
 	font-size: 10px;
 	background-image: url(../img/update.png);
 	background-repeat: no-repeat;
@@ -2436,7 +2443,7 @@ li.loading {
 	padding: 9px;
 	margin: 34px 0;
 	border: 1px solid #7C726E;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Barlow', sans-serif;
 	color: #7C726E;
 	font-weight: normal;
 	font-size: 9px;
@@ -2476,7 +2483,7 @@ li.loading {
 }
 
 #playerverify li.button {
-	font-family: PetitaMedium, Arial, sans-serif;
+	font-family: 'Nunito', sans-serif;
 	color: #7C726E;
 	padding-left: 28px;
 	margin: 6px;
@@ -2495,8 +2502,8 @@ li.loading {
 #playerverify li.button strong {
 	display: block;
 	clear: right;
-	font-weight: bold;
-	font-size: 14px;
+	font-weight: 600;
+    font-size: 12px;
 }
 
 #playerverify li.button a:hover {
@@ -2616,7 +2623,7 @@ li.loading {
     border: 0px;
     color: #000;
     background-color: #FFF;
-    font-family: Sanchez;
+    font-family: 'Nunito', sans-serif;
     font-size: 12px;
     padding: 6px;
     width: 100%;
@@ -2628,7 +2635,7 @@ li.loading {
 }
 
 #playerverify a.submit {
-	font-family: PetitaMedium;
+	font-family: 'Nunito', sans-serif;
     font-size: 10px;
     background-color: #7C726E;
     border-radius: 10px;
@@ -2682,7 +2689,7 @@ li.disclaimer p {
 	border-radius: 20px;
 	padding: 11px;
 	border: 1px solid #7C726E;
-	font-family: Sanchez, TimesNewRoman, serif;
+	font-family: 'Nunito', sans-serif;
 	color: #7C726E;
 	font-size: 10px;
 	position: relative;
@@ -2725,8 +2732,9 @@ li.emptylist p {
 
 #playerinfo li a span {
 	display: block;
-  font-size: 12px;
+  	font-size: 12px;
 	margin-top: 4px;
+	font-weight: 600;
 }
 
 #genresworks h4 {

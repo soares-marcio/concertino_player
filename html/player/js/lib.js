@@ -28,6 +28,7 @@ conc_onair = false;
 conc_radioqueue = [];
 conc_radiofilter = {};
 conc_disabled = false;
+conc_lastplayerstatus = false;
 
 conc_options = {
     historical: JSON.parse(localStorage.confighistorical),
@@ -102,7 +103,9 @@ conc_appleauth = function () {
   
             applemusic.addEventListener('playbackTimeDidChange', function () { conc_slider ({id: (applemusic.player.nowPlayingItem ? applemusic.player.nowPlayingItem.id : 0), duration: applemusic.player.currentPlaybackDuration, position: applemusic.player.currentPlaybackTime }); });
             applemusic.addEventListener('playbackStateDidChange', function () { conc_state (applemusic.player.playbackState); });
-  
+            
+            applechecking = setInterval(conc_checkplayer, 150000);
+
             $('#loader').fadeOut();
           }
           else
@@ -635,8 +638,8 @@ conc_recordingsbywork = function (work, offset)
         }
       }
 
-      if (list.status.success == "false") $(listul).append('<li class="emptylist"><p>Concertino couldn\'t find any recording of this work in the Spotify database. It might be an error, though. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> if you know a recording. This will help us correct our algorithm.</p></li>')
-      if (!list.next && list.status.success == "true") $(listul).append('<li class="disclaimer"><p>These recordings were fetched automatically from the Spotify database. The list might be inaccurate or incomplete. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> for requests, questions or suggestions.</p></li>');
+      if (list.status.success == "false") $(listul).append('<li class="emptylist"><p>Concertino couldn\'t find any recording of this work in the Apple Music catalog. It might be an error, though. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> if you know a recording. This will help us correct our algorithm.</p></li>')
+      if (!list.next && list.status.success == "true") $(listul).append('<li class="disclaimer"><p>These recordings were fetched automatically from the Apple Music catalog. The list might be inaccurate or incomplete. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> for requests, questions or suggestions.</p></li>');
     }
   });
 }
@@ -791,6 +794,8 @@ conc_recordingaction = function (list, auto)
       }
 
       $('#durationglobal').html(conc_readabletime(list.recording.length));
+      $(".slider").find('.bar').css('width', '0%');
+      $(".timer").html('0:00');
 
       if (!auto) {
         conc_notification(list.work.title, list.recording.cover, list.work.composer.name);
@@ -827,12 +832,32 @@ conc_playingdetails = function ()
     }
 }
 
+// check if player is ready
+
+conc_checkplayer = function ()
+{
+  if (!applemusic.player.isPlaying && !conc_lastplayerstatus)
+  {
+    applemusic.setQueue({
+      songs: []
+    }).then(function () { conc_lastplayerstatus = false; });
+  }
+  else
+  {
+    conc_lastplayerstatus = applemusic.player.isPlaying;
+  }
+}
+
+// play recording
+
 conc_appleplay = function (tracks, offset)
 {
-  applemusic.player.pause();
+  applemusic.player.stop();
   applemusic.setQueue({
     songs: tracks
   }).then(function () {
+    $(".slider").find('.bar').css('width', '0%');
+    $(".timer").html('0:00');
     applemusic.changeToMediaAtIndex(offset)
   });
 

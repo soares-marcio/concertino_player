@@ -56,7 +56,7 @@
 .select2-dropdown {
   color: white;
   font-size: 12px;
-  font-family: Sanchez, TimesNewRoman, serif;
+  font-family: 'Nunito', sans-serif;
   font-weight: normal;
   background-color: rgba(58, 58, 58, 0.9);
 
@@ -160,7 +160,7 @@ border-radius: 4px;*/
     -webkit-appearance: none;
     color: #717171;
     background-color: #121212;
-    font-family: Sanchez, TimesNewRoman, serif;
+    font-family: 'Nunito', sans-serif;
     font-weight: normal;
     margin-top: -7px;
     padding-left: 19px;
@@ -186,7 +186,7 @@ border-radius: 4px;*/
 
 .select2-container--classic .select2-selection--single .select2-selection__rendered {
 
-  font-family: Sanchez, TimesNewRoman, serif;
+  font-family: 'Nunito', sans-serif;
 font-size: 12px;
 color: #FFF;
   line-height: 1;
@@ -340,7 +340,7 @@ color: #FFF;
 .select2-container--default .select2-search--dropdown .select2-search__field {
   border: 1px solid #3a3a3a;
   font-size: 12px;
-  font-family: Sanchez, TimesNewRoman, serif;
+  font-family: 'Nunito', sans-serif;
   font-weight: normal;
  }
 
