@@ -59,7 +59,7 @@
   font-family: 'Nunito', sans-serif;
   font-weight: normal;
   background-color: rgba(58, 58, 58, 0.9);
-
+  border-radius: 10px;
   /*border: 1px solid #aaa;
   border-radius: 4px;
   box-sizing: border-box;*/
@@ -67,7 +67,8 @@
   position: absolute;
   left: -100000px;
   width: 100%;
-  z-index: 1051; }
+  z-index: 1051;
+margin-top: 6px; }
 
 #playlistmodal .select2-dropdown {
     color: white;
@@ -88,6 +89,7 @@
   user-select: none;
   -webkit-user-select: none; }
   .select2-results__option[aria-selected] {
+    border-radius: 10px;
     cursor: pointer; }
 
 .select2-container--open .select2-dropdown {
@@ -97,11 +99,6 @@
   border-bottom: none;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0; }
-
-.select2-container--open .select2-dropdown--below {
-  border-top: none;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0; }
 
 .select2-search--dropdown {
   display: block;
@@ -174,6 +171,7 @@ border-radius: 4px;*/
     background: url(../../../img/comboarrow.png) no-repeat 94% #3A3A3A;
     background-size: 12px 10px;
     height: 24px;
+    border-radius: 10px;
      }
 
     #library .select2-container--classic {
@@ -385,8 +383,9 @@ color: #FFF;
             padding-left: 6em; }
 
 .select2-container .select2-results__option--highlighted[aria-selected] {
-  background-color: #9a9a9a;
-  color: black; }
+  background-color: #4F4F4F;
+  color: #FE365E;
+font-weight: 800; }
 
 .select2-container .select2-results__group {
   cursor: default;
