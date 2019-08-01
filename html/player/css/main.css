@@ -551,7 +551,7 @@ h2
 {
 	width: 0px;
 	height: 4px;
-	background-color: #FFF;
+	background-color: #FE365E;
 	position: relative;
 	bottom: 4px;
 }
@@ -603,6 +603,7 @@ h2
 	height: 72px;
 	float: left;
 	margin-right: 12px;
+	border-radius: 10px;
 }
 
 #favorites .cover a:hover img
@@ -650,7 +651,7 @@ h2
 	left: 28px;
 	width: 24px;
 	height: 27px;
-	background-image: url("../img/play_fav.png");
+	background-image: url("../img/play.png");
 	background-size: 24px 27px;
 	background-repeat: no-repeat;
 	z-index: 9000;
@@ -1024,7 +1025,7 @@ h2
 #editplaylist
 {
 	background-repeat: no-repeat;
-	width: 22px;
+	width: 27px;
 	height: 19px;
 	text-indent: -9000px;
 	overflow: hidden;
@@ -1114,14 +1115,14 @@ h2
 	display: block;
 	position: absolute;
 	right: 0px;
-	bottom: 6px;
+	bottom: 7px;
 	background-image: url("../img/radio.png");
 	background-size: 18px;
 }
 
 #composers .radio a:hover, #genres .radio:hover, #favradio:hover
 {
-	background-image: url("../img/radio_on.png");
+	background-image: url("../img/radio_top.png");
 }
 
 #genres .radio
@@ -1583,7 +1584,7 @@ h2
 
 #albums li.performance li.cover a:hover img
 {
-	opacity: 0.4;
+	opacity: 0.3;
 }
 
 #albums li.performance li.cover .overlay
@@ -1593,7 +1594,7 @@ h2
 	left: 42px;
 	width: 24px;
 	height: 27px;
-	background-image: url("../img/play_fav.png");
+	background-image: url("../img/play.png");
 	background-size: 24px 27px;
 	background-repeat: no-repeat;
 	z-index: 9000;
@@ -2020,6 +2021,8 @@ body.windows #radiotop a
 	padding: 4px 12px;
 	background: #FE365E;
 	display: none;
+	border-bottom-left-radius: 14px;
+    border-bottom-right-radius: 14px;
 }
 
 #tuning-modal h2
@@ -2032,11 +2035,11 @@ body.windows #radiotop a
 
 #tuning-modal h2 span
 {
-	font-size: 12px;
-	color: #000;
-	position: relative;
-	top: 9px;
-	left: 39px;
+	font-size: 13px;
+    color: #000;
+    position: relative;
+    top: 5px;
+    left: 41px;
 }
 
 @-webkit-keyframes play {
@@ -2378,15 +2381,15 @@ select:focus
 	display: none;
 	position: absolute;
     left: 223px;
-    top: 12px;
+    top: 9px;
     font-family: 'Nunito', sans-serif;
-	font-size: 10px;
+	font-size: 11px;
 	background-image: url(../img/update.png);
 	background-repeat: no-repeat;
     width: 200px;
     height: 14px;
 	background-size: 14px;
-	padding: 2px 20px;
+	padding: 0px 20px;
 }
 
 #permalink-widget {
