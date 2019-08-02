@@ -543,7 +543,7 @@ h2
 	height: 4px;
 	background-color: #121212;
 	float: left;
-	margin-top: 12px;
+	margin-top: 15px;
 	margin-bottom: 24px;
 }
 
@@ -1950,29 +1950,6 @@ body.windows #windowcontrol
 	color: #8F8F8F;
 }
 
-#spotifystatus #spoticon
-{
-	background-size: 18px;
-	background-repeat: no-repeat;
-	width: 22px;
-	height: 22px;
-	margin-top: 1px;
-	float: left;
-	text-indent: -9000px;
-	overflow: hidden;
-	margin-right: 5px;
-}
-
-#spotifystatus #spoticon.off
-{
-	background-image: url("../img/spotify_off.png");
-}
-
-#spotifystatus #spoticon.on
-{
-	background-image: url("../img/spotify_on.png");
-}
-
 #radiotop #smartradio
 {
 	background: url(../img/smartradio.png) 7px no-repeat #042E16;
@@ -2158,14 +2135,9 @@ body.windows #editplaylistmodal a.actionbutton, body.windows #unsubscribemodal a
 	color: #000000;
 }
 
-.modal h3.smartradio, .modal h3.spotifyconnection
+.modal h3.smartradio
 {
 	margin-top: 24px;
-}
-
-.modal h3.spotifyconnection
-{
-	margin-bottom: 8px;
 }
 
 .modal h4
@@ -2223,27 +2195,6 @@ body.windows .modal h4
 	text-align: center;
 	font-size: 12px;
 	height: 20px;
-}
-
-.modal ul.connected li.rdio
-{
-	background-image: url("../img/rdio.png");
-	background-position: 64px;
-	background-size: 80px auto;
-}
-
-.modal ul.connected li.deezer
-{
-	background-image: url("../img/deezer.png");
-	background-position: 46px;
-	background-size: 110px auto;
-}
-
-.modal ul.connected li.spotify
-{
-	background-image: url("../img/spotify.png");
-	background-position: 46px;
-	background-size: 110px auto;
 }
 
 .modal ul.connected .radio
@@ -2452,21 +2403,17 @@ li.loading {
 	width: 350px;
 	padding: 9px;
 	margin: 34px 0;
-	border: 1px solid #7C726E;
 	font-family: 'Barlow', sans-serif;
-	color: #7C726E;
+	color: #C4C4C4;
 	font-weight: normal;
 	font-size: 9px;
 	background: url(../img/toggle_down.png) no-repeat top 12px right 10px;
-  background-size: 15px;
+	background-size: 15px;
+  	background-color: #ACACAC44;
 }
 
 #playerverify.opened {
 	background-image: url(../img/toggle_up.png);
-}
-
-#playerverify.loading, #playerverify.reported {
-	background: none;
 }
 
 #playerverify li.verified, #playerverify li.notverified {
@@ -2474,18 +2421,19 @@ li.loading {
 	padding-right: 17px;
 	background-repeat: no-repeat;
 	background-size: 18px;
+	background-position-y: 3px;
 }
 
 #playerverify li.verified a, #playerverify li.notverified a, #playerverify li.perform a, #playerverify li.versionform a {
-	color: #7C726E;
+	color: #C4C4C4;
 }
 
 #playerverify li.verified a:hover, #playerverify li.notverified a:hover, #playerverify li.perform a:hover, #playerverify li.versionform a:hover {
-	color: #918C8A;
+	color: #FFFFFF;
 }
 
 #playerverify li.verified {
-	background-image: url("../img/verified_on.png");
+	background-image: url("../img/verified_off.png");
 }
 
 #playerverify li.notverified {
@@ -2493,7 +2441,6 @@ li.loading {
 }
 
 #playerverify li.button {
-	font-family: 'Nunito', sans-serif;
 	color: #7C726E;
 	padding-left: 28px;
 	margin: 6px;
@@ -2506,14 +2453,19 @@ li.loading {
 }
 
 #playerverify li.button strong {
+	font-family: 'Nunito', sans-serif;
 	display: block;
 	clear: right;
 	font-weight: 600;
     font-size: 12px;
 }
 
+#playerverify li.button a {
+	color: #C4C4C4;
+}
+
 #playerverify li.button a:hover {
-	color: #7C726E;
+	color: #FFFFFF;
 }
 
 #playerverify li.button.verify {
@@ -2569,8 +2521,8 @@ li.loading {
 }
 
 #playerverify li.tagloading {
-	background: url(/img/spinner-gr.svg) no-repeat center;
-	background-size: 40px;
+	background: url(/img/spinner-wt.svg) no-repeat center;
+	background-size: 32px;
 	height: 20px;
 	margin: 0px;
 	text-indent: -9000px;
@@ -2643,7 +2595,7 @@ li.loading {
 #playerverify a.submit {
 	font-family: 'Nunito', sans-serif;
     font-size: 10px;
-    background-color: #7C726E;
+    background-color: #2b2b2f;
     border-radius: 10px;
     width: 50px;
     display: block;
@@ -2663,8 +2615,8 @@ li.loading {
 	display: none;
 }
 
-.spotify a {
-	background: url(/img/spotifyi.png) no-repeat;
+.apple a {
+	background: url(/img/appleicon.svg) no-repeat;
 	background-size: 10px;
 	height: 10px;
 	height: 14px;
@@ -2675,11 +2627,11 @@ li.loading {
 	display: block;
 }
 
-li.spotify  {
+li.apple  {
 	display: none;
 }
 
-#playerinfo li.spotify  {
+#playerinfo li.apple  {
 	display: block;
 }
 

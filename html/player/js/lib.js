@@ -41,7 +41,8 @@ conc_options = {
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
     spot_redir: 'https://' + window.location.hostname +'/sp/',
-    version: '1.19.07.13'
+    version: '1.19.07.13',
+    minutesDRM: 2
 };
 
 window.onpopstate = function (event) {
@@ -105,6 +106,7 @@ conc_appleauth = function () {
             applemusic.addEventListener('playbackStateDidChange', function () { conc_state (applemusic.player.playbackState); });
             
             applechecking = setInterval(conc_checkplayer, 150000);
+            reauth = setInterval(function () { applemusic.authorize (); }, 5 * 60 * 1000);
 
             $('#loader').fadeOut();
           }
@@ -122,7 +124,7 @@ conc_toggleplay = function ()
 {
   if (applemusic.player.queue.isEmpty || (applemusic.player.playbackState == 10 && applemusic.player.queue.nextPlayableItemIndex == undefined))
   {
-    conc_appleplay (conc_playbuffer.tracks, 0)
+    conc_appleplay (conc_playbuffer.tracks, 0);
   }
   else
   {
@@ -204,6 +206,13 @@ conc_slider = function (arg)
     $("#timer-"+arg.id).html(conc_readabletime(arg.position));
     $("#slider-"+arg.id).find('.bar').css('width', (100*arg.position/arg.duration) + '%');
     $("#globalslider-"+arg.id).find('.bar').css('width', (100*arg.position/arg.duration) + '%');
+
+    /*if (arg.position == conc_options.minutesDRM * 60)
+    {
+      applemusic.stop();  
+      applemusic.play();
+      applemusic.seekToTime ((conc_options.minutesDRM * 60)) + 1;
+    }*/
   }
 }
 
@@ -736,7 +745,7 @@ conc_recordingaction = function (list, auto)
       $('#playerinfo').html(conc_recordingitem(list.recording, list.work));
 
       verify = '<li class="notverified"><a href="javascript:conc_qualify()">This recording was fetched automatically with no human verification. Is everything right? Click here and help us to improve our data.</a></li>';
-      verify += '<li class="verified"><a href="javascript:conc_qualify()">This recording was verified by a human and its metadata was considered right. Disagree? Click here and help us to improve our data.</a></li>';
+      verify += '<li class="verified"><a href="javascript:conc_qualify()">This recording was verified by a human and its metadata were considered right. Disagree? Click here and help us to improve our data.</a></li>';
       verify += '<li class="report">Thanks for reporting. This recording will be excluded from our database.</li>';
       
       pform = [];
@@ -748,9 +757,9 @@ conc_recordingaction = function (list, auto)
       verify += '<li class="versionform"><a href="javascript:conc_editobs();conc_qualify();">Thanks for your help! Specify below which version of the work this recording uses, including instrumentation and author, if not the composer</a><textarea>'+list.work.subtitle+'</textarea><a class="submit" href="javascript:conc_submitobs(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ')">Done</a></li>';
 
       verify += '<li class="tagloading">loading</li>';
-      verify += '<li class="button verify"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'verified\',1)"><strong>Everything OK!</strong>Metadata is correct and the recording is complete</a></li>';
+      verify += '<li class="button verify"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'verified\',1)"><strong>Everything OK!</strong>Metadata are correct and the recording is complete</a></li>';
       verify += '<li class="button edit"><a href="javascript:conc_editperformers()"><strong>Complete but missing information</strong>Recording is complete but data on performers is lacking</a></li>';
-      verify += '<li class="button partial"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'compilation\',1)"><strong>Correct but incomplete</strong>Metadata is right but the recording is partial/missing movements</a></li>';
+      verify += '<li class="button partial"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'compilation\',1)"><strong>Correct but incomplete</strong>Metadata are correct but the recording is missing movements</a></li>';
       verify += '<li class="button version"><a href="javascript:conc_editobs()"><strong>Correct but a different version</strong>Not the original work - it\'s an arrangement or adaptation</a></li>';
       
       verify += '<li class="button wrongdata"><a href="javascript:conc_rectag(' + list.work.id + ',\'' + list.recording.apple_albumid + '\',' + list.recording.set + ',\'wrongdata\',1)"><strong>Wrong work</strong>The description doesn\'t match the recording</a></li>';
@@ -911,17 +920,17 @@ conc_recordingitem = function (item, work, playlist)
   alb = alb + '<li class="work"><a href="javascript:conc_recordingsbywork(' + work.id + ',0)">' + work.title +'<span>' + work.subtitle + '</span></a></li>';
   if (item.observation) alb = alb + '<li class="version">' + item.observation + '</li>';
 
-  var spotify_link = 'http://open.spotify.com/album/' + item.apple_albumid;
+  var apple_link = 'https://geo.music.apple.com/us/album/-/' + item.apple_albumid;
 
-  if (typeof item.spotify_tracks !== 'undefined') {
-    if (item.spotify_tracks.length == 1) {
-      spotify_link = 'http://open.spotify.com/track/' + item.spotify_tracks[0].replace ("spotify:track:", "");
+  if (typeof item.apple_tracks !== 'undefined') {
+    if (item.apple_tracks.length == 1) {
+      apple_link = apple_link + '?i=' + item.apple_tracks[0];
     }
   }
 
   alb = alb + '<li class="performers"><ul>' + conc_listperformers(item.performers) + '</ul></li>';
   alb = alb + '<li class="label">'+item.label+'</li>';
-  alb = alb + '<li class="spotify"><a href="' + spotify_link + '" target="_blank">Listen on Spotify</a></li>';
+  alb = alb + '<li class="apple"><a href="' + apple_link + '" target="_blank">Listen on Apple Music</a></li>';
 
   return alb;
 }
