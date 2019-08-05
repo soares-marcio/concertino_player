@@ -545,6 +545,7 @@ h2
 	float: left;
 	margin-top: 15px;
 	margin-bottom: 24px;
+	border-radius: 2px;
 }
 
 #playertracks .bar
@@ -554,6 +555,7 @@ h2
 	background-color: #FE365E;
 	position: relative;
 	bottom: 4px;
+	border-radius: 2px;
 }
 
 #playertracks .buffer
@@ -869,6 +871,7 @@ h2
 	background-color: #FE365E;
 	position: relative;
 	bottom: 4px;
+	border-radius: 2px;
 }
 
 #playercontrols #globaltracks .buffer
@@ -1537,7 +1540,7 @@ h2
 
 #albums li.performance.verified
 {
-	background-image: url("../img/verified_on.png");
+	background-image: url("../img/verified_off.png");
 	background-position: right 10px top 10px;
 	background-repeat: no-repeat;
 	background-size: 18px;

@@ -29,6 +29,8 @@ conc_radioqueue = [];
 conc_radiofilter = {};
 conc_disabled = false;
 conc_lastplayerstatus = false;
+conc_seek = 0;
+conc_seekto = 0;
 
 conc_options = {
     historical: JSON.parse(localStorage.confighistorical),
@@ -42,7 +44,7 @@ conc_options = {
     notshow: false,
     spot_redir: 'https://' + window.location.hostname +'/sp/',
     version: '1.19.07.13',
-    minutesDRM: 2
+    secondsEMEcert: 12 * 60
 };
 
 window.onpopstate = function (event) {
@@ -104,10 +106,18 @@ conc_appleauth = function () {
   
             applemusic.addEventListener('playbackTimeDidChange', function () { conc_slider ({id: (applemusic.player.nowPlayingItem ? applemusic.player.nowPlayingItem.id : 0), duration: applemusic.player.currentPlaybackDuration, position: applemusic.player.currentPlaybackTime }); });
             applemusic.addEventListener('playbackStateDidChange', function () { conc_state (applemusic.player.playbackState); });
-            
-            applechecking = setInterval(conc_checkplayer, 150000);
-            reauth = setInterval(function () { applemusic.authorize (); }, 5 * 60 * 1000);
+            applemusic.addEventListener('mediaCanPlay', function () { 
+              console.log (conc_seek);
+              if (conc_seek) {
+                applemusic.player.volume = 0;
+                conc_seekto = conc_seek;
+                conc_seek = 0;
+                setTimeout (function () { applemusic.player.seekToTime (conc_seekto+1).then(function () { applemusic.player.volume = 1; }); }, 5000);
+              } 
+            });
 
+            applechecking = setInterval(conc_checkplayer, 150000);
+            
             $('#loader').fadeOut();
           }
           else
@@ -155,25 +165,36 @@ conc_prevtrack = function ()
 
 conc_track = function (offset)
 {
-  applemusic.player.changeToMediaAtIndex (offset);
+  if (applemusic.player.queue.length) {
+    applemusic.player.changeToMediaAtIndex (offset);
+  }
+  else {
+    conc_appleplay (conc_playbuffer.tracks, offset);
+  }
 }
 
 // player state
 
 conc_state = function (state)
 {
-  console.log("state: " + state);
-
   switch (state)
   {
     case 1:
     case 6:
     case 8:
     case 9:
+    case 1800:
         $('#playpause').attr("class", "loading");
+        if (state == 1800 && conc_prevstate == 2 && !conc_seek) {
+          conc_seek = applemusic.player.currentPlaybackTime;
+          conc_appleplay (conc_playbuffer.tracks, applemusic.player.nowPlayingItemIndex);
+        }
+        if (state == 6) conc_seekto = 0;
       break;
     case 2:
-        $('#playpause').attr("class", "pause");
+        if (!conc_seekto) {
+          $('#playpause').attr("class", "pause");
+        }
       break;
     case 3:
         $('#playpause').attr("class", "play");
@@ -188,6 +209,8 @@ conc_state = function (state)
         if (state == 10) conc_radioskip();
       break;
   }
+
+  conc_prevstate = state;
 }
 
 // player slider
@@ -200,19 +223,17 @@ conc_slider = function (arg)
     $("#slider-"+arg.id).find('.bar').css('width', '0%');
     $("#globalslider-"+arg.id).find('.bar').css('width', '0%');
   }
-  else
+  else if (!conc_seekto && !conc_seek)
   {
     $("#timerglobal").html(conc_readabletime(conc_playbuffer.accdurations[conc_playbuffer.tracks.indexOf(arg.id)] + arg.position));
     $("#timer-"+arg.id).html(conc_readabletime(arg.position));
     $("#slider-"+arg.id).find('.bar').css('width', (100*arg.position/arg.duration) + '%');
     $("#globalslider-"+arg.id).find('.bar').css('width', (100*arg.position/arg.duration) + '%');
 
-    /*if (arg.position == conc_options.minutesDRM * 60)
-    {
-      applemusic.stop();  
-      applemusic.play();
-      applemusic.seekToTime ((conc_options.minutesDRM * 60)) + 1;
-    }*/
+    if (arg.position != 0 && (arg.position % conc_options.secondsEMEcert) === 0) {
+      conc_seek = arg.position;
+      conc_appleplay (conc_playbuffer.tracks, applemusic.player.nowPlayingItemIndex);
+    }
   }
 }
 
@@ -747,7 +768,7 @@ conc_recordingaction = function (list, auto)
       verify = '<li class="notverified"><a href="javascript:conc_qualify()">This recording was fetched automatically with no human verification. Is everything right? Click here and help us to improve our data.</a></li>';
       verify += '<li class="verified"><a href="javascript:conc_qualify()">This recording was verified by a human and its metadata were considered right. Disagree? Click here and help us to improve our data.</a></li>';
       verify += '<li class="report">Thanks for reporting. This recording will be excluded from our database.</li>';
-      
+
       pform = [];
       for (i in list.recording.performers) {
         pform.push (list.recording.performers[i].name + (list.recording.performers[i].role != '' && list.recording.performers[i].role != 'Orchestra' && list.recording.performers[i].role != 'Ensemble' && list.recording.performers[i].role != 'Choir' ? ', ' + list.recording.performers[i].role : ''));
@@ -861,13 +882,15 @@ conc_checkplayer = function ()
 
 conc_appleplay = function (tracks, offset)
 {
-  applemusic.player.stop();
+  //applemusic.player.stop();
   applemusic.setQueue({
     songs: tracks
   }).then(function () {
-    $(".slider").find('.bar').css('width', '0%');
-    $(".timer").html('0:00');
-    applemusic.changeToMediaAtIndex(offset)
+    if (!conc_seek && !conc_seekto) { 
+      $(".slider").find('.bar').css('width', '0%');
+      $(".timer").html('0:00');
+    }
+    applemusic.changeToMediaAtIndex(offset);
   });
 
   $('#tuning-modal').closeModal();
