@@ -1,4 +1,4 @@
-const cacheName = '1.19.07.31';
+const cacheName = '1.19.08';
 const precacheResources = [
     '/css/main.css',
     '/css/toggles-full.css',

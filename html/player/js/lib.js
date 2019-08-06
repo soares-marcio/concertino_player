@@ -43,7 +43,7 @@ conc_options = {
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
     spot_redir: 'https://' + window.location.hostname +'/sp/',
-    version: '1.19.07.13',
+    version: '1.19.08',
     secondsEMEcert: 12 * 60
 };
 
