@@ -26,7 +26,15 @@
                 }
             });
             $( document ).ready(function() {
-                conc_appleauth();
+                setTimeout (function () {
+                    if (localStorage.user_type == 'applemusic') { 
+                        conc_appleauth();
+                    } else if (localStorage.user_type == 'guest') {
+                        conc_guestauth()
+                    } else { 
+                        $('#loader-loading').hide(0, function () { $('#loader-options').show(); });
+                    }
+                }, 2 * 1000);
             });
         });
     </script>
@@ -43,7 +51,11 @@
             <h1>Logo</h1>
             <h2>Concertino</h2>
             <h3 id="version"></h3>
-            <h4>Loading<span class="blink">...</span></h4>
+            <h4 id="loader-loading">Loading<span class="blink">...</span></h4>
+            <ul id="loader-options">
+                <li><a href="javascript:conc_appleauth()">Log in to Apple Music</a></li>
+                <li><a href="javascript:conc_guestauth()">Guest access<span>Just browsing, no playback</span></a></li>
+            </ul>
             <p>&copy; <span id="year"></span> Open Opus. All rights reserved.</p>
         </div>
     </div>
@@ -211,12 +223,16 @@
     </div>
     <div id="playlistmodal" class="modal">
         <h2>Playlist</h2>
-        <h3>Existing playlist</h3>
-        <h4>Add this recording to a an existing playlist</h4>
-        <select id="existingplaylist"></select>
-        <h3>New playlist</h3>
-        <h4>Create a new playlist and add this recording to it</h4>
-        <input type="text" id="newplaylist" />
+        <div id="playlistmodal-new">
+            <h3>New playlist</h3>
+            <h4>Create a new playlist and add this recording to it</h4>
+            <input type="text" id="newplaylist" />
+        </div>
+        <div id="playlistmodal-existing">
+            <h3>Existing playlist</h3>
+            <h4>Add this recording to a an existing playlist</h4>
+            <select id="existingplaylist"></select>
+        </div>
         <a href="javascript:conc_addtoplaylist()">Add</a>
         <a href="javascript:$('#playlistmodal').closeModal()">Cancel</a>
     </div>
@@ -299,6 +315,9 @@
             $('#worksearch').keyup(function () { conc_worksbysearch(localStorage.lastcomposerid, localStorage.lastgenre, $('#worksearch').val()); });
             $('#library .periods').change(function () { conc_composersbyepoch($('#library .periods').val()); });
             $('#favtitle select').change(function () { conc_playlist($('#favtitle select').val()); });
+            $('#existingplaylist').change(function () { if ($('#existingplaylist').val() == "0") { $('#playlistmodal-new').fadeTo(100,1); } else { $('#playlistmodal-new').fadeTo(100,0.2); } });
+            $('#newplaylist').keyup(function () { if ($('#newplaylist').val()) { $('#playlistmodal-existing').fadeTo(100,0.2); } else { $('#playlistmodal-existing').fadeTo(100,1); } });
+            
 
     </script>
     <script type="text/javascript">

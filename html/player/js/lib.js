@@ -59,9 +59,9 @@ window.onpopstate = function (event) {
   }
 };
 
-// apple music auth
+// common auth
 
-conc_appleauth = function () {
+conc_commonauth = function () {
 
   // treating urls
 
@@ -76,6 +76,45 @@ conc_appleauth = function () {
       conc_playlistdetail(parseInt(vars[2], 16));
     }
   }
+
+}
+
+// guest auth
+
+conc_guestauth = function () {
+
+  conc_disabled = true;
+  conc_disabledreason = "premiumneeded";
+
+  conc_commonauth ();
+
+  $.ajax ({
+    url: conc_options.backend + '/dyn/user/login/',
+    method: "POST",
+    data: { auth: conc_authgen(), id: localStorage.user_id, recid: 'guest-' + ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)) },
+    success: function(response)
+    {
+      if (response.status.success == "true")
+      {
+        localStorage.user_id = response.user.id;
+        localStorage.user_type = 'guest';
+        if (response.user.auth) localStorage.user_auth = response.user.auth;
+
+        conc_init();
+        if (localStorage.lastwid) {
+          conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, true);
+        }
+        $('#loader').fadeOut();
+      }
+    }
+  });
+}
+
+// apple music auth
+
+conc_appleauth = function () {
+
+  conc_commonauth ();
 
   // apple music login
 
@@ -94,6 +133,10 @@ conc_appleauth = function () {
         {
           if (response.status.success == "true")
           {
+            conc_disabled = false;
+            conc_disabledreason = "";
+
+            localStorage.user_type = 'applemusic';
             localStorage.user_id = response.user.id;
             if (response.user.auth) localStorage.user_auth = response.user.auth;
   
@@ -107,7 +150,7 @@ conc_appleauth = function () {
             applemusic.addEventListener('playbackTimeDidChange', function () { conc_slider ({id: (applemusic.player.nowPlayingItem ? applemusic.player.nowPlayingItem.id : 0), duration: applemusic.player.currentPlaybackDuration, position: applemusic.player.currentPlaybackTime }); });
             applemusic.addEventListener('playbackStateDidChange', function () { conc_state (applemusic.player.playbackState); });
             applemusic.addEventListener('mediaCanPlay', function () { 
-              console.log (conc_seek);
+              //console.log (conc_seek);
               if (conc_seek) {
                 applemusic.player.volume = 0;
                 conc_seekto = conc_seek;
@@ -828,7 +871,6 @@ conc_recordingaction = function (list, auto)
       $(".timer").html('0:00');
 
       if (!auto) {
-        conc_notification(list.work.title, list.recording.cover, list.work.composer.name);
         conc_appleplay(list.recording.apple_tracks, 0);
 
         // registering play
@@ -882,16 +924,24 @@ conc_checkplayer = function ()
 
 conc_appleplay = function (tracks, offset)
 {
-  //applemusic.player.stop();
+  if (conc_disabled) {
+    $('#tuning-modal').hide();
+    $(`#${conc_disabledreason}`).leanModal();
+    return;
+  }
+
+  if (applemusic.player.isPlaying) applemusic.player.stop();
   applemusic.setQueue({
     songs: tracks
   }).then(function () {
     if (!conc_seek && !conc_seekto) { 
       $(".slider").find('.bar').css('width', '0%');
       $(".timer").html('0:00');
+      conc_notification($('#nowplaying li.work a').html().split("<")[0], $('#nowplaying li.cover a img')[0].currentSrc, $('#nowplaying li.composer a').html());
     }
     applemusic.changeToMediaAtIndex(offset);
-  });
+    
+  }).catch(function () { conc_notavailable (); });
 
   $('#tuning-modal').closeModal();
 }
@@ -1023,8 +1073,11 @@ conc_notavailable = function () {
     conc_radioskip();
   }
   else {
-    $('#tuning-modal').hide();
-    $("#notavailable").leanModal();
+    applemusic.setQueue({
+      songs: []
+    }).then (function () {
+      $('#tuning-modal').hide(0, function () { $("#notavailable").leanModal(); });
+    });
   }
 }
 
@@ -1490,11 +1543,11 @@ conc_playlistmodal = function (wid, aid, set) {
   window.playlistwid = wid;
   window.playlistaid = aid;
   window.playlistset = set;
-  $('#tuning-modal').hide();
-  $("#playlistmodal").leanModal();
+  $('#tuning-modal').hide(0, function () { $("#playlistmodal").leanModal(); });
 }
 
 conc_addtoplaylist = function () {
+
   if ($('#playlistmodal #newplaylist').val() != "") {
     conc_playlistperformance(window.playlistwid, window.playlistaid, window.playlistset, 'new', $('#playlistmodal #newplaylist').val(), 1);
   }
@@ -1521,6 +1574,8 @@ conc_playlistperformance = function (wid, aid, set, pid, name) {
             conc_playlists = (response.list ? response.list : {});
             conc_playlist(response.playlist.id);
             $('#playlistmodal').closeModal();
+            $('#playlistmodal-existing').fadeTo(0,1);
+            $('#playlistmodal-new').fadeTo(0,1);
           }
         }
       });

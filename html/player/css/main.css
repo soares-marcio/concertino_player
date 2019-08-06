@@ -1305,6 +1305,7 @@ h2
 {
 	width: 330px;
 	padding-right: 158px;
+	border-radius: 12px;
 }
 
 #genresworks h2 a
@@ -2383,9 +2384,13 @@ select:focus
 	border-radius: 30px;
 }
 
+#premiumneeded p {
+	font-size: 16px;
+}
+
 .modal p.modaldetails {
     padding-top: 0px;
-    font-size: 14px;
+    font-size: 14px !important;
 }
 
 #playlistdetail, #playlistradio {
@@ -2700,4 +2705,29 @@ li.emptylist p {
 #genresworks h4 {
 	font-size: 12px;
   margin-top: 2px;
+}
+
+#loader-options {
+	display: none;
+	margin: 44px 25px 22px;
+}
+
+#loader-options li a {
+	display: block;
+    background-color: #2B2B2F;
+    border-radius: 20px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 14px;
+	padding: 10px;
+}
+
+#loader-options li a:hover {
+	background-color: #FE365F;
+}
+
+#loader-options li a span {
+    font-size: 9px;
+    display: block;
+	margin-top: 4px;
 }
