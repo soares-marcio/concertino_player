@@ -97,7 +97,16 @@ recording = function (response) {
     albp = albp + albo + albor + albc;
     alb = alb + '<li class="performers"><ul>' + albp + '</ul></li>';
     alb = alb + '<li class="label">' + response.recording.label.replace(/\'/gi, '') + '</li>';
-    alb = alb + '<li class="spotify"><a href="http://open.spotify.com/album/' + response.recording.apple_albumid + '" target="_blank">Listen on Spotify</a></li>';
+    
+    var apple_link = 'https://geo.music.apple.com/us/album/-/' + response.recording.apple_albumid;
+
+    if (typeof response.recording.apple_tracks !== 'undefined') {
+        if (response.recording.apple_tracks.length == 1) {
+            apple_link = apple_link + '?i=' + response.recording.apple_tracks[0];
+        }
+    }
+
+    alb = alb + '<li class="apple"><a href="' + apple_link + '" target="_blank">Listen on Apple Music</a></li>';
 
     $('#playerinfo').html(alb);
     $('#durationglobal').html(readabletime (response.recording.length));

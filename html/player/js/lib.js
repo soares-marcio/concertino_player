@@ -42,7 +42,6 @@ conc_options = {
     shareurl: 'https://conc.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'me'),
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
-    spot_redir: 'https://' + window.location.hostname +'/sp/',
     version: '1.19.08',
     secondsEMEcert: 12 * 60
 };
@@ -937,7 +936,7 @@ conc_appleplay = function (tracks, offset)
     if (!conc_seek && !conc_seekto) { 
       $(".slider").find('.bar').css('width', '0%');
       $(".timer").html('0:00');
-      conc_notification($('#nowplaying li.work a').html().split("<")[0], $('#nowplaying li.cover a img')[0].currentSrc, $('#nowplaying li.composer a').html());
+      if (conc_onair) conc_notification($('#nowplaying li.work a').html().split("<")[0], $('#nowplaying li.cover a img')[0].currentSrc, $('#nowplaying li.composer a').html());
     }
     applemusic.changeToMediaAtIndex(offset);
     
@@ -1928,7 +1927,7 @@ conc_permalink = function (wid, aid, set) {
     success: function (response) {
       permauri = conc_options.shareurl + '/r/' + (Number(response.recording.id)).toString(16);
       $('#permalink-direct').val(permauri);
-      $('#permalink-widget').text(`<iframe src="${permauri}/widget" width="593" height="430" frameborder="0"></iframe>`);
+      $('#permalink-widget').text(`<iframe src="${permauri}/widget" width="593" height="420" frameborder="0" style="border-radius:24px"></iframe>`);
       $('#permalink-modal').leanModal();
     }
   });
