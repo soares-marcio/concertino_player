@@ -3,7 +3,7 @@
 <head>
     <title>Concertino</title>
     <link rel="manifest" href="/manifest.json">
-    <script type="text/javascript" src="/js/ua-parser-min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="/js/jquery.mousewheel.js"></script>
     <script type="text/javascript" src="/js/jquery.leanModal.min.js"></script>
@@ -13,7 +13,6 @@
     <script src="/js/select2/js/select2.js"></script>
     <script src="/js/js-md5.js"></script>
     <script type="text/javascript" src="/js/lib.js"></script>
-    <!--script type="text/javascript" src="/js/applemusic.js"></script-->
     <script src="https://js-cdn.music.apple.com/musickit/v1/musickit.js"></script>
 
     <script>
@@ -41,8 +40,9 @@
 
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css?family=Barlow:400,600|Nunito:400,800&display=swap');
-        @import url("/css/main.css");
-        @import url("/css/toggles-full.css");
+        @import "/css/main.css" screen and (min-width: 480px);
+        @import "/css/toggles-full.css" screen and (min-width: 480px);
+        @import "/css/mobile.css" screen and (max-width: 480px);
     </style>
 </head>
 <body>

@@ -39,7 +39,7 @@ conc_options = {
     backend: 'https://api.' + window.location.hostname,
     opusbackend: 'https://api.openopus.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'org'),
     publicsite: 'https://getconcertino.com',
-    shareurl: 'https://conc.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'me'),
+    shareurl: 'https://cncert.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'in'),
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
     version: '1.19.08',
@@ -100,10 +100,6 @@ conc_guestauth = function () {
         if (response.user.auth) localStorage.user_auth = response.user.auth;
 
         conc_init();
-        if (localStorage.lastwid) {
-          conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, true);
-        }
-        $('#loader').fadeOut();
       }
     }
   });
@@ -895,11 +891,11 @@ conc_playingdetails = function ()
 {
     if (document.getElementById('nowplaying').className == 'up')
     {
-        document.getElementById('nowplaying').className = 'down';
+      $('#nowplaying, #favorites, #player').attr('class', 'down');
     }
     else
     {
-        document.getElementById('nowplaying').className = 'up';
+      $('#nowplaying, #favorites, #player').attr('class', 'up');
     }
 }
 
@@ -954,35 +950,6 @@ conc_recordingitem = function (item, work, playlist)
   if (typeof item.observation === 'undefined') item.observation = '';
 
   alb = '';
-  alb = alb + '<li class="permalink"><a href="javascript:conc_permalink(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')">permalink</a></li>';
-  
-  rid = work.id + '-' + item.apple_albumid + '-' + item.set;
-
-  if ($.inArray(rid, conc_favorites) != -1)
-  {
-    alb = alb + '<li class="favorite"><a href="javascript:conc_recfavorite(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')" class="is fav_' + rid + '">unfavorite</a></li>';
-  }
-  else
-  {
-    alb = alb + '<li class="favorite"><a href="javascript:conc_recfavorite(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')" class="go fav_' + rid + '">favorite</a></li>';
-  }
-
-  if (playlist) {
-    if (playlist.owner.id == localStorage.user_id) {
-      plaction = 'unplaylist';
-      plfunction = 'conc_unplaylistperformance(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ',' + playlist.id + ')';
-    }
-    else {
-      plaction = 'doplaylist';
-      plfunction = 'conc_playlistmodal(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')';
-    }
-  }
-  else {
-    plaction = 'doplaylist';
-    plfunction = 'conc_playlistmodal(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')';
-  }
-
-  alb = alb + '<li class="playlist '+ plaction +'"><a href="javascript:'+ plfunction +'">playlist</a></li>';
 
   alb = alb + '<li class="cover"><a href="javascript:conc_thisrecording(\'' + item.apple_albumid +'\','+work.id+','+item.set+')">';
   alb = alb + '<img src="' + item.cover + '" onerror="this.src=\'/img/nocover.png\'" />';
@@ -1003,6 +970,36 @@ conc_recordingitem = function (item, work, playlist)
   alb = alb + '<li class="performers"><ul>' + conc_listperformers(item.performers) + '</ul></li>';
   alb = alb + '<li class="label">'+item.label+'</li>';
   alb = alb + '<li class="apple"><a href="' + apple_link + '" target="_blank">Listen on Apple Music</a></li>';
+
+  rid = work.id + '-' + item.apple_albumid + '-' + item.set;
+
+  if ($.inArray(rid, conc_favorites) != -1)
+  {
+    alb = alb + '<li class="favorite"><a href="javascript:conc_recfavorite(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')" class="is fav_' + rid + '">unfavorite</a></li>';
+  }
+  else
+  {
+    alb = alb + '<li class="favorite"><a href="javascript:conc_recfavorite(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')" class="go fav_' + rid + '">favorite</a></li>';
+  }
+
+  alb = alb + '<li class="permalink"><a href="javascript:conc_permalink(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')">permalink</a></li>';
+  
+  if (playlist) {
+    if (playlist.owner.id == localStorage.user_id) {
+      plaction = 'unplaylist';
+      plfunction = 'conc_unplaylistperformance(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ',' + playlist.id + ')';
+    }
+    else {
+      plaction = 'doplaylist';
+      plfunction = 'conc_playlistmodal(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')';
+    }
+  }
+  else {
+    plaction = 'doplaylist';
+    plfunction = 'conc_playlistmodal(' + work.id + ',\'' + item.apple_albumid + '\',' + item.set + ')';
+  }
+
+  alb = alb + '<li class="playlist '+ plaction +'"><a href="javascript:'+ plfunction +'">playlist</a></li>';
 
   return alb;
 }
@@ -1068,13 +1065,16 @@ conc_listperformers = function (aperformers) {
 // error messages
 
 conc_notavailable = function () {
+
+  if (conc_disabled) return;
+
   if (conc_onair) {
     conc_radioskip();
   }
   else {
     applemusic.setQueue({
       songs: []
-    }).then (function () {
+    }).then(function () {
       $('#tuning-modal').hide(0, function () { $("#notavailable").leanModal(); });
     });
   }
@@ -1349,6 +1349,10 @@ conc_init = function ()
       conc_composersbytag('pop');
       conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre);
       conc_playlist("fav");
+      if (localStorage.lastwid) {
+        conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, true);
+      }
+      $('#loader').fadeOut();
     }
   });
 }

@@ -1,79 +1,579 @@
 /* cssreset.com */* { margin: 0; padding: 0; outline: 0 !important; }
 
-@font-face {
-	font-family: Sanchez;
-	src: url("Sanchezregular.otf") format("opentype");
+html, body
+{
+  height: 100%;
+  overflow: hidden;
 }
 
-@font-face {
-	font-family: PetitaMedium;
-	src: url("PetitaMedium.ttf") format("truetype");
+body
+{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  overflow: auto;
 }
 
-@font-face {
-	font-family: PetitaBold;
-	src: url("PetitaBold.ttf") format("truetype");
+#main {
+    bottom: 0 !important;
 }
 
 body
 {
 	border: 0px;
 	margin: 0px 0px;
-	font-family: PetitaMedium, Arial, sans-serif;
+	font-family: 'Barlow', sans-serif;
 	color: #FFF;
-	background-image: linear-gradient(to bottom right, #000, #555);
-    font-size: 14px;
-}
-
-div#canvas
-{
-    width: -webkit-fill-available;
-    height: -webkit-fill-available;
-    padding: 20px;
-}
-
-div#content
-{
-    position: relative;
-    top: 45%;
-    transform: translateY(-50%); 
-}
-
-h1
-{
-	background-repeat: no-repeat;
-	text-indent: -9000px;
-	overflow: hidden;
-	display: block;
-    background-image: url("https://getconcertino.com/images/logo.png");
-    background-position: center;
-    background-size: contain;
-	width: 70%;
-    margin: 0px auto 60px;
-    max-width: 445px;
-    height: 90px;
-}
-
-h2
-{
-    font-family: Sanchez, Arial, sans-serif;
-    font-size: 40px;
-    text-align: center;
-    font-weight: lighter;
-    margin: 60px auto;
-}
-
-p
-{
-    text-align: center;
-    font-size: 17px;
-    line-height: 28px;
-    margin-top: 0px;
-    font-weight: 300;
-    padding: 10px 50px;
+	background-color: #121212;
+	font-size: 12px;
 }
 
 strong 
 {
-    color: #FCE546;
+	font-weight: 600;
+}
+
+ul, li
+{
+	list-style-type: none;
+	list-style-position: inside;
+}
+
+a
+{
+	text-decoration: none;
+	color: #FFF;
+}
+
+div {
+    display: none;
+}
+
+#toolbar
+{
+    display: block;
+	position: fixed;
+	top: 0px;
+	overflow: hidden;
+	height: 36px;
+	width: 100%;
+	z-index: 990;
+	background-image: linear-gradient(#3C3C3C, #121212);
+}
+
+#toolbar .logo
+{
+	background-repeat: no-repeat;
+	width: 120px;
+	height: 21px;
+	text-indent: -9000px;
+	overflow: hidden;
+	display: block;
+	background-image: url("../img/logo.png");
+	background-size: 120px 21px;
+	margin: 8px auto;
+	bottom: 7px;
+}
+
+li.cover a img {
+    width: 120px;
+    border-radius: 10px;
+}
+
+#sidebar {
+    display: block;
+    position: absolute;
+    bottom: 40px !important;
+    width: 100%;
+    height: calc(100% - 76px);
+    overflow: hidden;
+}
+
+#favorites {
+    display: block;
+    height: calc(100% - 82px);
+    overflow: auto;
+}
+
+#favorites.down {
+    height: 0;
+}
+
+#nowplaying
+{
+    height: 42px;
+    padding: 20px;
+    display: block;
+	background-image: linear-gradient(#4F4F4F, #2B2B2F);
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+#nowplaying h2
+{
+    display: none;
+}
+
+#playerinfo li strong
+{
+	font-family: 'Barlow', sans-serif;
+}
+
+#playerinfo .composer a, #favorites .composer a, #albums.playlist .composer a
+{
+	font-family: 'Nunito', sans-serif;
+	font-size: 14px;
+	text-transform: uppercase;
+	font-weight: 800;
+	color: #FE365E;
+}
+
+#favorites .composer a, #albums.playlist .composer a
+{
+	font-size: 12px;
+	color: #FE365E;
+}
+
+#playerinfo .work a
+{
+	font-family: 'Barlow', sans-serif;
+    font-size: 14px;
+    margin-top: 1px;
+    display: block;
+}
+
+#playerinfo .label
+{
+	font-family: 'Nunito', sans-serif;
+	font-size: 10px;
+	margin-top: 4px;
+}
+
+#playerinfo .cover img
+{
+	width: 100px;
+    height: auto;
+    float: left;
+    margin-right: 12px;
+    margin-bottom: 9px;
+    border-radius: 14px;
+}
+
+#playerinfo .performers
+{
+	clear: both;
+}
+
+#playerinfo .permalink a
+{
+	background-repeat: no-repeat;
+    width: 14px;
+    height: 16px;
+	text-indent: -9000px;
+	overflow: hidden;
+	display: block;
+	display: block;
+    background-image: url(../img/permalink_big.png);
+    background-size: 13px;
+    float: right;
+    margin: -15px 8px 8px;
+}
+
+#playerinfo .favorite a, #composers ul.composerdetails li.fav a, #genresworks h2 a.cfav,
+#composers ul.composerdetails li.forb a, #playerinfo li.playlist a,
+#composers li.edit a
+{
+	background-repeat: no-repeat;
+    width: 16px;
+    height: 16px;
+	background-size: 16px;
+	text-indent: -9000px;
+	overflow: hidden;
+	display: block;
+    float: right;
+    margin: -15px 8px 8px;
+}
+
+#playerinfo .favorite a {
+    width: 18px;
+    background-size: 18px;
+    margin-right: 0;
+}
+
+#nowplaying #toggle
+{
+	background-image: url("../img/toggle_up.png");
+	background-repeat: no-repeat;
+	width: 24px;
+	height: 10px;
+	background-size: 24px 6px;
+	text-indent: -9000px;
+	overflow: hidden;
+	display: block;
+	margin: -10px auto 4px;
+}
+
+#nowplaying.down
+{
+    overflow: auto;
+    height: calc(100% - 40px);
+}
+
+#nowplaying.up #toggle
+{
+	background-image: url("../img/toggle_up.png");
+}
+
+#nowplaying.down #toggle
+{
+    background-image: url("../img/toggle_down.png");
+    margin-bottom: 16px;
+}
+
+#playerinfo .favorite a.go, #albums .performance .favorite a.go, #composers ul.composerdetails li.fav a, #genresworks h2 a.cfav
+{
+	background-image: url("../img/favorite_go.png");
+}
+
+#playerinfo .favorite a.is, #albums .performance .favorite a.is, #composers ul.composerdetails li.favorite a, #genresworks h2 a.cfav.favorite
+{
+    background-image: url("../img/favorite_is.png");
+    width: 18px;
+    background-size: 18px;
+    bottom: 19px;
+}
+
+#albums .performance .unplaylist a, #favalbums .performance .unplaylist a
+{
+	background-image: url("../img/playlist_remove.png");
+}
+
+#favalbums .performance .doplaylist a, #playerinfo li.playlist a
+{
+    right: 50px;
+	background-image: url("../img/playlist_add.png");
+}
+
+#nowplaying #playerverify, #nowplaying.up #playertracks {
+    display: none;
+}
+
+.apple a {
+	background: url(/img/appleicon.svg) no-repeat;
+	background-size: 10px;
+	height: 10px;
+	height: 14px;
+	margin: 0px;
+	font-size: 9px;
+	padding-left: 14px;
+	margin-top: 15px;
+	display: block;
+}
+
+#playerinfo li.apple  {
+	display: block;
+}
+
+#playertracks {
+    margin-top: 20px;
+}
+
+#playertracks div {
+    display: block;
+}
+
+#playertracks
+{
+	margin: 38px 0px 24px;
+}
+
+#playertracks .slider
+{
+	width: calc(100% - 72px);
+    height: 4px;
+    background-color: #121212;
+    float: left;
+    margin-top: 13px;
+    margin-bottom: 24px;
+    border-radius: 2px;
+}
+
+#playertracks .bar
+{
+	width: 0px;
+	height: 4px;
+	background-color: #FE365E;
+	position: relative;
+	bottom: 4px;
+	border-radius: 2px;
+}
+
+#playertracks .buffer
+{
+	width: 0px;
+	height: 4px;
+	background-color: #666666;
+}
+
+#playertracks .tracktitle
+{
+	clear: both;
+	display: block;
+	margin-top: 24px;
+}
+
+#playertracks #durationglobal, #playertracks #timerglobal
+{
+	display: none;
+}
+
+#playertracks .timer, #playertracks .duration
+{
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 9px;
+	display: block;
+	width: 30px;
+	margin-top: 10px;
+	float: left;
+}
+
+#playertracks .duration
+{
+	margin-left: 12px;
+}
+
+#loader {
+	z-index: 99900;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	display: block;
+	background-color: #000;
+}
+
+#loaderwindow {
+	z-index: 99990;
+	width: 300px;
+	height: 400px;
+	position: relative;
+	margin: 200px auto;
+	display: block;
+	background-color: #121212;
+	padding-top: 2px;
+	border-radius: 30px;
+}
+
+#playerbar {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    background-color:#2B2B2F;
+    width: 100%;
+    height: 40px;
+    overflow: hidden;
+}
+
+#nowplaying.down {
+    padding: 26px;
+}
+
+#nowplaying.up #playerinfo .composer a {
+    font-size: 12px;
+}
+
+#nowplaying.up #playerinfo .work a {
+    font-size: 13px;
+}
+
+#nowplaying.up #playerinfo li.cover  img {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+}
+
+#nowplaying.up li.performers, #nowplaying.up li.label, #nowplaying.up li.apple,
+#nowplaying.up #playerinfo .favorite, #nowplaying.up #playerinfo .permalink, #nowplaying.up #playerinfo .playlist {
+    display: none;
+}
+
+#nowplaying.down #toggle {
+    margin-bottom: 18px;
+}
+
+#player {
+    display: block;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+#playercontrols {
+    position: relative;
+    height: 40px;
+}
+
+#player #playercontrols #previous, 
+#player #playercontrols #next,
+#player #playercontrols #skip
+{
+    display: none;
+}
+
+#player.down #playercontrols #previous, 
+#player.down #playercontrols #next,
+#player.down #playercontrols #skip
+{
+    display: block;
+}
+
+#playercontrols #previous, #playercontrols #next, #playercontrols #skip
+{
+	background-repeat: no-repeat;
+	width: 22px;
+	height: 14px;
+	text-indent: -9000px;
+	overflow: hidden;
+	position: absolute;
+	bottom: 26px;
+	background-size: 22px 14px;
+}
+
+#playercontrols #previous
+{
+	background-image: url("../img/previoustrack.png");
+	left: 24px;
+}
+
+#playercontrols #next
+{
+	background-image: url("../img/nextrack.png");
+	left: 132px;
+}
+
+#playercontrols #skip
+{
+	background-image: url("../img/skiptrack_off.png");
+	left: 168px;
+}
+
+#playercontrols #skip.radio
+{
+	background-image: url("../img/skiptrack.png");
+	left: 168px;
+}
+
+#playercontrols #playpause
+{
+	background-repeat: no-repeat;
+	width: 36px;
+	height: 25px;
+	text-indent: -9000px;
+	overflow: hidden;
+	display: block;
+	background-size: auto 22px;
+    margin: 3px 30px;
+}
+
+#playercontrols #playpause.loading
+{
+	background-image: url("../img/spinner-player.svg");
+}
+
+#playercontrols #playpause.play
+{
+	background-image: url("../img/play.png");
+}
+
+#playercontrols #playpause.pause
+{
+	background-image: url("../img/pause.png");
+}
+
+#playercontrols #timerglobal, #playercontrols #durationglobal
+{
+	font-family: 'Nunito', sans-serif;
+	font-size: 11px;
+}
+
+#playercontrols #timerglobal
+{
+	display: block;
+	position: absolute;
+	bottom: 21px;
+    left: 61px;
+    text-align: right;
+    width: 30px;
+}
+
+#playercontrols #durationglobal
+{
+	display: block;
+	position: absolute;
+	bottom: 21px;
+	right: 32px;
+}
+
+#playercontrols #globaltracks
+{
+	font-family: 'Nunito', sans-serif;
+	font-size: 10px;
+    position: absolute;
+    bottom: 15px;
+    left: 105px;
+    width: calc(100% - 172px);
+}
+
+#globaltracks li {
+    float: left;
+}
+
+
+#playercontrols #globaltracks .tracktitle
+{
+    display: none;
+}
+
+#playercontrols #globaltracks .slider
+{
+	width: 100%;
+	height: 4px;
+	background-color: #121212;
+    margin: 6px 0 12px;
+    display: block;
+}
+
+#playercontrols #globaltracks .bar
+{
+	width: 0px;
+	height: 4px;
+	background-color: #FE365E;
+	position: relative;
+    border-radius: 2px;
+    display: block;
+}
+
+#playercontrols #globaltracks .buffer
+{
+	width: 0px;
+	height: 4px;
+	background-color: #2C2C2C;
+}
+
+#playercontrols #globaltracks .duration
+{
+	float: right;
+	margin-right: 10px;
+	display: none;
+}
+
+#playercontrols #globaltracks .timer
+{
+	float: left;
+	margin-left: 10px;
+	display: none;
 }
