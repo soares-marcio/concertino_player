@@ -40,9 +40,9 @@
 
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css?family=Barlow:400,600|Nunito:400,800&display=swap');
-        @import "/css/main.css" screen and (min-width: 480px);
-        @import "/css/toggles-full.css" screen and (min-width: 480px);
-        @import "/css/mobile.css" screen and (max-width: 480px);
+        @import "/css/main.css" screen and (min-width: 1024px);
+        @import "/css/toggles-full.css" screen and (min-width: 1024px);
+        @import "/css/mobile.css" screen and (max-width: 1024px);
     </style>
 </head>
 <body>
@@ -186,6 +186,14 @@
                 <li id="durationglobal">0:00</li>
             </ul>
         </div>
+    </div>
+    <div id="mobile-menu">
+        <ul>
+            <li><a href="javascript:conc_mobilepage('library')" class="library">Library</a></li>
+            <li><a href="javascript:conc_mobilepage('favorites')" class="favorites">Favorites</a></li>
+            <li><a href="javascript:conc_mobilepage('radio')" class="radio">Radio</a></li>
+            <li><a href="javascript:conc_mobilepage('settings')" class="settings">Settings</a></li>
+        </ul>
     </div>
     <div id="install-pwa" class="hintbox">
         <p>Install app?</p>

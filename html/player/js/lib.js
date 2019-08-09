@@ -775,10 +775,10 @@ conc_recording = function (wid, album, set, auto)
     success: function (response) {
       $('#nowplaying').css('display', "block");
       if (conc_disabled) {
-        $('#favorites').css('bottom', "312px");
+        $('body').removeClass("showingplayerbar");
       }
       else {
-        $('#favorites').css('bottom', "384px");
+        $('body').addClass("showingplayerbar");
       }
       $("#timerglobal").html('0:00');
       conc_recordingaction (response, auto);
@@ -794,6 +794,8 @@ conc_recordingaction = function (list, auto)
       conc_notavailable();
     }
     else {
+
+      $('body').addClass('showingnowplaying');
 
       if (window.location.pathname != '/u/' + list.work.id + '/' + list.recording.apple_albumid + '/' + list.recording.set) {
         window.history.pushState({}, 'Concertino', '/u/' + list.work.id + '/' + list.recording.apple_albumid + '/' + list.recording.set);
@@ -830,11 +832,11 @@ conc_recordingaction = function (list, auto)
       $('#globaltracks').html('');
 
       if (list.recording.tracks.length >= 60) {
-        trackadjust = ' - 0.03px';
+        trackadjust = ' - 0px';
         $('#globaltracks').addClass("tootoomanytracks");
       }
       else {
-        trackadjust = ' - 2px';
+        trackadjust = ' - 0px';
         $('#globaltracks').removeClass("tootoomanytracks");
         if (list.recording.tracks.length >= 12) 
         {
@@ -889,13 +891,15 @@ conc_recordingaction = function (list, auto)
 
 conc_playingdetails = function ()
 {
-    if (document.getElementById('nowplaying').className == 'up')
+    if ($('body').hasClass('player'))
     {
-      $('#nowplaying, #favorites, #player').attr('class', 'down');
+      $('#nowplaying').attr('class', 'up');
+      $('body').removeClass('player');
     }
     else
     {
-      $('#nowplaying, #favorites, #player').attr('class', 'up');
+      $('#nowplaying').attr('class', 'down');
+      $('body').addClass('player');
     }
 }
 
@@ -1084,11 +1088,7 @@ conc_notavailable = function () {
 
 conc_showplayerbar = function ()
 {
-  $('#main').css('bottom',"68px");
-  $('#nowplaying').css('bottom',"68px");
-  $('#sidebar').css('bottom',"68px");
-  $('#favorites').css('bottom', "68px");
-  $('#playerbar').show();
+  $('body').addClass('showingplayerbar');
 }
 
 // notification
@@ -1978,4 +1978,10 @@ conc_albumscroll = function (o) {
 
 conc_qualify = function () {
   $('#playerverify').toggleClass('opened');
+}
+
+// mobile pagination
+
+conc_mobilepage = function (page) {
+  $('body').removeClass('player library favorites radio settings').addClass(page);
 }
