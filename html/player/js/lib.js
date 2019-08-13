@@ -338,7 +338,7 @@ conc_composersbysearch = function (search)
   }
   else if (search.length == 0)
   {
-    conc_composersbyname ('all');
+    conc_composersbytag ('pop');
   }
 }
 
@@ -1349,6 +1349,7 @@ conc_init = function ()
       conc_composersbytag('pop');
       conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre);
       conc_playlist("fav");
+      conc_mobilepage('library');
       if (localStorage.lastwid) {
         conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, true);
       }

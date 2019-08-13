@@ -142,7 +142,7 @@
                 <option value="Post-War">Post-War</option>
                 <option value="21st Century">21st Century</option>
             </select>
-            <input type="text" id="composersearch" placeholder="Composer search" />
+            <input type="text" id="composersearch" placeholder="Search composer by name" />
         </div>
         <script type="text/javascript">
             var alphabet = "abcdefghijklmnoprstvwxyz".split("");
@@ -330,8 +330,10 @@
     </script>
     <script type="text/javascript">
         $('#composers').mousewheel(function (event, delta) {
-            this.scrollLeft -= (delta * 30);
-            event.preventDefault();
+            if ($(window).width() >= 1024) {
+                this.scrollLeft -= (delta * 30);
+                event.preventDefault();
+            }
         });
 
         conc_listplaylists();

@@ -16,8 +16,8 @@ body
   overflow: auto;
 }
 
-#main {
-    bottom: 0 !important;
+.select2 { 
+	display: none
 }
 
 body
@@ -49,6 +49,16 @@ a
 
 div {
     display: none;
+}
+
+h2
+{
+	color: #717171;
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 10px;
+	text-transform: uppercase;
+	margin-bottom: 12px;
 }
 
 #toolbar
@@ -83,7 +93,7 @@ li.cover a img {
 }
 
 #sidebar {
-    display: block;
+	display: block;
     position: absolute;
     bottom: 90px;
     width: 100%;
@@ -97,7 +107,7 @@ body.player #sidebar {
 }
 
 #favorites {
-    display: block;
+    display: none;
     height: calc(100% - 82px);
     overflow: auto;
 }
@@ -113,7 +123,10 @@ body.player #favorites {
     display: block;
 	background-image: linear-gradient(#4F4F4F, #2B2B2F);
     border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+	border-top-right-radius: 20px;
+	position: absolute;
+    width: -webkit-fill-available;
+    bottom: 0;
 }
 
 #nowplaying h2
@@ -221,7 +234,7 @@ body.player #playerinfo .work a {
 body.player #nowplaying
 {
     overflow: auto;
-    height: calc(100% - 90px);
+	height: calc(100% - 104px);
 }
 
 #nowplaying #toggle
@@ -392,7 +405,8 @@ body.player #playerbar {
 }
 
 body.player #nowplaying {
-    padding: 26px;
+	padding: 26px;
+	bottom: 50px;
 }
 
 #playerinfo li.cover img {
@@ -481,7 +495,6 @@ body.player #nowplaying #toggle {
 #playercontrols #skip.radio
 {
 	background-image: url("../img/skiptrack.png");
-	left: 168px;
 }
 
 #playercontrols #playpause
@@ -709,4 +722,139 @@ body.settings #mobile-menu li a.settings {
     background-position-y: 2px;
     background-size: 21px;
     background-image: url(../img/setup.png);
+}
+
+#main {
+	display: none;
+    position: absolute;
+    top: 36px;
+    width: -webkit-fill-available;
+    overflow: auto;
+    height: calc(100% - 238px);
+	bottom: 0 !important;
+	margin: 10px 0px 20px 20px;
+}
+
+#main #atoz, #main .periods {
+	display: none
+}
+
+#main #composersearch
+{
+   	background-color: #ffffff;
+   	width: calc(100% - 60px);
+   	font-family: 'Nunito', sans-serif;
+	font-size: 14px;
+	color: #000000;
+   	line-height: 1;
+   	border: 0;
+   	border-radius: 10px;
+   	height: 34px;
+   	-webkit-appearance: none;
+	padding: 0 6px 0 32px;
+    background-image: url(/img/search.png);
+    background-repeat: no-repeat;
+    background-size: 14px;
+    background-position: 10px;
+}
+
+#main #composersearch::placeholder
+{
+	color: #000000;
+}
+
+#composers
+{
+	overflow-x: scroll;
+    overflow-y: hidden;
+    height: 166px;
+    width: 100%;
+	display: flex;
+	flex-wrap: nowrap;
+	margin-top: 20px;
+	-webkit-overflow-scrolling: touch;
+}
+
+#composers li.composer
+{
+	width: 90px;
+    height: 142px;
+	background-color: #2B2B2F;
+	padding: 12px 12px 0 12px;
+	margin-right: 12px;
+	border-radius: 12px;
+	flex: 0 0 auto;
+}
+
+#composers ul.composerdetails
+{
+	position: relative;
+	height: 100%;
+}
+
+#composers ul.composerdetails li
+{
+	display: block;
+	height: auto;
+	width: auto;
+	padding: 0;
+	margin: 0;
+}
+
+#composers ul.composerdetails li
+{
+	font-family: 'Nunito', sans-serif;
+	font-size: 10px;
+}
+
+#composers ul.composerdetails li.name a
+{
+	font-weight: 800;
+	font-family: 'Nunito', sans-serif;
+	font-size: 12px;
+	color: #FE365E;
+	text-transform: uppercase;
+}
+
+#composers ul.composerdetails li.radio,
+#composers ul.composerdetails li.fav,
+#composers ul.composerdetails li.forb
+{
+	display: none;
+}
+
+#composers img
+{
+	width: 48px;
+	height: 48px;
+	border-radius: 24px;
+}
+
+ul.composerdetails li.photo {
+	width: 48px;
+    margin: 0 auto;
+}
+
+ul.composerdetails li.fullname {
+	white-space: normal;
+}
+
+#composers li.index {
+	display: none;
+}
+
+/* pagination */
+
+body.favorites #sidebar #favorites {
+	display: block;
+}
+
+body.library #main, 
+body.library #main #library 
+{
+	display: block;
+}
+
+body.player #main {
+	display: none;
 }
