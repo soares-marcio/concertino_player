@@ -386,11 +386,17 @@ conc_composers = function (response)
       {
         case "epoch":
           compcontent = '<li class="index period">' + list.request.item + '</li>';
+          if (list.request.item == 'all') {
+            $('#main #maincomposerlist').html('All composers');
+          } else {
+            $('#main #maincomposerlist').html('Composers of the ' + list.request.item + ' period');
+          }
           $('#library #composersearch').val('');
           break;
 
         case "search":
           compcontent = '<li class="index search"></li>';
+          $('#main #maincomposerlist').html('Search results');
           $('#library select.periods').val('all');
           $('#library select.periods').trigger('change.select2');
           break;
@@ -404,6 +410,7 @@ conc_composers = function (response)
 
         case "pop":
           compcontent = '<li class="index popular">Popular</li>';
+          $('#main #maincomposerlist').html('Most requested composers');
           $('#library #composersearch').val('');
           $('#library select.periods').val('all');
           $('#library select.periods').trigger('change.select2');
@@ -411,6 +418,7 @@ conc_composers = function (response)
 
         case "rec":
           compcontent = '<li class="index recommended">Essential</li>';
+          $('#main #maincomposerlist').html('Essential composers');
           $('#library #composersearch').val('');
           $('#library select.periods').val('all');
           $('#library select.periods').trigger('change.select2');
@@ -421,6 +429,7 @@ conc_composers = function (response)
           if (list.request.item == "all")
           {
             compcontent = '<li class="index all">All</li>';
+            $('#main #maincomposerlist').html('All composers');
           }
           else
           {
@@ -432,7 +441,16 @@ conc_composers = function (response)
           break;
       }
 
-      $('#composers').html(compcontent);
+      if (list.request.type == "fav" && $(window).width() < 1024)
+      {
+        ulcomposers = $('#favoritecomposerslist');
+        ulcomposers.html('');
+      }
+      else 
+      {
+        ulcomposers = $('#composers');
+        ulcomposers.html(compcontent);
+      }
 
       docs = list.composers;
       for (composer in docs)
@@ -457,7 +475,7 @@ conc_composers = function (response)
           cforb = '';
         }
         
-        $('#composers').append('<li class="composer"><ul class="composerdetails"><li class="photo"><a href="javascript:conc_genresbycomposer(\'' + docs[composer].id + '\');"><img src="' + docs[composer].portrait + '" /></a></li><li class="name"><a href="javascript:conc_genresbycomposer(\'' + docs[composer].id + '\');">' + docs[composer].name + '</a></li><li class="fullname">' + docs[composer].complete_name + '</li><li class="dates">(' + docs[composer].birth.substring(0, 4) + (docs[composer].death.substring(0, 4) != '0000' ? '-' + docs[composer].death.substring(0, 4) : '') + ')</li><li id="forb_' + docs[composer].id + '" class="forb ' + cforb + '"><a href="javascript:conc_compforbid(\'' + docs[composer].id + '\');">forbidden</a></li><li id="cfav_' + docs[composer].id + '" class="fav ' + cfav + '"><a href="javascript:conc_compfavorite(\'' + docs[composer].id + '\');">fav</a></li><li class="radio"><a href="javascript:conc_newradio({composer:' + docs[composer].id + '});">radio</a></li><li class="edit"><a href="javascript:conc_editcomposer(\'' + docs[composer].id + '\');">edit</a></li></ul></li>');
+        ulcomposers.append('<li class="composer"><ul class="composerdetails"><li class="photo"><a href="javascript:conc_genresbycomposer(\'' + docs[composer].id + '\');"><img src="' + docs[composer].portrait + '" /></a></li><li class="name"><a href="javascript:conc_genresbycomposer(\'' + docs[composer].id + '\');">' + docs[composer].name + '</a></li><li class="fullname">' + docs[composer].complete_name + '</li><li class="dates">(' + docs[composer].birth.substring(0, 4) + (docs[composer].death.substring(0, 4) != '0000' ? '-' + docs[composer].death.substring(0, 4) : '') + ')</li><li id="forb_' + docs[composer].id + '" class="forb ' + cforb + '"><a href="javascript:conc_compforbid(\'' + docs[composer].id + '\');">forbidden</a></li><li id="cfav_' + docs[composer].id + '" class="fav ' + cfav + '"><a href="javascript:conc_compfavorite(\'' + docs[composer].id + '\');">fav</a></li><li class="radio"><a href="javascript:conc_newradio({composer:' + docs[composer].id + '});">radio</a></li></ul></li>');
       }
 
       $('#composers').scrollLeft(0);
@@ -1349,6 +1367,11 @@ conc_init = function ()
       conc_composersbytag('pop');
       conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre);
       conc_playlist("fav");
+
+      if ($(window).width() < 1024) {
+        conc_composersbyfav();
+      }
+
       conc_mobilepage('library');
       if (localStorage.lastwid) {
         conc_recording(localStorage.lastwid, localStorage.lastaid, localStorage.lastset, true);

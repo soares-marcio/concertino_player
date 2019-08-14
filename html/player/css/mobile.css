@@ -56,9 +56,9 @@ h2
 	color: #717171;
 	font-family: 'Nunito', sans-serif;
 	font-weight: normal;
-	font-size: 10px;
+	font-size: 11px;
 	text-transform: uppercase;
-	margin-bottom: 12px;
+	margin: 12px 0;
 }
 
 #toolbar
@@ -730,9 +730,9 @@ body.settings #mobile-menu li a.settings {
     top: 36px;
     width: -webkit-fill-available;
     overflow: auto;
-    height: calc(100% - 238px);
-	bottom: 0 !important;
-	margin: 10px 0px 20px 20px;
+    height: calc(100% - 218px);
+    bottom: 0 !important;
+    margin: 10px 0px 0px 20px;
 }
 
 #main #atoz, #main .periods {
@@ -755,7 +755,8 @@ body.settings #mobile-menu li a.settings {
     background-image: url(/img/search.png);
     background-repeat: no-repeat;
     background-size: 14px;
-    background-position: 10px;
+	background-position: 10px;
+	margin-bottom: 16px;
 }
 
 #main #composersearch::placeholder
@@ -763,7 +764,7 @@ body.settings #mobile-menu li a.settings {
 	color: #000000;
 }
 
-#composers
+#composers, #favoritecomposerslist, #browsebyperiod
 {
 	overflow-x: scroll;
     overflow-y: hidden;
@@ -771,28 +772,28 @@ body.settings #mobile-menu li a.settings {
     width: 100%;
 	display: flex;
 	flex-wrap: nowrap;
-	margin-top: 20px;
+	margin-top: 12px;
 	-webkit-overflow-scrolling: touch;
 }
 
-#composers li.composer
+#composers li.composer, #favoritecomposerslist li.composer, #browsebyperiod li
 {
 	width: 90px;
     height: 142px;
-	background-color: #2B2B2F;
+	background-color: #202023;
 	padding: 12px 12px 0 12px;
 	margin-right: 12px;
 	border-radius: 12px;
 	flex: 0 0 auto;
 }
 
-#composers ul.composerdetails
+ul.composerdetails
 {
 	position: relative;
 	height: 100%;
 }
 
-#composers ul.composerdetails li
+ul.composerdetails li
 {
 	display: block;
 	height: auto;
@@ -801,13 +802,13 @@ body.settings #mobile-menu li a.settings {
 	margin: 0;
 }
 
-#composers ul.composerdetails li
+ul.composerdetails li
 {
 	font-family: 'Nunito', sans-serif;
 	font-size: 10px;
 }
 
-#composers ul.composerdetails li.name a
+ul.composerdetails li.name a
 {
 	font-weight: 800;
 	font-family: 'Nunito', sans-serif;
@@ -816,23 +817,18 @@ body.settings #mobile-menu li a.settings {
 	text-transform: uppercase;
 }
 
-#composers ul.composerdetails li.radio,
-#composers ul.composerdetails li.fav,
-#composers ul.composerdetails li.forb
+ul.composerdetails li.radio,
+ul.composerdetails li.fav,
+ul.composerdetails li.forb
 {
 	display: none;
 }
 
-#composers img
+ul.composerdetails img
 {
 	width: 48px;
 	height: 48px;
 	border-radius: 24px;
-}
-
-ul.composerdetails li.photo {
-	width: 48px;
-    margin: 0 auto;
 }
 
 ul.composerdetails li.fullname {
@@ -841,6 +837,102 @@ ul.composerdetails li.fullname {
 
 #composers li.index {
 	display: none;
+}
+
+#favoritecomposerslist {
+		height: 84px;
+		margin-bottom: 22px;
+}
+
+#favoritecomposerslist li.composer {
+	width: 50px;
+	height: 60px;
+}
+
+#favoritecomposerslist li.composer li.name {
+	text-align: center;
+}
+
+#favoritecomposerslist li.composer li.name a {
+	font-size: 9px;
+    text-transform: none;
+    color: #FFF;
+}
+
+#favoritecomposerslist li.composer img
+{
+	width: 30px;
+	height: 30px;
+	border-radius: 15px;
+}
+
+#favoritecomposerslist li.composer li.photo a
+{
+	width: 30px;
+	margin: 0 auto;
+	display: block;
+}
+
+#favoritecomposerslist li.composer li.fullname,
+#favoritecomposerslist li.composer li.dates {
+	display: none;
+}
+
+#browsebyperiod {
+	height: 110px;
+}
+
+#browsebyperiod li {
+	width: 66px;
+    height: 86px;
+    background-size: cover;
+}
+
+#browsebyperiod li a {
+	display: block;
+	width: -webkit-fill-available;
+	height: -webkit-fill-available;
+}
+
+#browsebyperiod li.medieval {
+	
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/medieval.png)
+}
+
+#browsebyperiod li.renaissance {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/renaissance.png)
+}
+
+#browsebyperiod li.baroque {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/baroque.png)
+}
+
+#browsebyperiod li.classical {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/classical.png)
+}
+
+#browsebyperiod li.earlyromantic {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/earlyromantic.png)
+}
+
+#browsebyperiod li.romantic {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/romantic.png)
+}
+
+#browsebyperiod li.lateromantic {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/lateromantic.png)
+}
+
+#browsebyperiod li.the20thcentury {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/20thcentury.png)
+}
+
+#browsebyperiod li.postwar {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/postwar.png)
+}
+
+#browsebyperiod li.the21stcentury {
+	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/21stcentury.png)
 }
 
 /* pagination */
@@ -856,5 +948,9 @@ body.library #main #library
 }
 
 body.player #main {
+	display: none;
+}
+
+.deskonly {
 	display: none;
 }

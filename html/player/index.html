@@ -121,7 +121,7 @@
     </div>
 
     <div id="main">
-        <h2>Library</h2>
+        <h2 class="deskonly">Library</h2>
         <div id="library">
             <ul id="atoz">
                 <li><a href="javascript:conc_composersbyname('all')">All</a></li>
@@ -151,7 +151,23 @@
               $('#atoz').append('<li><a href="javascript:conc_composersbyname(\''+alphabet[letter]+'\')">'+alphabet[letter]+'</a></li>');
             }
         </script>
+        <h2 id="maincomposerlist" class="mobonly"></h2>
         <ul id="composers"></ul>
+        <h2 class="mobonly">Browse by period</h2>
+        <ul id="browsebyperiod" class="mobonly">
+            <li class="medieval"><a href="javascript:conc_composersbyepoch('Medieval');">Medieval</a></li>
+            <li class="renaissance"><a href="javascript:conc_composersbyepoch('Renaissance');">Renaissance</a></li>
+            <li class="baroque"><a href="javascript:conc_composersbyepoch('Baroque');">Baroque</a></li>
+            <li class="classical"><a href="javascript:conc_composersbyepoch('Classical');">Classical</a></li>
+            <li class="earlyromantic"><a href="javascript:conc_composersbyepoch('Early Romantic');">Early Romantic</a></li>
+            <li class="romantic"><a href="javascript:conc_composersbyepoch('Romantic');">Romantic</a></li>
+            <li class="lateromantic"><a href="javascript:conc_composersbyepoch('Late Romantic');">Late Romantic</a></li>
+            <li class="the20thcentury"><a href="javascript:conc_composersbyepoch('20th Century');">20th Century</a></li>
+            <li class="postwar"><a href="javascript:conc_composersbyepoch('Post-War');">Post-War</a></li>
+            <li class="the21stcentury"><a href="javascript:conc_composersbyepoch('21st Century');">21st Century</a></li>
+        </ul>
+        <h2 class="mobonly favoritecomposers">Your favorite composers</h2>
+        <ul id="favoritecomposerslist" class="mobonly"></ul>
         <div id="genresworks">
             <h2></h2>
             <h3></h3>
@@ -187,7 +203,7 @@
             </ul>
         </div>
     </div>
-    <div id="mobile-menu">
+    <div id="mobile-menu" class="mobonly">
         <ul>
             <li><a href="javascript:conc_mobilepage('library')" class="library">Library</a></li>
             <li><a href="javascript:conc_mobilepage('favorites')" class="favorites">Favorites</a></li>
