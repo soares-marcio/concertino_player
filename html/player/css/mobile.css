@@ -851,6 +851,7 @@ ul.composerdetails li.fullname {
 
 #favoritecomposerslist li.composer li.name {
 	text-align: center;
+	line-height: 9px;
 }
 
 #favoritecomposerslist li.composer li.name a {
