@@ -2763,6 +2763,8 @@ li.emptylist p {
 	margin-top: 4px;
 }
 
-.mobonly {
-	display: none;
+.mobonly,
+#genres span
+{
+	display: none !important;
 }

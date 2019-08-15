@@ -199,7 +199,8 @@ body.player #playerinfo .work a {
 
 #playerinfo .favorite a, #composers ul.composerdetails li.fav a, #genresworks h2 a.cfav,
 #composers ul.composerdetails li.forb a, #playerinfo li.playlist a,
-#composers li.edit a
+#composers li.edit a,
+#composerprofile li.buttons a
 {
 	background-repeat: no-repeat;
     width: 16px;
@@ -248,17 +249,44 @@ body.player #nowplaying #toggle
     margin-bottom: 16px;
 }
 
-#playerinfo .favorite a.go, #albums .performance .favorite a.go, #composers ul.composerdetails li.fav a, #genresworks h2 a.cfav
+#playerinfo .favorite a.go,
+#albums .performance .favorite a.go,
+#composers ul.composerdetails li.fav a,
+#genresworks h2 a.cfav,
+#composerprofile li.buttons a.fav
 {
 	background-image: url("../img/favorite_go.png");
+	width: 18px;
+    background-size: 18px;
+    bottom: 19px;
 }
 
-#playerinfo .favorite a.is, #albums .performance .favorite a.is, #composers ul.composerdetails li.favorite a, #genresworks h2 a.cfav.favorite
+#playerinfo .favorite a.is, 
+#albums .performance .favorite a.is, 
+#composers ul.composerdetails li.favorite a,
+#genresworks h2 a.fav.favorite,
+#composerprofile li.buttons a.fav.favorite
 {
     background-image: url("../img/favorite_is.png");
     width: 18px;
     background-size: 18px;
     bottom: 19px;
+}
+
+#composerprofile li.buttons a.forb
+{
+	background-image: url("../img/forbidden_go.png");
+}
+
+#composerprofile li.buttons a.forb.forbidden
+{
+	background-image: url("../img/forbidden_is.png");
+}
+
+#composerprofile li.buttons a
+{
+	position: relative;
+	bottom: 10px;
 }
 
 #albums .performance .unplaylist a, #favalbums .performance .unplaylist a
@@ -682,7 +710,10 @@ body.player #playercontrols #playpause
     color: #7C726E;
 }
 
-body.library #mobile-menu li a.library {
+body.library #mobile-menu li a.library,
+body.composer #mobile-menu li a.library,
+body.work #mobile-menu li a.library
+{
     color: #FE365E;
     background-image: url(../img/library_mobon.png);
 }
@@ -739,7 +770,8 @@ body.settings #mobile-menu li a.settings {
 	display: none
 }
 
-#main #composersearch
+#main #composersearch,
+#main #worksearch
 {
    	background-color: #ffffff;
    	width: calc(100% - 60px);
@@ -759,9 +791,10 @@ body.settings #mobile-menu li a.settings {
 	margin-bottom: 16px;
 }
 
-#main #composersearch::placeholder
+#main #composersearch::placeholder,
+#main #worksearch::placeholder
 {
-	color: #000000;
+	color: #444;
 }
 
 #composers, #favoritecomposerslist, #browsebyperiod
@@ -802,13 +835,13 @@ ul.composerdetails li
 	margin: 0;
 }
 
-ul.composerdetails li
+ul.composerdetails li, #composerprofile li
 {
 	font-family: 'Nunito', sans-serif;
 	font-size: 10px;
 }
 
-ul.composerdetails li.name a
+ul.composerdetails li.name a, #composerprofile li.name
 {
 	font-weight: 800;
 	font-family: 'Nunito', sans-serif;
@@ -829,6 +862,71 @@ ul.composerdetails img
 	width: 48px;
 	height: 48px;
 	border-radius: 24px;
+}
+
+#composerprofile {
+	width: -webkit-fill-available;
+	height: 70px;
+	margin-top: 10px;
+}
+
+#composerprofile li.portrait img
+{
+	width: 58px;
+	height: 58px;
+	border-radius: 29px;
+}
+
+#composerprofile li.back,
+#composerprofile li.portrait {
+	display: block;
+    float: left;
+}
+
+#composerprofile li.back a
+{
+	background-repeat: no-repeat;
+	width: 23px;
+	height: 67px;
+	text-indent: -9000px;
+	overflow: hidden;
+	display: block;
+	background-image: url("../img/back.png");
+	background-size: 14px 45px;
+    background-position: 6px 7px;
+    margin-right: 8px;
+}
+
+#composerprofile li.portrait {
+	margin-right: 11px;
+}
+
+#composerprofile li.name {
+	font-size: 16px;
+}
+
+#composerprofile li.completename {
+	font-size: 13px;
+}
+
+#composerprofile li.dates {
+	font-size: 11px;
+}
+
+#composerprofile li.buttons {
+	float: right;
+	width: 16px;
+    margin-right: 20px;
+}
+
+#composerprofile li.buttons a {
+	display: block;
+}
+
+#composerprofile li.buttons a.fav {
+	bottom: 42px !important;
+    position: relative;
+    right: -1px;
 }
 
 ul.composerdetails li.fullname {
@@ -936,6 +1034,122 @@ ul.composerdetails li.fullname {
 	background-image: linear-gradient( rgba(0,0,0,.5), rgba(255,255,255,.1) ), url(/img/periods/21stcentury.png)
 }
 
+#genres {
+    height: 66px;
+	width: calc(100% - 20px);
+	display: flex !important;
+	justify-content: space-between;
+}
+
+#genres ul {
+    width: 90%;
+    margin: 0 auto;
+    height: 50px;
+}
+
+#genres li {
+    float: left;
+    text-align: center;
+    text-align: center;
+    font-size: 9px;
+	font-family: 'Nunito', sans-serif;
+	border-radius: 25px;
+}
+
+#genres li a span {
+	background-repeat: no-repeat;
+    background-size: 18px;
+    background-position: center;
+    text-indent: -9000px;
+    width: 34px;
+    height: 34px;
+    border-radius: 17px;
+    display: block;
+    margin: 0px auto 6px;
+    background-color: #202023;
+}
+
+#genres li a {
+	font-size: 8px;
+}
+
+#genres li.active a span {
+	background-color: #FE365E;
+}
+
+#genres li#popular a span {
+	background-image: url(/img/genres/popular.png);
+	background-size: 15px;
+}
+
+#genres li#popular.active a span {
+	background-image: url(/img/genres/popular_on.png);
+}
+
+#genres li#recommended a span {
+	background-image: url(/img/genres/essential.png);
+	background-size: 15px;
+}
+
+#genres li#recommended.active a span {
+	background-image: url(/img/genres/essential_on.png);
+}
+
+#genres li#orchestral a span {
+	background-image: url(/img/genres/orchestral.png);
+}
+
+#genres li#orchestral.active a span {
+	background-image: url(/img/genres/orchestral_on.png);
+}
+
+#genres li#chamber a span {
+	background-image: url(/img/genres/chamber.png);
+}
+
+#genres li#chamber.active a span {
+	background-image: url(/img/genres/chamber_on.png);
+}
+
+#genres li#vocal a span {
+	background-image: url(/img/genres/vocal.png);
+	background-size: 12px;
+}
+
+#genres li#vocal.active a span {
+	background-image: url(/img/genres/vocal_on.png);
+}
+
+#genres li#keyboard a span {
+	background-image: url(/img/genres/keyboard.png);
+}
+
+#genres li#keyboard.active a span {
+	background-image: url(/img/genres/keyboard_on.png);
+}
+
+#genres li#stage a span {
+	background-image: url(/img/genres/stage.png);
+}
+
+#genres li#stage.active a span {
+	background-image: url(/img/genres/stage_on.png);
+}
+
+#genres li#fav a span {
+	background-image: url(/img/genres/favorites.png);
+}
+
+#genres li#fav.active a span {
+	background-image: url(/img/genres/favorites_on.png);
+}
+
+#genres li#all,
+#genres li a.radio
+{
+	display: none;
+}
+
 /* pagination */
 
 body.favorites #sidebar #favorites {
@@ -943,7 +1157,14 @@ body.favorites #sidebar #favorites {
 }
 
 body.library #main, 
-body.library #main #library 
+body.library #main #composersbrowser,
+body.library #main #composersbrowser div
+{
+	display: block;
+}
+
+body.composer #main, 
+body.composer #main #genresworks 
 {
 	display: block;
 }
@@ -953,5 +1174,9 @@ body.player #main {
 }
 
 .deskonly {
-	display: none;
+	display: none !important;
+}
+
+.empty {
+	display: none !important;
 }
