@@ -656,9 +656,13 @@ conc_works = function (response)
     }
 
     if (list.request.item == 'Recommended' || list.request.item == 'Popular' || list.request.item == 'fav') {
-      if (lastgenre != docsw[work].genre) $('#works').append('<li class="separator">' + docsw[work].genre + '</li>');
+      if (lastgenre != docsw[work].genre) {
+        $('#works').append('<li class="separator">' + docsw[work].genre + '</li>');
+      }
     }
-    else if (lastrec != docsw[work].recommended && !(lastrec == '' && docsw[work].recommended == '0')) $('#works').append('<li class="separator">' + (docsw[work].recommended == 1 ? 'Essential': 'Other works') + '</li>');
+    else if (lastrec != docsw[work].recommended && !(lastrec == '' && docsw[work].recommended == '0')) {
+      $('#works').append('<li class="separator">' + (docsw[work].recommended == 1 ? 'Essential': 'Other works') + '</li>');
+    }
 
     //docsw[work].title = docsw[work].title.replace(/\"/g, "");
     $('#works').append('<li><a href="javascript:conc_favoritework(\'' + docsw[work].id + '\',\'' + list.composer.id + '\')" class="wfav wfav_' + docsw[work].id + ' ' + favorite + '">fav</a><a href="javascript:conc_recordingsbywork(' + docsw[work].id + ',0);">' + docsw[work].title + '<span>' + docsw[work].subtitle + ' </span></a></li>');
@@ -666,6 +670,8 @@ conc_works = function (response)
     lastrec = docsw[work].recommended;
     lastgenre = docsw[work].genre;
   }
+
+  $("#works li.separator").prev().addClass('beforeseparator');
 }
 
 // recordings list
@@ -690,6 +696,7 @@ conc_recordingsbywork = function (work, offset)
     $('#genresworks h4').html('');
     $('#albums').addClass(work.toString());
     $('#albums').show();
+    conc_mobilepage ('work');
   }
 
   $('#albums.'+work).append('<li class="loading"></li>');

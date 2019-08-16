@@ -1150,6 +1150,46 @@ ul.composerdetails li.fullname {
 	display: none;
 }
 
+a.wfav {
+	display: none !important;
+}
+
+#works {
+	width: -webkit-fill-available;
+	margin-bottom: 20px;
+}
+
+#works li.separator {
+    font-weight: 600;
+    padding: 12px 0 2px;
+	border-bottom: 1px solid #f6365e;
+	color: #f6365e;
+}
+
+#works li {
+    border-bottom: 1px solid #4F4F4F;
+}
+
+#works li.beforeseparator {
+	border-bottom: none;
+	margin-bottom: 10px;
+}
+
+#works li a {
+	font-size: 13px;
+	display: block;
+    padding: 12px 0;
+}
+
+#works li a span {
+    font-size: 10px;
+    display: block;
+}
+
+#works li:last-child {
+    border-bottom: 0px;
+}
+
 /* pagination */
 
 body.favorites #sidebar #favorites {
@@ -1167,6 +1207,18 @@ body.composer #main,
 body.composer #main #genresworks 
 {
 	display: block;
+}
+
+body.work #main, 
+body.work #main #genresworks
+{
+	display: block;
+}
+
+body.work #genresworks #composerprofile,
+body.work #genresworks #genres
+{
+	display: none !important;
 }
 
 body.player #main {
