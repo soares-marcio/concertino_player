@@ -564,6 +564,7 @@ conc_genresbycomposer = function (composer, genre)
           conc_worksbycomposer(list.composer.id, genre);
         }
 
+        $('#genresworks h2.mobonly').html('works');
         conc_mobilepage ('composer');
       }
       
@@ -696,11 +697,15 @@ conc_recordingsbywork = function (work, offset)
     $('#genresworks h4').html('');
     $('#albums').addClass(work.toString());
     $('#albums').show();
+    $('#workprofile').hide();
+    $('#genresworks h2.mobonly').html('recordings').hide();;
     conc_mobilepage ('work');
+    $('#albums.'+work).append('<li class="loading firstload"></li>');
   }
-
-  $('#albums.'+work).append('<li class="loading"></li>');
-
+  else {
+    $('#albums.'+work).append('<li class="loading"></li>');
+  }
+  
   $.ajax({
     url: conc_options.backend + '/recording/list/work/' + work + '/' + offset + '.json',
     method: "GET",
@@ -714,6 +719,20 @@ conc_recordingsbywork = function (work, offset)
         $('#genresworks div.deskonly h2').html('<a href="javascript:conc_genresbycomposer (' + list.work.composer.id + ')">' + list.work.composer.name + '</a>');
         $('#genresworks h3').html(list.work.title);
         $('#genresworks h4').html(list.work.subtitle);
+
+        $('#workprofile li.back').html('<a href="javascript:conc_genresbycomposer (' + list.work.composer.id + ')">back</a>');
+        $('#workprofile li.name').html(list.work.composer.name);
+        $('#workprofile li.title').html(list.work.title);
+        $('#workprofile li.subtitle').html(list.work.subtitle);
+
+        if ($.inArray(list.work.id.toString(), conc_favoriteworks) != -1) {
+          mwfav = 'favorite';
+        }
+        else {
+          mwfav = '';
+        }
+        
+        $('#workprofile li.buttons').html('<a id="mwfav_' + list.work.id + '" href="javascript:conc_favoritework(\'' + list.work.id + '\', \'' + list.work.composer.id + '\');" class="fav ' + mwfav + '">fav</a>');
       }
 
       if (list.status.success == "true") {
@@ -758,7 +777,10 @@ conc_recordingsbywork = function (work, offset)
       }
 
       if (list.status.success == "false") $(listul).append('<li class="emptylist"><p>Concertino couldn\'t find any recording of this work in the Apple Music catalog. It might be an error, though. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> if you know a recording. This will help us correct our algorithm.</p></li>')
-      if (!list.next && list.status.success == "true") $(listul).append('<li class="disclaimer"><p>These recordings were fetched automatically from the Apple Music catalog. The list might be inaccurate or incomplete. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> for requests, questions or suggestions.</p></li>');
+      if (!list.next && list.status.success == "true") $(listul).append('<li class="disclaimer"><p>Those recordings were fetched automatically from the Apple Music catalog. The list might be inaccurate or incomplete. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> for requests, questions or suggestions.</p></li>');
+
+      $('#genresworks h2.mobonly').show();
+      $('#workprofile').show();
     }
   });
 }
@@ -1374,8 +1396,9 @@ conc_favoritework = function (wid, cid) {
       if (response.status.success == "true") {
         conc_favoriteworks = (response.list ? response.list : []);
         $('.wfav_' + wid).toggleClass('favorite');
+        $('#mwfav_' + wid).toggleClass('favorite');
 
-        if ($('li#fav').hasClass('active')) {
+        if ($('li#fav').hasClass('active') && $(window).width() >= 1024) {
           conc_listfavoriteworks(localStorage.lastcomposerid);
         }
       }

@@ -120,7 +120,7 @@
         </div>
     </div>
 
-    <div id="main">
+    <div id="main" onscroll="conc_albumscroll(this)">
         <div id="composersbrowser">
             <h2 class="deskonly">Library</h2>
             <div id="library">
@@ -181,7 +181,14 @@
                 <li class="dates"></li>
                 <li class="buttons"></li>
             </ul>
-            <h2 class="mobonly">Works</h2>
+            <ul class="mobonly" id="workprofile">
+                    <li class="back"></li>
+                    <li class="name"></li>
+                    <li class="title"></li>
+                    <li class="subtitle"></li>
+                    <li class="buttons"></li>
+            </ul>
+            <h2 class="mobonly"></h2>
             <div class="deskonly">
                     <h2></h2>
                     <h3></h3>

@@ -2685,17 +2685,17 @@ li.disclaimer p {
 	margin-top: 10px;
 	border-radius: 20px;
 	padding: 11px;
-	border: 1px solid #7C726E;
+	border: 1px solid #A7A6A6;
 	font-family: 'Nunito', sans-serif;
-	color: #7C726E;
+	color: #A7A6A6;
 	font-size: 10px;
 	position: relative;
 	top: 26px;
 }
 
 li.disclaimer p a, li.emptylist p a {
-	color: #7C726E;
-	text-decoration: underline dotted #7C726E;
+	color: #A7A6A6;
+	text-decoration: underline dotted #A7A6A6;
 }
 
 li.disclaimer p a:hover, li.emptylist p a:hover {
@@ -2711,13 +2711,13 @@ li.emptylist {
 
 li.emptylist p {
 	  margin-top: 10px;
-    color: #7C726E;
+    color: #A7A6A6;
     font-size: 13px;
     position: relative;
     top: 26px;
     padding-left: 50px;
     background-repeat: no-repeat;
-    background-image: url(../img/notchecked.png);
+    background-image: url(../img/warning.png);
     background-size: 36px;
     background-position-y: 6px;
 }
