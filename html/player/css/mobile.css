@@ -99,7 +99,7 @@ li.cover a img {
     bottom: 90px;
     width: 100%;
     height: calc(100% - 126px);
-    overflow: hidden;
+	overflow: hidden;
 }
 
 body.player #sidebar {
@@ -109,8 +109,9 @@ body.player #sidebar {
 
 #favorites {
     display: none;
-    height: calc(100% - 82px);
+    height: calc(100% - 92px);
     overflow: auto;
+    margin: 10px 0px 0px 20px;
 }
 
 body.player #favorites {
@@ -817,7 +818,7 @@ body.settings #mobile-menu li a.settings {
 	color: #444;
 }
 
-#composers, #favoritecomposerslist, #browsebyperiod
+#composers, #favoritecomposerslist, #browsebyperiod, #playlist-menu
 {
 	overflow-x: scroll;
     overflow-y: hidden;
@@ -829,7 +830,7 @@ body.settings #mobile-menu li a.settings {
 	-webkit-overflow-scrolling: touch;
 }
 
-#composers li.composer, #favoritecomposerslist li.composer, #browsebyperiod li
+#composers li.composer, #favoritecomposerslist li.composer, #browsebyperiod li, #playlist-menu li
 {
 	width: 90px;
     height: 142px;
@@ -1287,14 +1288,20 @@ a.wfav {
 }
 
 #albums li.performers,
-#favalbums li.performers,
 #albums li.version,
+#favalbums li.performers,
 #favalbums li.composer,
 #favalbums li.work {
 	top: 20px;
     position: relative;
 	left: 100px;
 	width: calc(100% - 100px);
+}
+
+#favalbums li.composer,
+#favalbums li.work,
+#favalbums li.performers {
+	top: 15px;
 }
 
 #albums li.version {
@@ -1389,6 +1396,107 @@ li.emptylist p {
     background-position: top center;
 	text-align: center;
 	color: #A7A6A6;
+}
+
+#playlist-menu span.portraits img {
+    height: 76px;
+    border-radius: 12px;
+    object-fit: cover;
+    margin: 2px;
+}
+
+#playlist-menu span.portraits.composers-1 img {
+	width: calc(100% - 4px);
+	border-radius: 18px;
+}
+
+#playlist-menu span.portraits.composers-2 img {
+    width: calc(50% - 4px);
+}
+
+#playlist-menu span.portraits.composers-3 img {
+	width: calc(33% - 4px);
+	border-radius: 8px;
+}
+
+#playlist-menu span.portraits.composers-4 img {
+	width: calc(50% - 4px);
+	height: 34px;
+}
+
+#playlist-menu {
+    height: 210px;
+}
+
+#playlist-menu li {
+	height: 186px;
+	background-image: url(/img/toggle_down.png);
+    background-repeat: no-repeat;
+    background-position: bottom 10px center;
+    background-size: 20px;
+}
+
+#playlist-menu li a {
+    height: 100%;
+    display: block;
+}
+
+#playlist-menu li.playlist span.title,
+#playlist-menu li.favorites a,
+#playlist-menu li.recently a {
+    font-size: 14px;
+	color: #FE365E;
+	font-family: 'Nunito', sans-serif;
+	font-weight: 400;
+	margin: 7px 0 2px;
+	display: block;
+	line-height: 1.2;
+}
+
+#playlist-menu li.favorites a,
+#playlist-menu li.recently a {
+	padding-top: 82px;
+    text-align: center;
+    background-repeat: no-repeat;
+    background-size: 28px;
+    background-position: top 46px center;
+}
+
+#playlist-menu li.favorites a {
+	background-image: url(/img/favorite_big.png);
+}
+
+#playlist-menu li.favorites.active a {
+	background-image: url(/img/favorite_big_wt.png);
+}
+
+#playlist-menu li.recently a {
+	background-image: url(/img/history_big.png);
+	background-size: 20px;
+    background-position: top 46px center;
+}
+
+#playlist-menu li.recently.active a {
+	background-image: url(/img/history_big_wt.png);
+}
+
+#playlist-menu li.playlist span.summary {
+    font-size: 9px;
+	font-family: 'Nunito', sans-serif;
+	font-weight: 400;
+	display: block;
+	line-height: 1.5;
+}
+
+#playlist-menu li.active {
+	background-color: #fe365ebb;
+	background-image: url(/img/toggle_down_wt.png);
+}
+
+#playlist-menu li.active span.title,
+#playlist-menu li.favorites.active a,
+#playlist-menu li.recently.active a {
+	color: #ffffff;
 }
 
 /* pagination */

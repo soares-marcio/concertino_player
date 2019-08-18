@@ -1577,6 +1577,7 @@ conc_listplaylists = function (playlist_slug) {
   }
 
   $('#favtitle select').html('');
+  $('#playlist-menu').html('');
 
   var favoption = new Option("Favorites", "fav");
   $('#favtitle select').append($(favoption));
@@ -1584,12 +1585,23 @@ conc_listplaylists = function (playlist_slug) {
   var favoption = new Option("Recently Played", "rec");
   $('#favtitle select').append($(favoption));
 
+  $('#playlist-menu').append('<li class="favorites" id="playlist_fav"><a href="javascript:conc_playlist(\'fav\');">Your favorites</a></li><li class="recently" id="playlist_rec"><a href="javascript:conc_playlist(\'rec\');">Recently played</a></li>');
+
   for (pllst in conc_playlists)
   {
     var favoption = new Option(conc_playlists[pllst].name, conc_playlists[pllst].id);
+    var summary = conc_playlists[pllst].summary.works.rows + ' work' + (conc_playlists[pllst].summary.works.rows > 1 ? 's' : '') + ' by ' + conc_playlists[pllst].summary.composers.names.slice (0,4).join (', ');
+    var portraits = '';
+
+    for (cpid in conc_playlists[pllst].summary.composers.portraits.slice (0, 4)) {
+      var portraits = portraits + '<img src="' + conc_playlists[pllst].summary.composers.portraits[cpid] + '" />'; 
+    }
+
     $('#favtitle select').append($(favoption));
+    $('#playlist-menu').append('<li id="playlist_' + conc_playlists[pllst].id + '" class="playlist"><a href="javascript:conc_playlist(\'' + conc_playlists[pllst].id + '\')"><span class="portraits composers-' + conc_playlists[pllst].summary.composers.portraits.slice (0, 4).length + '">' + portraits + '</span><span class="title">' + conc_playlists[pllst].name + '</span><span class="summary">' + summary + '</span></a></li>');
   }
 
+  $('#playlist-menu li#playlist_' + playlist_slug).addClass('active');
   $('#favtitle select').val(playlist_slug);
   $('#favtitle select').css('visibility', 'visible');
 }
