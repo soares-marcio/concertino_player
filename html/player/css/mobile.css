@@ -1235,7 +1235,8 @@ a.wfav {
 #works li a {
 	font-size: 13px;
 	display: block;
-    padding: 12px 0;
+	padding: 12px 0;
+	width: 90%;
 }
 
 #works li a span {
@@ -1251,6 +1252,10 @@ a.wfav {
 #favalbums li.performance {
     border-bottom: 1px solid #4F4F4F;
 	height: 120px;
+}
+
+#favalbums li.performance {
+height: 138px;
 }
 
 #albums li.performance:first-child {
@@ -1352,7 +1357,7 @@ li.loading.firstload {
 	width: calc(100% - 20px);
 	height: calc(100% - 36px);
 	background-size: 70px;
-    position: absolute;
+    position: absolute;	
 }
 
 li.disclaimer {
@@ -1497,6 +1502,47 @@ li.emptylist p {
 #playlist-menu li.favorites.active a,
 #playlist-menu li.recently.active a {
 	color: #ffffff;
+}
+
+#favalbums li.performance ul {
+    position: absolute;
+    width: -webkit-fill-available;
+}
+
+#favalbums li.work {
+	width: calc(100% - 138px);
+	display: block;	
+}
+
+#favalbums.fav li.favorite a.is {
+	background-image: url("../img/unfavorite_mob.png");
+}
+
+#favalbums.fav li.favorite,
+#favalbums.playlist li.playlist
+{
+    display: block;
+    position: absolute;
+	right: 20px;
+	right: 12px;
+    bottom: -32px;
+}
+
+#favalbums.fav li.favorite a,
+#favalbums.playlist li.playlist a
+{
+	width: 18px;
+	text-indent: -9000px;
+	overflow: hidden;
+	display: block;
+	background-size: 14px;
+    background-repeat: no-repeat;
+}
+
+#favorites #shareplaylist,
+#favorites #favradio
+{
+    display: none;
 }
 
 /* pagination */

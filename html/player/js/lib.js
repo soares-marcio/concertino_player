@@ -1607,6 +1607,7 @@ conc_listplaylists = function (playlist_slug) {
 }
 
 conc_playlist = function (playlist) {
+  $('ul#favalbums').removeClass().addClass((playlist == "fav" || playlist == "rec") ? playlist : "playlist");
   conc_listplaylists (playlist);
   if (playlist == "fav") {
     conc_favoriterecordings();
