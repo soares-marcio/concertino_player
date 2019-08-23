@@ -155,7 +155,7 @@
                 var alphabet = "abcdefghijklmnoprstvwxyz".split("");
                 for (letter in alphabet)
                 {
-                $('#atoz').append('<li><a href="javascript:conc_composersbyname(\''+alphabet[letter]+'\')">'+alphabet[letter]+'</a></li>');
+                    $('#atoz').append('<li><a href="javascript:conc_composersbyname(\''+alphabet[letter]+'\')">'+alphabet[letter]+'</a></li>');
                 }
             </script>
             <h2 id="maincomposerlist" class="mobonly"></h2>
@@ -378,6 +378,10 @@
                 this.scrollLeft -= (delta * 30);
                 event.preventDefault();
             }
+        });
+
+        conc_swipedetect (document.getElementById('nowplaying'), function (swipedir) {
+            if ($('#nowplaying').hasClass(swipedir)) conc_playingdetails ();
         });
 
         conc_listplaylists();
