@@ -239,6 +239,15 @@
             <li><a href="javascript:conc_mobilepage('settings')" class="settings">Settings</a></li>
         </ul>
     </div>
+    <div id="radioslider" class="mobonly">
+            <a href="javascript:conc_newradio({composer: localStorage.lastcomposerid, genre: $('#genres li.active').attr('id')});">Start radio<em></em></a>
+    </div>
+    <div id="editplaylistslider" class="mobonly">
+            <a href="javascript:conc_editplaylist();">Edit playlist</a>
+    </div>
+    <div id="playlistradioslider" class="mobonly">
+            <a href="javascript:conc_playlistradio('#favalbums');">Start playlist radio</a>
+    </div>
     <div id="install-pwa" class="hintbox">
         <p>Install app?</p>
         <a href="javascript:$('#install-pwa').hide()" class="cancel">Close</a>
@@ -382,6 +391,24 @@
 
         conc_swipedetect (document.getElementById('nowplaying'), function (swipedir) {
             if ($('#nowplaying').hasClass(swipedir)) conc_playingdetails ();
+        });
+
+        conc_swipedetect (document.getElementById('radioslider'), function (swipedir) {
+            if (($('#radioslider').hasClass("active") && swipedir == "right") || (!$('#radioslider').hasClass("active") && swipedir == "left")) {
+                $('#radioslider').toggleClass ("active");
+            }
+        });
+
+        conc_swipedetect (document.getElementById('playlistradioslider'), function (swipedir) {
+            if (($('#playlistradioslider').hasClass("active") && swipedir == "right") || (!$('#playlistradioslider').hasClass("active") && swipedir == "left")) {
+                $('#playlistradioslider').toggleClass ("active");
+            }
+        });
+
+        conc_swipedetect (document.getElementById('editplaylistslider'), function (swipedir) {
+            if (($('#editplaylistslider').hasClass("active") && swipedir == "right") || (!$('#editplaylistslider').hasClass("active") && swipedir == "left")) {
+                $('#editplaylistslider').toggleClass ("active");
+            }
         });
 
         conc_listplaylists();

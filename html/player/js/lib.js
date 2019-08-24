@@ -577,7 +577,6 @@ conc_genresbycomposer = function (composer, genre)
 conc_worksbycomposer = function (composer, genre)
 {
   $('#worksearch').val('');
-
   $.ajax({
     url: conc_options.opusbackend + '/work/list/composer/' + composer + '/' + genre + '.json',
     method: "GET",
@@ -673,6 +672,7 @@ conc_works = function (response)
   }
 
   $("#works li.separator").prev().addClass('beforeseparator');
+  $('#radioslider em').html($('#composerprofile li.name').html() + ' ' + ($('#genres li.active a').html().toLowerCase().includes('all') ? '' : $('#genres li.active a').html().toLowerCase()) + ($('#genres li.active a').html().toLowerCase().includes('favorites') ? '' : ' works'));
 }
 
 // recordings list
@@ -1608,6 +1608,8 @@ conc_listplaylists = function (playlist_slug) {
 
 conc_playlist = function (playlist) {
   $('ul#favalbums').removeClass().addClass((playlist == "fav" || playlist == "rec") ? playlist : "playlist");
+  $('body').removeClass("playlist").addClass((playlist == "fav" || playlist == "rec") ? "" : "playlist");
+  
   conc_listplaylists (playlist);
   if (playlist == "fav") {
     conc_favoriterecordings();
@@ -1864,9 +1866,12 @@ conc_playlistdetail = function (pid) {
 // new radio
 
 conc_newradio = function (filter) {
-  if (filter.genre == 'Popular') filter.popularwork = 1;
-  if (filter.genre == 'Recommended') filter.recommendedwork = 1;
-  if (filter.genre == 'Recommended' || filter.genre == 'Popular') filter.genre = '';
+  if (filter.genre) {
+    if (filter.genre.toLowerCase() == 'popular') filter.popularwork = 1;
+    if (filter.genre.toLowerCase() == 'recommended') filter.recommendedwork = 1;
+    if (filter.genre.toLowerCase() == 'fav') filter.work = 'fav';  
+    if (filter.genre.toLowerCase() == 'recommended' || filter.genre.toLowerCase() == 'popular' || filter.genre.toLowerCase() == 'fav' || filter.genre.toLowerCase() == 'all') filter.genre = '';  
+  }
   if (conc_disabled) {
     $(`#${conc_disabledreason}`).leanModal(); return;
   }
