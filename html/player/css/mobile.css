@@ -1312,7 +1312,8 @@ height: 138px;
 
 #albums li.version {
     font-size: 10px;
-    margin-bottom: 6px;
+	margin-bottom: 6px;
+	width: calc(80% - 74px);
 }
 
 #albums li.performers li,
@@ -1633,6 +1634,55 @@ body.playlist.player #editplaylistslider
 
 #radioslider.active a em span {
 	display: none;
+}
+
+#lean_overlay
+{
+    position: fixed;
+    z-index:100000000;
+    top: 0px;
+    left: 0px;
+    height:100%;
+    width:100%;
+    background: #121212;
+    display: none;
+}
+
+#tuning-modal
+{
+	position: fixed;
+	z-index: 100000001;
+	width: 133px;
+    left: 50%;
+    top: 50% !important;
+    transform: translate(-50%,-50%);
+    height: 68px;
+    padding: 4px 12px;
+    background: #FE365E;
+    display: none;
+    border-radius: 14px;
+}
+
+#tuning-modal h2
+{
+	width: 20px;
+  	height: 22px;
+  	background: url(../img/tuning.svg) left center;
+	-webkit-animation: play .8s steps(4) infinite;
+	margin: 11px auto;
+}
+
+#tuning-modal h2 span
+{
+	font-size: 13px;
+    color: #000;
+    position: relative;
+    top: 30px;
+    left: -17px;
+}
+
+@-webkit-keyframes play {
+    100% { background-position: -80px; }
 }
 
 /* pagination */
