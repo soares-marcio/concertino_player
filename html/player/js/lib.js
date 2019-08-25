@@ -203,11 +203,17 @@ conc_prevtrack = function ()
 
 conc_track = function (offset)
 {
-  if (applemusic.player.queue.length) {
-    applemusic.player.changeToMediaAtIndex (offset);
-  }
-  else {
-    conc_appleplay (conc_playbuffer.tracks, offset);
+  if (conc_disabled) {
+    $('#tuning-modal').hide();
+    $(`#${conc_disabledreason}`).leanModal();
+    return;
+  } else {
+    if (applemusic.player.queue.length) {
+      applemusic.player.changeToMediaAtIndex (offset);
+    }
+    else {
+      conc_appleplay (conc_playbuffer.tracks, offset);
+    }
   }
 }
 

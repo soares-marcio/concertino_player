@@ -96,22 +96,40 @@ li.cover a img {
 #sidebar {
 	display: block;
 	position: absolute;
-	bottom: 90px;
-    height: calc(100% - 126px);
+	bottom: 50px;
+	height: calc(100% - 86px);
     width: 100%;    
 	overflow: hidden;
 }
 
-body.player #sidebar {
+body.showingnowplaying #sidebar {
+	bottom: 50px;
+    height: calc(100% - 86px);
+}
+
+body.showingplayerbar.showingnowplaying #sidebar {
+	bottom: 90px;
+    height: calc(100% - 126px);
+}
+
+body.showingplayerbar.showingnowplaying.player #sidebar {
     height: calc(100% - 116px);
     bottom: 80px;
 }
 
 #favorites {
-    display: none;
-    height: calc(100% - 92px);
+	display: none;
+	height: calc(100% - 12px);
     overflow: auto;
     margin: 10px 0px 0px 20px;
+}
+
+body.showingnowplaying #favorites {
+	height: calc(100% - 114px);
+}
+
+body.showingplayerbar.showingnowplaying #favorites {
+	height: calc(100% - 92px);
 }
 
 body.player #favorites {
@@ -120,15 +138,27 @@ body.player #favorites {
 
 #nowplaying
 {
-    height: 42px;
     padding: 20px;
-    display: block;
 	background-image: linear-gradient(#4F4F4F, #2B2B2F);
-    border-top-left-radius: 20px;
-	border-top-right-radius: 20px;
 	position: absolute;
     width: -webkit-fill-available;
     bottom: 0;
+}
+
+body.showingnowplaying #nowplaying
+{
+    height: 62px;
+    display: block;
+	border-radius: 20px;
+}
+
+body.showingplayerbar.showingnowplaying #nowplaying
+{
+	height: 42px;
+	border-top-left-radius: 20px;
+	border-top-right-radius: 20px;
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
 }
 
 #nowplaying h2
@@ -248,10 +278,19 @@ body.player #playerinfo .work a {
 	margin: -10px auto 4px;
 }
 
-body.player #nowplaying
+body.showingnowplaying.player #nowplaying
 {
     overflow: auto;
+	height: calc(100% - 54px);
+    bottom: 0px;
+}
+
+body.showingplayerbar.showingnowplaying.player #nowplaying
+{
 	height: calc(100% - 104px);
+	border-bottom-left-radius: 0px;
+	border-bottom-right-radius: 0px;
+	bottom: 50px;
 }
 
 #nowplaying #toggle
@@ -514,7 +553,7 @@ body.player #nowplaying #playertracks {
     transform: translate(-50%, -50%);
 }
 
-#playerbar {
+body.showingplayerbar.showingnowplaying #playerbar {
     display: block;
     position: absolute;
     bottom: 50px;
@@ -526,7 +565,7 @@ body.player #nowplaying #playertracks {
     border-bottom-right-radius: 20px;
 }
 
-body.player #playerbar {
+body.showingplayerbar.showingnowplaying.player #playerbar {
     height: 80px;
 }
 
@@ -860,9 +899,18 @@ body.settings #mobile-menu li a.settings {
     top: 36px;
     width: -webkit-fill-available;
     overflow: auto;
-    height: calc(100% - 218px);
+	
+	height: calc(100% - 96px);
     bottom: 0 !important;
     margin: 10px 0px 0px 20px;
+}
+
+body.showingnowplaying #main {
+	height: calc(100% - 198px);
+}
+
+body.showingnowplaying.showingplayerbar #main {
+	height: calc(100% - 218px);
 }
 
 #main #atoz, #main .periods {
@@ -1343,7 +1391,6 @@ height: 138px;
 #albums li.performance:last-child,
 #favalbums li.performance:last-child {
 	border-bottom: 0;
-	margin-bottom: 20px;
 }
 
 #albums li.composer,
@@ -1623,7 +1670,7 @@ li.emptylist p {
 
 body.composer #radioslider,
 body.favorites #playlistradioslider,
-body.playlist #editplaylistslider
+body.favorites.playlist #editplaylistslider
 {
 	font-size: 14px;
     line-height: 14px;
@@ -1635,8 +1682,8 @@ body.playlist #editplaylistslider
     background-position: 6px;
     background-size: 4px;
     background-repeat: no-repeat;
-    position: absolute;
-    bottom: 184px;
+	position: absolute;
+	bottom: 64px;
     right: 0px;
     z-index: 9999;
     padding: 0px 0px 0px 20px;
@@ -1644,7 +1691,18 @@ body.playlist #editplaylistslider
     border-bottom-left-radius: 12px;
 }
 
-body.playlist #editplaylistslider
+body.showingnowplaying.composer #radioslider,
+body.showingnowplaying.favorites #playlistradioslider,
+body.showingnowplaying.playlist #editplaylistslider {
+	bottom: 184px;
+}
+
+body.favorites.playlist #editplaylistslider
+{
+	bottom: 106px;
+}
+
+body.showingnowplaying.favorites.playlist #editplaylistslider
 {
 	bottom: 226px;
 }
