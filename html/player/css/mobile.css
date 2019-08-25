@@ -95,10 +95,10 @@ li.cover a img {
 
 #sidebar {
 	display: block;
-    position: absolute;
-    bottom: 90px;
-    width: 100%;
+	position: absolute;
+	bottom: 90px;
     height: calc(100% - 126px);
+    width: 100%;    
 	overflow: hidden;
 }
 
@@ -427,14 +427,91 @@ body.player #nowplaying #playertracks {
 
 #loaderwindow {
 	z-index: 99990;
-	width: 300px;
-	height: 400px;
-	position: relative;
-	margin: 200px auto;
+    width: 300px;
+    height: 400px;
+    position: relative;
+    display: block;
+    top: calc(50% - 200px);
+    left: calc(50% - 150px);
+}
+
+#loaderwindow h1
+{
+	background-repeat: no-repeat;
+	text-indent: -9000px;
+	overflow: hidden;
 	display: block;
-	background-color: #121212;
-	padding-top: 2px;
-	border-radius: 30px;
+	background-image: url("../img/sitelogo.png");
+	background-size: auto 90px;
+	margin: 30px auto -20px;
+	width: 91px;
+	height: 90px;
+}
+
+#loaderwindow h2
+{
+	background-repeat: no-repeat;
+	text-indent: -9000px;
+	overflow: hidden;
+	display: block;
+	background-image: url("../img/sitelogo.png");
+	background-size: 176px;
+	background-position-x: -33px;
+	margin: 30px auto;
+	width: 152px;
+	height: 30px;
+}
+
+#loaderwindow h3
+{
+	color: #717171;
+	font-family: 'Nunito', sans-serif;
+	font-weight: normal;
+	font-size: 12px;
+	text-transform: uppercase;
+	margin-top: -22px;
+	text-align: center;
+}
+
+#loader-options {
+	display: none;
+	margin: 44px 25px 22px;
+}
+
+#loader-options li a {
+	display: block;
+    background-color: #FE365F;
+    border-radius: 20px;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 14px;
+	padding: 10px;
+}
+
+#loader-options li a span {
+    font-size: 9px;
+    display: block;
+	margin-top: 4px;
+}
+
+#loader-loading {
+	background: url(/img/spinner-wt.svg) no-repeat center;
+	height: 78px;
+	text-indent: -90000px;
+	overflow: hidden;
+	background-size: 50px;
+}
+
+#loaderwindow p
+{
+	font-size: 10px;
+	text-align: center;
+	padding-top: 18px;
+	color: #717171;
+	position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #playerbar {
