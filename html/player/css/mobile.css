@@ -152,6 +152,11 @@ body.showingnowplaying #nowplaying
 	border-radius: 20px;
 }
 
+body.showingnowplaying #nowplaying #nowplaying-touch
+{
+	display: block;
+}
+
 body.showingplayerbar.showingnowplaying #nowplaying
 {
 	height: 42px;

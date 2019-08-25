@@ -118,9 +118,11 @@
             </li>
         </ul>
         <div id="nowplaying" class="up">
-            <a href="javascript:conc_playingdetails()" id="toggle">toggle details</a>
-            <h2>Now playing</h2>
-            <ul id="playerinfo"></ul>
+            <div id="nowplaying-touch">
+                <a href="javascript:conc_playingdetails()" id="toggle">toggle details</a>
+                <h2>Now playing</h2>
+                <ul id="playerinfo"></ul>
+            </div>
             <ul id="playerverify"></ul>
             <ul id="playertracks"></ul>
         </div>
@@ -389,7 +391,7 @@
             }
         });
 
-        conc_swipedetect (document.getElementById('nowplaying'), function (swipedir) {
+        conc_swipedetect (document.getElementById('nowplaying-touch'), function (swipedir) {
             if ($('#nowplaying').hasClass(swipedir)) conc_playingdetails ();
         });
 
