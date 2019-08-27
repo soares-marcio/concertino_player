@@ -1825,6 +1825,199 @@ body.playlist.player #editplaylistslider
     100% { background-position: -80px; }
 }
 
+.modal
+{
+	padding: 18px;
+    background-color: #2B2B2F;
+    font-size: 14px;
+	display: none;
+	max-width: 400px;
+    width: 50%;
+	left: 50%;
+    top: 50% !important;
+    border-radius: 26px;
+    transform: translate(-50%, -50%);
+}
+
+#playlistmodal,
+#editplaylistmodal,
+#premiumneeded,
+#permalink-modal
+{
+	width: 80%;
+}
+
+.modal p
+{
+	text-align: center;
+    padding: 55px 25px 38px;
+    margin-top: -20px;
+    font-size: 13px;
+}
+
+.modal p.modaldetails {
+    padding-top: 0px;
+    font-size: 11px !important;
+}
+
+.modal a
+{
+	color: #FFF;
+	padding: 6px;
+	display: block;
+	float: right;
+	background-color: #555555;
+	font-family: 'Nunito', sans-serif;
+	font-size: 10px;
+	text-align: center;
+	text-transform: uppercase;
+	width: 80px;
+	margin-left: 12px;
+	clear: left;
+	border-radius: 12px;
+}
+
+.modal h2
+{
+	margin: 0;
+}
+
+.modal h3
+{
+	font-family: 'Nunito', sans-serif;
+	font-size: 11px;
+	text-transform: uppercase;
+	color: #FE365E;
+	margin-top: 10px;
+}
+
+.modal h4
+{
+	font-size: 13px;
+	font-weight: 400;
+}
+
+#editplaylistmodal a, #unsubscribemodal a, #permalink-modal a
+{
+	clear: both;
+	margin-right: 10px;
+}
+
+a.actionbutton {
+	background-color: #FE365E;
+	color: #ffffff;
+}
+
+#editplaylistmodal a.actionbutton,
+#unsubscribemodal a.actionbutton, 
+#permalink-modal a.actionbutton
+{
+	position: relative;
+	top: -77px;
+	margin-top: 18px;
+}
+
+#playlistmodal-new, #playlistmodal-existing {
+	display: block;
+}
+
+#playlistmodal #newplaylist, 
+#editplaylistmodal #playlist_newname, 
+#unsubscribemodal #playlist_dupname,
+#permalink-direct, #permalink-widget
+{
+   	background-color: #2B2B2F;
+   	width: 150px;
+   	font-family: 'Nunito', sans-serif;
+	font-size: 12px;
+	color: #FFF;
+   	line-height: 1;
+   	border: 0;
+   	border-radius: 10px;
+   	height: 24px;
+   	-webkit-appearance: none;
+   	padding: 0 6px;
+   	margin-left: 6px;
+   	position: relative;
+   	bottom: 6px;
+   	float: right;
+}
+
+#playlistmodal #existingplaylist
+{
+	background-color: #717171;
+    color: #FFF;
+    width: -webkit-fill-available;
+    font-size: 14px;
+    padding-left: 12px;
+    height: 39px;
+    margin: 10px 0 20px;
+	border: none;
+	border-radius: 10px;
+}
+
+#playlistmodal #newplaylist, 
+#editplaylistmodal #playlist_newname, 
+#unsubscribemodal #playlist_dupname, 
+#permalink-direct, #permalink-widget
+{
+	background-color: #717171;
+	width: -webkit-fill-available;
+	font-size: 14px;
+	padding-left: 12px;
+	height: 39px;
+	margin: 15px 0 20px;
+	float: left;
+}
+
+#editplaylistmodal #playlist_newname, 
+#unsubscribemodal #playlist_dupname, 
+#permalink-direct
+{
+	padding-right: 108px;
+	border-radius: 12px;
+}
+
+.modal .toggle
+{
+	text-align: center;
+	float: left;
+	margin-right: 12px;
+}
+
+.toggle-light li
+{
+	clear: both;
+	margin: 12px 0;
+}
+
+#editplaylistmodal .toggle-light li, 
+#unsubscribemodal .toggle-light li
+{
+	clear: none;
+	padding-right: 12px;
+	font-size: 12px;
+}
+
+div.toggle, div.toggle * {
+	display: block;
+}
+
+#toggle_delpl ~ a.actionbutton,
+#toggle_unsubpl ~ a.actionbutton
+{
+	visibility: hidden;
+	top: -48px;
+	right: -12px;
+	clear: right;
+}
+
+#toggle_delpl ~ a.actionbutton.candelete,
+#toggle_unsubpl ~ a.actionbutton.candelete
+{
+	visibility: visible;
+}
+
 /* pagination */
 
 body.favorites #sidebar #favorites {

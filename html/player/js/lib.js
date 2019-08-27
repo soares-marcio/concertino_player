@@ -1018,10 +1018,9 @@ conc_appleplay = function (tracks, offset)
       if (conc_onair) conc_notification($('#nowplaying li.work a').html().split("<")[0], $('#nowplaying li.cover a img')[0].currentSrc, $('#nowplaying li.composer a').html());
     }
     applemusic.changeToMediaAtIndex(offset);
+    $('#tuning-modal').closeModal();
     
-  }).catch(function () { conc_notavailable (); });
-
-  $('#tuning-modal').closeModal();
+  }).catch(function () { conc_notavailable (); });  
 }
 
 // recording item
@@ -1494,14 +1493,19 @@ conc_playlistrecordings = function (pid) {
     url: conc_options.backend + '/recording/list/playlist/'+pid+'.json',
     method: "GET",
     success: function (response) {
-      docsr = response.recordings;
 
-      for (performance in docsr) {
-        listul = '#favalbums';
-        draggable = "draggable";
-        pidsort = "";
+      if (response.status.success == "false") {
+        conc_playlist("fav");
+      } else {
+        docsr = response.recordings;
 
-        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work, response.playlist) + '</ul></li>');
+        for (performance in docsr) {
+          listul = '#favalbums';
+          draggable = "draggable";
+          pidsort = "";
+  
+          $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work, response.playlist) + '</ul></li>');
+        }
       }
     }
   });
@@ -1626,6 +1630,7 @@ conc_playlist = function (playlist) {
   else {
     conc_playlistrecordings(playlist);
   }
+  conc_mobilepage ("favorites");
 }
 
 // playlist modal

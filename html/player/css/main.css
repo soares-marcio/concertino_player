@@ -386,7 +386,7 @@ body.showingnowplaying #favorites
 #albums .performance:hover > ul .favorite a, #albums .performance:hover > ul .permalink a, #albums .performance:hover > ul .playlist a,
 #genres li:hover > a.radio,
 #favorites li.performance:hover > ul li.permalink, #favorites li.performance:hover > ul li.favorite, #favorites li.performance:hover > ul li.playlist,
-#nowplaying:hover > #playerinfo li.permalink, #nowplaying:hover > #playerinfo li.favorite, #nowplaying:hover > #playerinfo li.playlist
+#nowplaying-touch:hover > #playerinfo li.permalink, #nowplaying-touch:hover > #playerinfo li.favorite, #nowplaying-touch:hover > #playerinfo li.playlist
 {
 	visibility: visible;
 }

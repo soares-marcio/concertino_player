@@ -9,7 +9,6 @@
     <script type="text/javascript" src="/js/jquery.leanModal.min.js"></script>
     <script type="text/javascript" src="/js/html.sortable.0.1.3.js"></script>
     <script type="text/javascript" src="/js/toggles.min.js"></script>
-    <link href="/js/select2/css/select2.css" rel="stylesheet" />
     <script src="/js/select2/js/select2.js"></script>
     <script src="/js/js-md5.js"></script>
     <script type="text/javascript" src="/js/lib.js"></script>
@@ -41,7 +40,8 @@
     <style type="text/css">
         @import url('https://fonts.googleapis.com/css?family=Barlow:400,600|Nunito:400,800&display=swap');
         @import "/css/main.css" screen and (min-width: 1024px);
-        @import "/css/toggles-full.css" screen and (min-width: 1024px);
+        @import "/js/select2/css/select2.css" screen and (min-width: 1024px);
+        @import "/css/toggles-full.css";
         @import "/css/mobile.css" screen and (max-width: 1024px);
     </style>
 </head>
@@ -275,8 +275,8 @@
         <h2>Error</h2>
         <p>You need an Apple Music subscription to play music.<br />(Apple policy, not ours. Sorry.)</p>
         <p class="modaldetails">You can browse Concertino's catalogue, create playlists, favorite works, composers and recordings, but playback is disabled.</p>
+        <a href="https://www.apple.com/music/" class="actionbutton">Subscribe!</a>
         <a href="javascript:$('#premiumneeded').closeModal()">Close</a>
-        <a href="https://www.apple.com/music/">Subscribe!</a>
     </div>
     <div id="browsernotsupported" class="modal">
         <h2>Error</h2>
@@ -296,7 +296,7 @@
             <h4>Add this recording to a an existing playlist</h4>
             <select id="existingplaylist"></select>
         </div>
-        <a href="javascript:conc_addtoplaylist()">Add</a>
+        <a href="javascript:conc_addtoplaylist()" class="actionbutton">Add</a>
         <a href="javascript:$('#playlistmodal').closeModal()">Cancel</a>
     </div>
     <div id="editplaylistmodal" class="modal">
@@ -345,12 +345,14 @@
         <div id="sharedialog">
             <h3>Direct link</h3>
             <h4>Copy the address below:</h4>
-            <input type="text" id="permalink-direct" />
+            <input type="text" id="permalink-direct" readonly />
             <a href="javascript:conc_linkcopy('direct')" class="actionbutton">Copy</a>
-            <h3>Embed widget</h3>
-            <h4>Use the HTML code below on your blog or website:</h4>
-            <textarea id="permalink-widget"></textarea>
-            <a href="javascript:conc_linkcopy('widget')" class="actionbutton" id="widgetcopy">Copy</a>
+            <div class="deskonly">
+                <h3>Embed widget</h3>
+                <h4>Use the HTML code below on your blog or website:</h4>
+                <textarea id="permalink-widget" readonly></textarea>
+                <a href="javascript:conc_linkcopy('widget')" class="actionbutton" id="widgetcopy">Copy</a>
+            </div>
             <a href="javascript:$('#permalink-modal').closeModal()" id="closepermalink">Cancel</a>
         </div>
         <div id="shareconfirm">
@@ -418,7 +420,7 @@
     <script type="text/javascript">
 
       $('#toggle_compilation, #toggle_historic, #toggle_smart, #toggle_delpl, #toggle_unsubpl').toggles({
-        drag: false, // allow dragging the toggle between positions
+        drag: true, // allow dragging the toggle between positions
         click: true, // allow clicking on the toggle
         text: {
           on: 'YES', // text for the ON position
