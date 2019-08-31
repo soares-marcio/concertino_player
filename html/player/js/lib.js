@@ -47,10 +47,12 @@ conc_options = {
 };
 
 window.onpopstate = function (event) {
-  if (window.location.pathname != "/") {
+  if (window.location.hash) {
+    conc_mobilepage(window.location.hash.replace('#',''));
+  } else if (window.location.pathname != "/") {
     vars = window.location.pathname.split("/");
     if (vars[1] == "u") {
-      conc_recording (vars[2], vars[3], vars[4], 1);
+      conc_recording(vars[2], vars[3], vars[4], 1);
     }
     else if (vars[1] == "p") {
       conc_playlistdetail(parseInt(vars[2], 16));
@@ -495,7 +497,7 @@ conc_composers = function (response)
 
 // genres list
 
-conc_genresbycomposer = function (composer, genre)
+conc_genresbycomposer = function (composer, genre, auto=false)
 {
   window.albumlistnext = 0;
 
@@ -571,7 +573,12 @@ conc_genresbycomposer = function (composer, genre)
         }
 
         $('#genresworks h2.mobonly').html('works');
-        conc_mobilepage ('composer');
+        
+        if (auto) { 
+          conc_mobilepage ('library');
+        } else {
+          conc_mobilepage ('composer');
+        }
       }
       
     }
@@ -836,7 +843,8 @@ conc_thisrecording = function (album, wid, set) {
   conc_radioqueue = [];
   conc_radiofilter = {};
   conc_onair = false;
-  
+  $('body').removeClass('radioonair');
+
   conc_recording (wid, album, set);
 }
 
@@ -947,6 +955,7 @@ conc_recordingaction = function (list, auto)
       $(".timer").html('0:00');
 
       if (!auto) {
+        conc_mobilepage ('player');
         conc_appleplay(list.recording.apple_tracks, 0);
 
         // registering play
@@ -1426,7 +1435,7 @@ conc_init = function ()
       conc_playlists = (response.playlists ? response.playlists : {});
 
       conc_composersbytag('pop');
-      conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre);
+      conc_genresbycomposer(localStorage.lastcomposerid, localStorage.lastgenre, true);
       conc_playlist("fav");
 
       if ($(window).width() < 1024) {
@@ -1908,6 +1917,8 @@ conc_newradio = function (filter) {
         $('#radiotop #goradio').removeClass('on');
         $('#radiotop #goradio').addClass('on');
 
+        $('body').addClass('radioonair');
+
         $('#playercontrols #skip').removeClass('radio');
         $('#playercontrols #skip').addClass('radio');
 
@@ -1984,6 +1995,7 @@ conc_radiobutton = function () {
     conc_radioqueue = [];
     conc_radiofilter = {};
     conc_onair = false;
+    $('body').removeClass('radioonair');
     $('#radiotop select').prop("disabled", false);
   }
 }
@@ -2018,6 +2030,7 @@ conc_playlistradio = function (where) {
 
     $('#radiotop #goradio').removeClass('on');
     $('#radiotop #goradio').addClass('on');
+    $('body').addClass('radioonair');
 
     $('#playercontrols #skip').removeClass('radio');
     $('#playercontrols #skip').addClass('radio');
@@ -2094,7 +2107,18 @@ conc_qualify = function () {
 // mobile pagination
 
 conc_mobilepage = function (page) {
-  $('body').removeClass('player library favorites radio settings composer work').addClass(page);
+  if ($(window).width() < 1024) {
+    if (window.location.hash != '#' + page) {
+      window.history.pushState({}, 'Concertino', window.location.pathname.split('#')[0] + '#' + page);
+    }
+  
+    if (page == 'player') { 
+      $('#nowplaying').removeClass().addClass('down');
+      $('body').addClass('player');
+    } else {
+      $('body').removeClass('player library favorites radio settings composer work').addClass(page);
+    }
+  }
 }
 
 // mobile swipe detection

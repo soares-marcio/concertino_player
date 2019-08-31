@@ -64,6 +64,9 @@
         <span class="update"><a href="javascript:conc_update()">New version available! Click to update</a></span>
         <div id="radiotop">
             <h2>radio</h2>
+            <h3 class="mobonly">Build your no-nonsense classical radio! Start a continuous stream of music based on what <strong>you</strong> want to hear.</h3>
+            <h4 class="mobonly">Composers and Works</h4>
+            <h5 class="mobonly">Any composer or only your favorites? Maybe only essential, recommended works?</h5>
             <select class="composers">
                 <option value="All">All composers</option>
                 <option value="fav">Favorite composers</option>
@@ -71,6 +74,9 @@
                 <option value="wfav">Favorite works</option>
                 <option value="wrec">Essential works</option>
             </select>
+            <h6 class="mobonly">and</h6>
+            <h4 class="mobonly">Periods</h4>
+            <h5 class="mobonly">Music of any period or only from a specific time?</h5>
             <select class="periods">
                 <option value="All">All periods</option>
                 <option value="Medieval">Medieval</option>
@@ -84,6 +90,9 @@
                 <option value="Post-War">Post-War</option>
                 <option value="21st Century">21st Century</option>
             </select>
+            <h6 class="mobonly">and</h6>
+            <h4 class="mobonly">Genres</h4>
+            <h5 class="mobonly">Any kind of music or some specific genre?</h5>
             <select class="genres">
                 <option value="All">All genres</option>
                 <option value="Chamber">Chamber</option>
@@ -93,6 +102,8 @@
                 <option value="Vocal">Vocal</option>
             </select>
             <a href="javascript:conc_radiobutton()" id="goradio">ON AIR</a>
+            <a href="javascript:conc_radiobutton()" class="startradio mobonly actionbutton"><span></span>Start radio</a>
+            <a href="javascript:conc_radiobutton()" class="stopradio mobonly"><span></span>Stop radio</a>
         </div>
         <a href="https://getconcertino.com/help" id="help" target="_blank">help</a>
         <a href="javascript:$('#config').leanModal()" id="setup">setup</a>
@@ -237,7 +248,7 @@
         <ul>
             <li><a href="javascript:conc_mobilepage('library')" class="library">Library</a></li>
             <li><a href="javascript:conc_mobilepage('favorites')" class="favorites">Favorites</a></li>
-            <li><a href="javascript:conc_mobilepage('radio')" class="radio">Radio</a></li>
+            <li><a href="javascript:conc_mobilepage('radio')" class="radio"><span></span>Radio</a></li>
             <li><a href="javascript:conc_mobilepage('settings')" class="settings">Settings</a></li>
         </ul>
     </div>

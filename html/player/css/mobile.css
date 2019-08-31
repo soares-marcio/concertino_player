@@ -142,7 +142,8 @@ body.player #favorites {
 	background-image: linear-gradient(#4F4F4F, #2B2B2F);
 	position: absolute;
     width: -webkit-fill-available;
-    bottom: 0;
+	bottom: 0;
+	z-index: 99999;
 }
 
 body.showingnowplaying #nowplaying
@@ -853,6 +854,10 @@ body.player #playercontrols #playpause
     color: #7C726E;
 }
 
+#mobile-menu li a.radio {
+	padding-top: 19px;
+}
+
 body.library #mobile-menu li a.library,
 body.composer #mobile-menu li a.library,
 body.work #mobile-menu li a.library
@@ -866,9 +871,12 @@ body.favorites #mobile-menu li a.favorites {
     background-image: url(../img/favorites_mobon.png);
 }
 
+body.radioonair #mobile-menu li a.radio {
+    color: #FFFFFF;
+}
+
 body.radio #mobile-menu li a.radio {
     color: #FE365E;
-    background-image: url(../img/radio_mobon.png);
 }
 
 body.settings #mobile-menu li a.settings {
@@ -888,14 +896,35 @@ body.settings #mobile-menu li a.settings {
     background-image: url(../img/favorite_go.png);
 }
 
-#mobile-menu li a.radio {
-    background-image: url(../img/radio.png);
-}
-
 #mobile-menu li a.settings {
     background-position-y: 2px;
     background-size: 21px;
     background-image: url(../img/setup.png);
+}
+
+#mobile-menu li a.radio {
+    background: none;
+}
+
+#mobile-menu a.radio span {
+    background-size: calc(160px * 1.2);
+    background-position: 0px 0px;
+    background-image: url(../img/radioonair-menu.svg);
+    background-repeat: no-repeat;
+    width: calc(40px * 1.2);
+    height: calc(20px * 1.2);
+    overflow: hidden;
+    float: none;
+    display: block;
+    margin: -20px auto 0;
+}
+
+body.radioonair #mobile-menu a.radio span {
+	background-image: url(../img/radioonair.svg);
+}
+
+body.radio #mobile-menu a.radio span {
+	background-image: url(../img/radioonair-selected.svg);
 }
 
 #main {
@@ -1860,7 +1889,8 @@ body.playlist.player #editplaylistslider
     font-size: 11px !important;
 }
 
-.modal a
+.modal a, 
+#radiotop a
 {
 	color: #FFF;
 	padding: 6px;
@@ -1882,7 +1912,8 @@ body.playlist.player #editplaylistslider
 	margin: 0;
 }
 
-.modal h3
+.modal h3,
+#radiotop h4
 {
 	font-family: 'Nunito', sans-serif;
 	font-size: 11px;
@@ -1891,7 +1922,8 @@ body.playlist.player #editplaylistslider
 	margin-top: 10px;
 }
 
-.modal h4
+.modal h4,
+#radiotop h5
 {
 	font-size: 13px;
 	font-weight: 400;
@@ -1904,7 +1936,7 @@ body.playlist.player #editplaylistslider
 }
 
 a.actionbutton {
-	background-color: #FE365E;
+	background-color: #FE365E !important;
 	color: #ffffff;
 }
 
@@ -1943,7 +1975,8 @@ a.actionbutton {
    	float: right;
 }
 
-#playlistmodal #existingplaylist
+#playlistmodal #existingplaylist,
+#radiotop select
 {
 	background-color: #717171;
     color: #FFF;
@@ -1954,6 +1987,13 @@ a.actionbutton {
     margin: 10px 0 20px;
 	border: none;
 	border-radius: 10px;
+}
+
+#radiotop select
+{
+	margin-bottom: 6px;
+	font-size: 12px;
+	height: 34px;
 }
 
 #playlistmodal #newplaylist, 
@@ -2018,6 +2058,108 @@ div.toggle, div.toggle * {
 	visibility: visible;
 }
 
+#radiotop {
+	position: fixed;
+    top: 48px;
+	margin-left: 20px;
+	padding-right: 20px;
+	width: -webkit-fill-available;
+	overflow: auto;
+    height: calc(100% - 240px);
+}
+
+#radiotop h3 {
+	margin-bottom: 18px;
+	font-weight: 400;
+	font-size: 12px;
+}
+
+#radiotop h4 {
+	margin-top: 2px;
+}
+
+#radiotop h5 {
+	font-size: 12px;
+}
+
+#radiotop h3 strong {
+	font-size: 13px;
+    font-family: 'Nunito', sans-serif;
+}
+
+#radiotop h6 {
+    font-size: 8px;
+    width: 22px;
+    height: 10px;
+    border-radius: 22px;
+    border: 1px solid #717171;
+    color: #717171;
+    text-transform: uppercase;
+    font-family: 'Nunito', sans-serif;
+    text-align: center;
+    padding: 2px;
+    margin: 0 auto;
+}
+
+#radiotop #goradio {
+	display: none;
+}
+
+body.radioonair #radiotop a.startradio,
+#radiotop a.stopradio {
+	display: none;
+}
+
+body.radioonair #radiotop a.stopradio {
+	display: block;
+}
+
+#radiotop a {
+    width: 50%;
+    margin: 12px auto 0;
+    font-size: 12px;
+    padding: 10px;
+	float: none;
+	text-align: left;
+}
+
+#radiotop a span {
+	background-size: 160px;
+    background-position: 0px 0px;
+    background-image: url(../img/radioonair.svg);
+    background-repeat: no-repeat;
+    width: 40px;
+    height: 20px;
+    float: left;
+    overflow: hidden;
+	margin-top: -1px;
+	margin-right: 10px;
+}
+
+
+body.radioonair #radiotop a span {
+	-webkit-animation: radioonair 1s steps(4) infinite;
+}
+
+body.radioonair #mobile-menu a.radio span {
+	-webkit-animation: radioonairmenu 1s steps(4) infinite;
+}
+
+@-webkit-keyframes radioonair {
+    100% { background-position: -160px; }
+}
+
+@-webkit-keyframes radioonairmenu {
+    100% { background-position: calc(-160px * 1.2); }
+}
+
+body.radioonair #radiotop h4,
+body.radioonair #radiotop h5,
+body.radioonair #radiotop h6,
+body.radioonair #radiotop select {
+	opacity: 0.2;
+}
+
 /* pagination */
 
 body.favorites #sidebar #favorites {
@@ -2032,9 +2174,14 @@ body.library #main #composersbrowser div
 }
 
 body.composer #main, 
-body.composer #main #genresworks 
+body.composer #main #genresworks,
+body.composer #main #works
 {
-	display: block;
+	display: block !important;
+}
+
+body.player #main #genresworks {
+    display: none !important;
 }
 
 body.work #main, 
@@ -2043,14 +2190,21 @@ body.work #main #genresworks
 	display: block;
 }
 
+body.radio #radiotop
+{
+	display: block;
+}
+
 body.composer #genresworks #workprofile,
+body.composer #albums,
 body.work #genresworks #composerprofile,
 body.work #genresworks #genres
 {
 	display: none !important;
 }
 
-body.player #main {
+body.player #main,
+body.player #radiotop {
 	display: none;
 }
 
