@@ -2769,6 +2769,56 @@ li.emptylist p {
 	display: none !important;
 }
 
+#config #signin a, 
+#config #signout a 
+{
+	background-position: 12px 9px;
+    background-repeat: no-repeat;
+    background-size: 12px;
+    padding: 6px 34px 8px;
+    border-radius: 10px;
+    margin-top: 2px;
+    display: inline-block;
+	color: #FFFFFF;
+	
+	width: inherit;
+    float: none;
+    background-color: inherit;
+    font-family: inherit;
+    font-size: inherit;
+    text-align: inherit;
+    text-transform: none;
+    margin-left: 0;
+    clear: none;
+}
+
+#config #signin a:hover, 
+#config #signout a:hover {
+	background-color: #FE365F;
+}
+
+#config #signin a {
+	background-image: url(/img/login.png);
+}
+
+#config #signout a {
+	background-image: url(/img/logout.png);
+}
+
+#config #signin,
+body.showingplayerbar #config #signout {
+	display: block;
+}
+
+#config #signout,
+body.showingplayerbar #config #signin {
+	display: none;
+}
+
+#signout h3, #signin h3 {
+    margin-top: 22px;
+}
+
 /* firefox tweak */
 
 #composers, #favorites, #works, #albums {

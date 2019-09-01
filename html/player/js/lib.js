@@ -107,6 +107,16 @@ conc_guestauth = function () {
   });
 }
 
+// apple music logout
+
+conc_logout = function () {
+  applemusic.unauthorize().then(function() {
+    localStorage.user_type = '';
+    if ($(window).width() >= 1024) $('#config').closeModal();
+    $('#loader').show(0, function () { $('#loader-loading').hide(0, function () { $('#loader-options').show(); }); });
+  });
+}
+
 // apple music auth
 
 conc_appleauth = function () {
