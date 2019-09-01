@@ -20,7 +20,8 @@
                 developerToken: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ikw3NzM4WDk1NUwifQ.eyJpc3MiOiJUWFcyVzUzMkI5IiwiZXhwIjoxNTczNTYxMzYyLCJpYXQiOjE1NTkxNjEzNjJ9.mjU2lGEeKaok7PeElxjl-bNSyA0ffhRj0nbJkn8m_FuGxz6g8uZF7lAcTCaQTwWeqDS7seIdD4K72zatO2uN9g',
                 app: {
                     name: 'Concertino',
-                    build: '1.19.07.13'
+                    build: '1.19.09',
+                    icon: 'https://concertino.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'app') + '/img/icon512.png'
                 }
             });
             $( document ).ready(function() {
@@ -262,16 +263,13 @@
     <div id="playlistradioslider" class="mobonly">
             <a href="javascript:conc_playlistradio('#favalbums');">Start playlist radio</a>
     </div>
-    <div id="install-pwa" class="hintbox">
-        <p>Install app?</p>
-        <a href="javascript:$('#install-pwa').hide()" class="cancel">Close</a>
+    <div class="hintbox deskonly">
+        <p>Install as app?</p>
+        <a href="javascript:$('.hintbox').hide()" class="cancel">Close</a>
         <a href="javascript:conc_installpwa()" class="check">Go!</a>
     </div>
-    <div id="oldinstall-pwa" class="modal">
-        <h2>Install app?</h2>
-        <p>Would you like to transform Concertino in an app, with its own icon, independent from the web browser?</p>
-        <a href="javascript:conc_installpwa()">Yes, please</a>
-        <a href="javascript:$('#oldinstall-pwa').closeModal()">No, thanks</a>
+    <div class="hintbox mobonly">
+        <a href="javascript:conc_installpwa()" class="check">Install as app?</a>
     </div>
     <div id="notavailable" class="modal">
         <h2>Error</h2>
@@ -569,7 +567,7 @@
 
                 conc_installpwa = function () {
 
-                    $('#install-pwa').hide();
+                    $('.hintbox').hide();
                     deferredPrompt.prompt();
 
                     deferredPrompt.userChoice
@@ -583,7 +581,7 @@
                         });
                 }
 
-                $('#install-pwa').show();
+                $('.hintbox').show(0, function () { setTimeout(function(){ $('.hintbox').hide(); }, 0.5 * 60 * 1000); });
             });
 
             let refreshing;
