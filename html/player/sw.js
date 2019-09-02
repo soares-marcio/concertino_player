@@ -151,7 +151,7 @@ const precacheResources = [
     '/img/periods/medieval.png',
     '/img/periods/postwar.png',
     '/img/periods/renaissance.png',
-    '/img/periods/romantic.png',
+    '/img/periods/romantic.png'
 ];
 
 self.addEventListener('install', event => {
