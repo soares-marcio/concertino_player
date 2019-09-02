@@ -622,7 +622,7 @@ body.player #nowplaying #toggle {
 
 #player {
     display: block;
-    position: relative;
+    position: fixed;
     height: 100%;
     width: 100%;
 }
@@ -822,7 +822,7 @@ body.player #playercontrols #playpause
 #mobile-menu {
     display: block;
     bottom: 0;
-    position: absolute;
+    position: fixed;
     height: 50px;
     width: 100%;
     overflow: hidden;
@@ -2295,6 +2295,10 @@ body.showingplayerbar #config #signin {
 .hintbox a.check
 {
 	background-image: url(../img/check.png);
+}
+
+.playlist_slug {
+	display: none !important;
 }
 
 /* pagination */
