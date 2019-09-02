@@ -140,7 +140,7 @@ const precacheResources = [
     '/img/genres/popular_on.png',
     '/img/genres/stage.png',
     '/img/genres/stage_on.png',
-    '/img/genres/vocal_.png',
+    '/img/genres/vocal.png',
     '/img/genres/vocal_on.png',
     '/img/periods/20thcentury.png',
     '/img/periods/21stcentury.png',
