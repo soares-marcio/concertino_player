@@ -42,7 +42,7 @@ conc_options = {
     shareurl: 'https://cncert.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'in'),
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
-    version: '1.19.09.02',
+    version: '1.19.09.05',
     secondsEMEcert: 12 * 60
 };
 
@@ -1474,14 +1474,18 @@ conc_favoriterecordings = function ()
     success: function (response) {
       conc_favorites = response.list;
       docsr = response.recordings;
+      listul = '#favalbums';
+      draggable = "";
+      pidsort = "";
+
+      if (response.status.success == "false") {
+        $('#favalbumswrapper').addClass('nofavorites');
+      } else {
+        $('#favalbumswrapper').removeClass('nofavorites');
       
-      for (performance in docsr) {
-        listul = '#favalbums';
-
-        draggable = "";
-        pidsort = "";
-
-        $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" ' + pidsort + ' class="performance ' + draggable + '"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work) + '</ul></li>');
+        for (performance in docsr) {
+          $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" ' + pidsort + ' class="performance ' + draggable + '"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work) + '</ul></li>');
+        }
       }
     }
   });
@@ -1496,10 +1500,10 @@ conc_recentrecordings = function () {
     method: "GET",
     success: function (response) {
       docsr = response.recordings;
+      listul = '#favalbums';
+      $('#favalbumswrapper').removeClass('nofavorites');
 
       for (performance in docsr) {
-        listul = '#favalbums';
-
         $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work) + '</ul></li>');
       }
     }
@@ -1519,12 +1523,12 @@ conc_playlistrecordings = function (pid) {
         conc_playlist("fav");
       } else {
         docsr = response.recordings;
+        listul = '#favalbums';
+        draggable = "draggable";
+        pidsort = "";
+        $('#favalbumswrapper').removeClass('nofavorites');
 
         for (performance in docsr) {
-          listul = '#favalbums';
-          draggable = "draggable";
-          pidsort = "";
-  
           $(listul).append('<li pid="' + docsr[performance].work.id + '-' + docsr[performance].apple_albumid + '-' + docsr[performance].set + '" class="performance"><ul>' + conc_recordingitem(docsr[performance], docsr[performance].work, response.playlist) + '</ul></li>');
         }
       }

@@ -62,7 +62,7 @@
     </div>
     <div id="toolbar">
         <span class="logo">Concertino</span>
-        <span class="update"><a href="javascript:conc_update()">New version available! Click to update</a></span>
+        <span class="update deskonly"><a href="javascript:conc_update()">New version available! Click to update</a></span>
         <span class="update mobonly"><a href="javascript:conc_update()">Update available</a></span>
         <div id="radiotop">
             <h2>radio</h2>
@@ -107,8 +107,8 @@
             <a href="javascript:conc_radiobutton()" class="startradio mobonly actionbutton"><span></span>Start radio</a>
             <a href="javascript:conc_radiobutton()" class="stopradio mobonly"><span></span>Stop radio</a>
         </div>
-        <a href="https://getconcertino.com/help" id="help" target="_blank">help</a>
-        <a href="javascript:$('#config').leanModal()" id="setup">setup</a>
+        <a href="https://getconcertino.com/help" id="help" class="deskonly" target="_blank">help</a>
+        <a href="javascript:$('#config').leanModal()" class="deskonly" id="setup">setup</a>
     </div>
 
     <div id="sidebar">
@@ -126,8 +126,9 @@
                 <a id="shareplaylist" href="javascript:global.playlistshare($('#favtitle select.playlist_slug').val());">share</a>
             </li>
             <li id="favalbumswrapper">
-              <ul id="favalbums">
-              </ul>
+                <div id="nofavorites">Tap on heart icons to favorite recordings. They will get easily available here.</div>
+                <ul id="favalbums">
+                </ul>
             </li>
         </ul>
         <div id="nowplaying" class="up">
@@ -269,7 +270,7 @@
         <a href="javascript:conc_installpwa()" class="check">Go!</a>
     </div>
     <div class="hintbox mobonly">
-        <a href="javascript:conc_installpwa()" class="check">Install as app?</a>
+        <a href="javascript:conc_installpwa()" class="check">Install app?</a>
     </div>
     <div id="notavailable" class="modal">
         <h2>Error</h2>
