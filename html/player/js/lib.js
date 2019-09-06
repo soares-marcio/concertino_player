@@ -42,7 +42,7 @@ conc_options = {
     shareurl: 'https://cncert.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'in'),
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
-    version: '1.19.09.05',
+    version: '1.19.09.06',
     secondsEMEcert: 12 * 60
 };
 
@@ -122,6 +122,12 @@ conc_logout = function () {
 conc_appleauth = function () {
 
   conc_commonauth ();
+
+  // removing guest info - not ideal, but it's supposed that guest accounts = throwaway accounts
+
+  if (localStorage.user_type == 'guest') {
+    localStorage.user_id = '';
+  }
 
   // apple music login
 
