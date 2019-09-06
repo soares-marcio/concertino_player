@@ -9,7 +9,7 @@
     padding-bottom: 20px;
 }
 
-#toolbar .logo a {
+#container.page #toolbar .logo a {
     width: -webkit-fill-available;
     height: 48px;
     background-size: auto 24px;
@@ -17,20 +17,20 @@
     margin: auto;
 }
 
-#toolbar {
+#container.page #toolbar {
     height: 50px;
 }
 
-#togglebar {
+#container.page #togglebar {
     display: none;
 }
 
-#nowplaying {
+#container.page #nowplaying {
     height: -webkit-fill-available;
     overflow: auto;
 }
 
-#nowplaying.up #playertracks {
+#container.page #nowplaying.up #playertracks {
     visibility: visible;
     margin-top: 26px;
 }
@@ -44,11 +44,11 @@
     font-size: 9px;
 }
 
-#playertracks .tracktitle {
+#container.page #playertracks .tracktitle {
     width: 80%;
 }
 
-#playerinfo .cover img {
+#container.page #playerinfo .cover img {
     width: 100px;
     height: 100px;
 }

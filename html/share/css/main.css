@@ -2785,20 +2785,22 @@ li.emptylist p {
 	margin-top: 4px;
 }
 
-#container.widget, #container.widget #toolbar, #container.widget #sidebar, #container.widget #nowplaying, #container.widget #togglebar, #container.widget #playerbar
-{
-	width: 100%;
-}
-
 #container.widget #playercontrols .calltoaction a
 {
 	width: inherit;
+}
+
+/*
+#container.widget, #container.widget #toolbar, #container.widget #sidebar, #container.widget #nowplaying, #container.widget #togglebar, #container.widget #playerbar
+{
+	width: 100%;
 }
 
 #container.widget #playertracks li
 {
 	width: 90%;
 }
+*/
 
 #container.widget #togglebar
 {
