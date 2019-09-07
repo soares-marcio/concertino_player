@@ -42,7 +42,7 @@ conc_options = {
     shareurl: 'https://cncert.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'in'),
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
-    version: '1.19.09.07',
+    version: '1.19.09.07.17',
     secondsEMEcert: 12 * 60
 };
 
@@ -905,6 +905,7 @@ conc_recordingaction = function (list, auto)
       }
 
       document.title = `${list.work.composer.name}: ${list.work.title}`;
+      gtag ('config', 'UA-89195986-5', {'page_path': '/u/' + list.work.id + '/' + list.recording.apple_albumid + '/' + list.recording.set });
 
       $('#playerinfo').html(conc_recordingitem(list.recording, list.work));
 
@@ -1303,7 +1304,7 @@ conc_submitperf = function (wid, aid, set) {
               $('#playerverify').toggleClass('verified', true);
               $('#playerverify').toggleClass('opened', false);
 
-              $('#nowplaying li.performers').html(conc_listperformers(response.recording.performers));
+              $('#nowplaying li.performers ul').html(conc_listperformers(response.recording.performers));
 
               if (window.albumlistwork == wid) {
                 $('#albums li[pid=' + wid + '-' + aid + '-' + set + ']').show();
