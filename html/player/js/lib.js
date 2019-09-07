@@ -42,7 +42,7 @@ conc_options = {
     shareurl: 'https://cncert.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'in'),
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
-    version: '1.19.09.06',
+    version: '1.19.09.07',
     secondsEMEcert: 12 * 60
 };
 
@@ -904,7 +904,7 @@ conc_recordingaction = function (list, auto)
         window.history.pushState({}, 'Concertino', '/u/' + list.work.id + '/' + list.recording.apple_albumid + '/' + list.recording.set);
       }
 
-      document.title = `${list.work.composer.name}: ${list.work.title} - Concertino`;
+      document.title = `${list.work.composer.name}: ${list.work.title}`;
 
       $('#playerinfo').html(conc_recordingitem(list.recording, list.work));
 
@@ -1955,7 +1955,7 @@ conc_newradio = function (filter) {
 // radio skip
 
 conc_radioskip = function () {
-  console.log('Over, next'); 
+  //console.log('Over, next'); 
   if (conc_onair) {
     if (conc_radioqueue.length) {
       if (Object.keys(conc_state).length > 0 && !conc_state.paused) {

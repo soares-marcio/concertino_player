@@ -1,4 +1,4 @@
-const cacheName = '1.19.09.06';
+const cacheName = '1.19.09.07';
 const precacheResources = [
     '/css/main.css',
     '/css/mobile.css',
@@ -179,6 +179,21 @@ const precacheResources = [
     '/img/play_on.png',
 
     '/favicon.ico',
+
+    '/img/icons/120x120.png',
+    '/img/icons/152x152.png',
+    '/img/icons/180x180.png',
+    '/img/icons/167x167.png',
+    '/img/splashscreens/iphone5_splash.png',
+    '/img/splashscreens/iphone6_splash.png',
+    '/img/splashscreens/iphoneplus_splash.png',
+    '/img/splashscreens/iphonex_splash.png',
+    '/img/splashscreens/iphonexr_splash.png',
+    '/img/splashscreens/iphonexsmax_splash.png',
+    '/img/splashscreens/ipad_splash.png',
+    '/img/splashscreens/ipadpro1_splash.png',
+    '/img/splashscreens/ipadpro3_splash.png',
+    '/img/splashscreens/ipadpro2_splash.png',
 
     '/img/genres/chamber.png',
     '/img/genres/chamber_on.png',
