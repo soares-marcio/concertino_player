@@ -1,4 +1,4 @@
-const cacheName = '1.19.09.07.17';
+const cacheName = '1.19.09.09';
 const precacheResources = [
     '/css/main.css',
     '/css/mobile.css',
@@ -45,7 +45,6 @@ const precacheResources = [
     '/img/bpop.png',
     '/img/cancel.png',
     '/img/spotify_on.png',
-    '/img/periods',
     '/img/postwar.png',
     '/img/lateromantic.png',
     '/img/medieval.png',
@@ -62,7 +61,6 @@ const precacheResources = [
     '/img/toggle_down.png',
     '/img/square.png',
     '/img/incomplete_on.png',
-    '/img/genres',
     '/img/vocal_on.png',
     '/img/popular.png',
     '/img/vocal.png',
