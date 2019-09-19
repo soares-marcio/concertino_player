@@ -42,7 +42,7 @@ conc_options = {
     shareurl: 'https://cncert.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'in'),
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
-    version: '1.19.09.09',
+    version: '1.19.09.19',
     secondsEMEcert: 12 * 60
 };
 
@@ -805,8 +805,8 @@ conc_recordingsbywork = function (work, offset)
         }
       }
 
-      if (list.status.success == "false") $(listul).append('<li class="emptylist"><p>Concertino couldn\'t find any recording of this work in the Apple Music catalog. It might be an error, though. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> if you know a recording. This will help us correct our algorithm.</p></li>')
-      if (!list.next && list.status.success == "true") $(listul).append('<li class="disclaimer"><p>Those recordings were fetched automatically from the Apple Music catalog. The list might be inaccurate or incomplete. Please <a href="mailto:concertmasterteam@gmail.com">reach us</a> for requests, questions or suggestions.</p></li>');
+      if (list.status.success == "false") $(listul).append('<li class="emptylist"><p>Concertino couldn\'t find any recording of this work in the Apple Music catalog. It might be an error, though. Please <a href="mailto:concertino@openopus.org">reach us</a> if you know a recording. This will help us correct our algorithm.</p></li>')
+      if (!list.next && list.status.success == "true") $(listul).append('<li class="disclaimer"><p>Those recordings were fetched automatically from the Apple Music catalog. The list might be inaccurate or incomplete. Please <a href="mailto:concertino@openopus.org">reach us</a> for requests, questions or suggestions.</p></li>');
 
       $('#genresworks h2.mobonly').show();
       $('#workprofile').show();
