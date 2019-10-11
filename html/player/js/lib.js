@@ -42,7 +42,7 @@ conc_options = {
     shareurl: 'https://cncert.' + (window.location.hostname.split('.')[1] == 'local' ? 'local' : 'in'),
     smartradio: JSON.parse(localStorage.smartradio),
     notshow: false,
-    version: '1.19.09.28',
+    version: '1.19.10',
     secondsEMEcert: 12 * 60
 };
 
