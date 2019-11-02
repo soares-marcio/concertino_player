@@ -14,21 +14,21 @@ The player itself is full of features, so there is a [wiki](https://getconcertin
 
 1. Fork this git repository and clone it to your webserver
 2. Fork the [API repository](https://github.com/openopus-org/concertino_api) and clone it as well 
-3. Edit the html/player/js/lib.js file and change variable values accordingly to your domains
-4. Edit the html/player/index.html file and change the Apple Music developer token. Learn on how to create one [here](https://developer.apple.com/documentation/applemusicapi/getting_keys_and_creating_tokens). Good luck!
-5. It's better to change the Google Analytics tag to your own account. Please check the html/player/index.html file
+3. Edit the `html/player/js/lib.js` file and change variable values accordingly to your domains
+4. Edit the `html/player/index.html` file and change the Apple Music developer token. Learn on how to create one [here](https://developer.apple.com/documentation/applemusicapi/getting_keys_and_creating_tokens). Good luck!
+5. It's better to change the Google Analytics tag to your own account. Please check the `html/player/index.html` file
 
 ## Domains
 
 There are two public directories in the project and they must have their own virtual hosts on your webserver:
-- *html/player:* it's the main player. For example, we host it at [concertino.app](https://concertino.app)
-- *html/share:* it's the share page. For example, we host it at [cncert.in](https://cncert.in)
+- `html/player` it's the main player. For example, we host it at [concertino.app](https://concertino.app)
+- `html/share` it's the share page. For example, we host it at [cncert.in](https://cncert.in)
 
 The main player *must* have SSL enabled (it's a DRM rule). You can use free [Let's Encrypt](https://letsencrypt.org/)-provided certificates, it's perfectly fine.
 
 ### Development environment
 
-We have adopted fake *.local* domains (concertino.local, cncert.local) for our dev webserver, but you can change the TLD in the html/player/js/lib.js file. 
+We have adopted fake `.local` domains (concertino.local, cncert.local) for our dev webserver, but you can change the TLD in the `html/player/js/lib.js` file. 
 
 Please note that you still need the main player to serve with HTTPS, so you'll have to [create self-signed phony SSL certificates](https://medium.com/@tbusser/creating-a-browser-trusted-self-signed-ssl-certificate-2709ce43fd15) for your dev environment.
 
